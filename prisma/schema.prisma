@@ -1,0 +1,41 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Org {
+    id            String   @id @default(uuid())
+    created_at    DateTime @default(now())
+    email         String   @unique
+    password_hash String
+    adress        String
+    city          String
+    name          String
+    CEP           String
+    phone         String   @unique
+    role          Role?    @default(ADMIN)
+    Pet           Pet[]
+
+    @@map("orgs")
+}
+
+model Pet {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    city      String
+    name      String
+    Org       Org      @relation(fields: [org_id], references: [id])
+    org_id    String
+
+    @@map("pets")
+}
+
+enum Role {
+    USER
+    ADMIN
+}

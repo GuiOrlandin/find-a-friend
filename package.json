@@ -1,5 +1,5 @@
 {
-  "name": "Find A Friend",
+  "name": "FindAFriend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,13 +13,19 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcryptjs": "2.4.6",
     "@types/node": "20.11.6",
+    "@typescript-eslint/eslint-plugin": "6.19.1",
+    "@typescript-eslint/parser": "6.19.1",
+    "eslint": "8.56.0",
     "fastify": "4.25.2",
     "tsup": "8.0.1",
     "tsx": "4.7.0",
     "typescript": "5.3.3"
   },
   "dependencies": {
-    "zod": "^3.22.4"
+    "@prisma/client": "5.8.1",
+    "bcryptjs": "2.4.3",
+    "zod": "3.22.4"
   }
 }
