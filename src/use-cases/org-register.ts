@@ -9,11 +9,11 @@ interface RegisterUseCaseRequest {
   password: string;
   adress: string;
   city: string;
-  phone:string;
+  phone: string;
   CEP: string;
 }
 
-interface RegisterUseCaseResponse {
+interface OrgRegisterUseCaseResponse {
   org: Org;
 }
 
@@ -21,8 +21,14 @@ export class OrgRegisterUseCase {
   constructor(private usersRepository: OrgsRepository) {}
 
   async execute({
-    adress,city,email,name,password,phone,CEP
-  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    adress,
+    city,
+    email,
+    name,
+    password,
+    phone,
+    CEP,
+  }: RegisterUseCaseRequest): Promise<OrgRegisterUseCaseResponse> {
     const password_hash = await hash(password, 6);
 
     const orgWithSameEmail = await this.usersRepository.findByEmail(email);
@@ -31,7 +37,13 @@ export class OrgRegisterUseCase {
       throw new OrgAlreadyExistsError();
     }
     const org = await this.usersRepository.create({
-     adress,city,email,name,password_hash,phone,CEP
+      adress,
+      city,
+      email,
+      name,
+      password_hash,
+      phone,
+      CEP,
     });
 
     return {
