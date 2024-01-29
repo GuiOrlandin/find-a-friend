@@ -1,3 +1,21 @@
+# APP
+
+app para adoção de animais.
+
+# 🛠 Tecnologias utilizadas
+
+TypeScript
+
+docker
+
+Prisma
+
+postgresql
+
+fastify
+
+Node.js
+
 ### RFs (Requisitos funcionais)
 
 - [] Deve ser possível cadastrar um pet
