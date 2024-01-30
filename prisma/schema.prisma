@@ -17,7 +17,7 @@ model Org {
     name          String
     CEP           String
     phone         String   @unique
-    role          Role?    @default(ADMIN)
+    role          Role    @default(ADMIN)
     Pet           Pet[]
 
     @@map("orgs")
@@ -33,7 +33,7 @@ model Pet {
     energyLevel String
     animalSize Size
     levelOfIndependence Independence
-    enviroment Enviroment
+    enviroment Size
     requirement String
     org       Org      @relation(fields: [org_id], references: [id])
     org_id String
@@ -46,11 +46,7 @@ enum Role {
     ADMIN
 }
 
-enum Enviroment {
-    SMALL
-    MEDIUM
-    LARGE
-}
+
 
 enum Age {
     FILHOTE
@@ -58,7 +54,7 @@ enum Age {
 }
 
 enum Size {
-    PEQUENINO
+    PEQUENO
     MEDIO
     GRANDE
 }

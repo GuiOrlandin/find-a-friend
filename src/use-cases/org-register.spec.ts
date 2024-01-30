@@ -14,13 +14,14 @@ describe("Register Use Case ", () => {
   });
   it("it should  be able to register a org", async () => {
     const { org } = await sut.execute({
-        adress: "Rua santa ernestina",
-        CEP: "14820000",
-        city: "americo",
-        email: "guiorlandin@gmail.com",
-        name: "Guilherme",
-        password: "123456",
-        phone: "43984862237"
+      adress: "Rua santa ernestina",
+      CEP: "14820000",
+      city: "americo",
+      email: "guiorlandin@gmail.com",
+      name: "Guilherme",
+      password: "123456",
+      phone: "43984862237",
+      role: "ADMIN",
     });
 
     expect(org.id).toEqual(expect.any(String));
@@ -28,13 +29,14 @@ describe("Register Use Case ", () => {
 
   it("should hash org password upon registration", async () => {
     const { org } = await sut.execute({
-        adress: "Rua santa ernestina",
-        CEP: "14820000",
-        city: "americo",
-        email: "guiorlandin@gmail.com",
-        name: "Guilherme",
-        password: "123456",
-        phone: "43984862237"
+      adress: "Rua santa ernestina",
+      CEP: "14820000",
+      city: "americo",
+      email: "guiorlandin@gmail.com",
+      name: "Guilherme",
+      password: "123456",
+      phone: "43984862237",
+      role: "ADMIN",
     });
 
     const isPasswordCorrectlyHashed = await compare(
@@ -47,13 +49,14 @@ describe("Register Use Case ", () => {
 
   it("should not be able to register org with same email twice", async () => {
     await sut.execute({
-        adress: "Rua santa ernestina",
-        CEP: "14820000",
-        city: "americo",
-        email: "guiorlandin@gmail.com",
-        name: "Guilherme",
-        password: "123456",
-        phone: "43984862237"
+      adress: "Rua santa ernestina",
+      CEP: "14820000",
+      city: "americo",
+      email: "guiorlandin@gmail.com",
+      name: "Guilherme",
+      password: "123456",
+      phone: "43984862237",
+      role: "ADMIN",
     });
 
     await expect(() =>
@@ -64,7 +67,8 @@ describe("Register Use Case ", () => {
         email: "guiorlandin@gmail.com",
         name: "Guilherme",
         password: "123456",
-        phone: "43984862237"
+        phone: "43984862237",
+        role: "ADMIN",
       })
     ).rejects.toBeInstanceOf(OrgAlreadyExistsError);
   });

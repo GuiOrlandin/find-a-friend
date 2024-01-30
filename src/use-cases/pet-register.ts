@@ -1,4 +1,4 @@
-import { Age, Enviroment, Independence, Pet, Size } from "@prisma/client";
+import { Age, Independence, Pet, Size } from "@prisma/client";
 import { PetsRepository } from "@/repositories/pet-repository";
 import { OrgsRepository } from "@/repositories/org-repository";
 import { OrgDoesNotExistError } from "./errors/org-does-not-exist";
@@ -11,7 +11,7 @@ interface PetRegisterUseCaseRequest {
   energyLevel: string;
   animalSize: Size;
   levelOfIndependence: Independence;
-  enviroment: Enviroment;
+  enviroment: Size;
   requirement: string;
   org_id: string;
 }

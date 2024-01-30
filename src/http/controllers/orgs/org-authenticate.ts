@@ -1,5 +1,6 @@
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeOrgAuthenticateUseCase } from "@/use-cases/factories/make-org-authenticate";
+import { sign } from "crypto";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -22,9 +23,16 @@ export async function orgAuthenticate(
       password,
     });
 
-    const token = await reply.jwtSign({
-      role: org.role,
-    });
+    const token = await reply.jwtSign(
+      {
+        role: org.role,
+      },
+      {
+        sign: {
+          sub: org.id,
+        },
+      }
+    );
 
     const refreshToken = await reply.jwtSign(
       {
@@ -32,6 +40,7 @@ export async function orgAuthenticate(
       },
       {
         sign: {
+          sub: org.id,
           expiresIn: "7d",
         },
       }

@@ -13,13 +13,13 @@ interface OrgAuthenticateUseCaseResponse {
 }
 
 export class OrgAuthenticateUseCase {
-  constructor(private usersRepository: OrgsRepository) {}
+  constructor(private orgsRepository: OrgsRepository) {}
 
   async execute({
     email,
     password,
   }: OrgAuthenticateUseCaseRequest): Promise<OrgAuthenticateUseCaseResponse> {
-    const org = await this.usersRepository.findByEmail(email);
+    const org = await this.orgsRepository.findByEmail(email);
 
     if (!org) {
       throw new InvalidCredentialsError();

@@ -25,23 +25,19 @@ describe("Pet Register Use Case ", () => {
       role: "ADMIN",
     });
 
-    console.log(org);
-
     const { pet } = await sut.execute({
       name: "Jule",
       city: "Aco",
-      description: " Cachorro de perto grande e dócio",
+      description: " Cachorro de porte grande e dócio",
       age: "ADULTO",
       energyLevel: "03",
       animalSize: "GRANDE",
       levelOfIndependence: "BAIXO",
-      enviroment: "LARGE",
+      enviroment: "GRANDE",
       requirement:
         "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
       org_id: org.id,
     });
-
-    console.log(pet);
 
     expect(pet.id).toEqual(expect.any(String));
   });

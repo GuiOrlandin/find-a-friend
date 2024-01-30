@@ -4,28 +4,28 @@ import { prisma } from "@/lib/prisma";
 
 export class PrismaOrgsRepository implements OrgsRepository {
   async findById(id: string) {
-    const user = await prisma.org.findFirst({
+    const org = await prisma.org.findFirst({
       where: {
         id,
       },
     });
 
-    return user;
+    return org;
   }
   async findByEmail(email: string) {
-    const user = await prisma.org.findFirst({
+    const org = await prisma.org.findFirst({
       where: {
         email,
       },
     });
 
-    return user;
+    return org;
   }
   async create(data: Prisma.OrgCreateInput) {
-    const user = await prisma.org.create({
+    const org = await prisma.org.create({
       data,
     });
 
-    return user;
+    return org;
   }
 }
