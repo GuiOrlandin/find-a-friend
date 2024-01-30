@@ -1,22 +1,25 @@
-import { Prisma, Pet } from "@prisma/client";
+import { Prisma, Pet, Age, Size, Independence } from "@prisma/client";
 import { randomUUID } from "crypto";
-import { Characteristics, PetsRepository } from "../pet-repository";
+import { PetsRepository } from "../pet-repository";
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = [];
 
-  async findByCharacteristics(characteristics: Characteristics) {
-    const pet = this.items.find(
+  async findByCharacteristics(
+    age: Age,
+    energyLevel: string,
+    animalSize: Size,
+    levelOfIndependence: Independence,
+    city: string
+  ) {
+    const pet = this.items.filter(
       (item) =>
-        item.age === characteristics.age ||
-        item.animalSize === characteristics.animalSize ||
-        item.energyLevel === characteristics.energyLevel ||
-        item.levelOfIndependence === characteristics.levelOfIndependence
+        (item.age === age ||
+          item.animalSize === animalSize ||
+          item.energyLevel === energyLevel ||
+          item.levelOfIndependence === levelOfIndependence) &&
+        item.city === city
     );
-
-    if (!pet) {
-      return null;
-    }
 
     return pet;
   }
