@@ -17,7 +17,7 @@ export class PrismaPetsRepository implements PetsRepository {
     animalSize: Size,
     levelOfIndependence: Independence,
     city: string
-  ): Promise<Pet[] | null> {
+  ): Promise<Pet[]> {
     const pets = await prisma.pet.findMany({
       where: {
         AND: [
@@ -43,7 +43,6 @@ export class PrismaPetsRepository implements PetsRepository {
         ],
       },
     });
-
     return pets;
   }
 }

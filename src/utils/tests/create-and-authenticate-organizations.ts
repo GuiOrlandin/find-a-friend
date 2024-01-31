@@ -5,7 +5,7 @@ import { FastifyInstance } from "fastify";
 import { prisma } from "@/lib/prisma";
 
 export async function createAndAuthenticateOrganization(app: FastifyInstance) {
-  await prisma.org.create({
+  const org = await prisma.org.create({
     data: {
       adress: "Rua do meio",
       CEP: "182024000",
@@ -24,5 +24,5 @@ export async function createAndAuthenticateOrganization(app: FastifyInstance) {
 
   const { token } = authResponse.body;
 
-  return { token };
+  return { token, org };
 }

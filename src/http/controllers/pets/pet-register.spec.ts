@@ -3,7 +3,7 @@ import request from "supertest";
 import { app } from "../../../app";
 import { createAndAuthenticateOrganization } from "@/utils/tests/create-and-authenticate-organizations";
 
-describe("Org Register (e2e)", () => {
+describe("Pet Register (e2e)", () => {
   beforeAll(async () => {
     await app.ready();
   });

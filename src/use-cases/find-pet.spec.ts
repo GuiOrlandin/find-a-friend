@@ -62,8 +62,6 @@ describe("Find Pet Use Case ", () => {
       levelOfIndependence: "BAIXO",
     });
 
-    console.log(response);
-
     expect(response.pet).length(1);
   });
 });
