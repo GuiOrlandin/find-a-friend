@@ -15,13 +15,15 @@ describe("Pet Register (e2e)", () => {
   it("should be able to register a pet", async () => {
     const { token } = await createAndAuthenticateOrganization(app);
 
+    console.log(token);
+
     const response = await request(app.server)
       .post(`/pets`)
       .set("Authorization", `Bearer ${token}`)
       .send({
         name: "Jule",
         city: "Aco",
-        description: " Cachorro de porte grande e dócio",
+        description: [" Cachorro de porte grande e dócio"],
         age: "ADULTO",
         energyLevel: "03",
         animalSize: "GRANDE",
@@ -29,6 +31,7 @@ describe("Pet Register (e2e)", () => {
         enviroment: "GRANDE",
         requirement:
           "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
+        petImage: [{ url: "url_da_imagem_1" }, { url: "url_da_imagem_2" }],
       });
 
     expect(response.statusCode).toEqual(201);

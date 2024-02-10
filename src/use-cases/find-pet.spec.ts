@@ -29,7 +29,7 @@ describe("Find Pet Use Case ", () => {
     petsRepository.register({
       name: "Jule",
       city: "americo",
-      description: " Cachorro de porte grande e dócio",
+      description: [" Cachorro de porte grande e dócio"],
       age: "ADULTO",
       energyLevel: "03",
       animalSize: "GRANDE",
@@ -43,7 +43,7 @@ describe("Find Pet Use Case ", () => {
     petsRepository.register({
       name: "Jule",
       city: "judiai",
-      description: " Cachorro de porte grande e dócio",
+      description: [" Cachorro de porte grande e dócio", "Bastante agitado"],
       age: "ADULTO",
       energyLevel: "03",
       animalSize: "GRANDE",
@@ -60,8 +60,9 @@ describe("Find Pet Use Case ", () => {
       city: "americo",
       energyLevel: "03",
       levelOfIndependence: "BAIXO",
+      page: 1,
     });
 
-    expect(response.pet).length(1);
+    expect(response.pets).length(1);
   });
 });

@@ -3,6 +3,7 @@ import { orgsRoutes } from "./http/controllers/orgs/routes";
 import { ZodError } from "zod";
 import { env } from "./env";
 import fastifyJwt from "@fastify/jwt";
+import multipart from '@fastify/multipart'
 import fastifyCookie from "@fastify/cookie";
 import { petsRoutes } from "./http/controllers/pets/routes";
 
@@ -20,6 +21,7 @@ app.register(fastifyJwt, {
 });
 
 app.register(fastifyCookie);
+app.register(multipart)
 
 app.register(orgsRoutes);
 app.register(petsRoutes);

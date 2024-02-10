@@ -28,7 +28,7 @@ describe("Pet Register Use Case ", () => {
     const { pet } = await sut.execute({
       name: "Jule",
       city: "Aco",
-      description: " Cachorro de porte grande e dócio",
+      description: [" Cachorro de porte grande e dócio"],
       age: "ADULTO",
       energyLevel: "03",
       animalSize: "GRANDE",

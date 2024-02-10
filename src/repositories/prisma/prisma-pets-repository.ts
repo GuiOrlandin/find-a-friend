@@ -16,7 +16,8 @@ export class PrismaPetsRepository implements PetsRepository {
     energyLevel: string,
     animalSize: Size,
     levelOfIndependence: Independence,
-    city: string
+    city: string,
+    page: number
   ): Promise<Pet[]> {
     const pets = await prisma.pet.findMany({
       where: {
@@ -42,6 +43,8 @@ export class PrismaPetsRepository implements PetsRepository {
           },
         ],
       },
+      take: 5,
+      skip: (page - 1) * 5,
     });
     return pets;
   }

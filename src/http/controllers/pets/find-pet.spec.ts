@@ -5,7 +5,7 @@ import { createOrgAndRegisterPet } from "@/utils/tests/create-org-and-register-p
 import { createAndAuthenticateOrganization } from "@/utils/tests/create-and-authenticate-organizations";
 import { prisma } from "@/lib/prisma";
 
-describe("Org Register (e2e)", () => {
+describe("Find a pet (e2e)", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -17,13 +17,13 @@ describe("Org Register (e2e)", () => {
   it("should be able to find a pet", async () => {
     const { token } = await createAndAuthenticateOrganization(app);
 
-    const test = await request(app.server)
+    const pet = await request(app.server)
       .post(`/pets`)
       .set("Authorization", `Bearer ${token}`)
       .send({
         name: "Jule",
         city: "Americo",
-        description: " Cachorro de porte grande e dócio",
+        description: [" Cachorro de porte grande e dócio"],
         age: "ADULTO",
         energyLevel: "03",
         animalSize: "GRANDE",
@@ -31,6 +31,7 @@ describe("Org Register (e2e)", () => {
         enviroment: "GRANDE",
         requirement:
           "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
+        petImage: [{ url: "url_da_imagem_1" }, { url: "url_da_imagem_2" }],
       });
 
     const response = await request(app.server)
@@ -41,8 +42,8 @@ describe("Org Register (e2e)", () => {
         city: "Americo",
         age: "ADULTO",
         levelOfIndependence: "BAIXO",
+        page: "1",
       })
-      .set("Authorization", `Bearer ${token}`)
       .send();
 
     expect(response.statusCode).toEqual(200);

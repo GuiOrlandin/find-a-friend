@@ -9,9 +9,10 @@ export async function findPet(request: FastifyRequest, reply: FastifyReply) {
     energyLevel: z.string(),
     animalSize: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
     levelOfIndependence: z.enum(["BAIXO", "MEDIO", "ALTO"]),
+    page: z.coerce.number(),
   });
 
-  const { animalSize, energyLevel, city, age, levelOfIndependence } =
+  const { animalSize, energyLevel, city, age, levelOfIndependence, page } =
     findPetBodySchema.parse(request.query);
 
   const findPetUseCase = makeFindPetUseCase();
@@ -22,6 +23,7 @@ export async function findPet(request: FastifyRequest, reply: FastifyReply) {
     city,
     age,
     levelOfIndependence,
+    page,
   });
 
   return reply.status(200).send({

@@ -7,6 +7,7 @@ interface FindPetUseCaseRequest {
   animalSize: Size;
   levelOfIndependence: Independence;
   city: string;
+  page: number;
 }
 
 interface FindPetUseCaseResponse {
@@ -22,13 +23,15 @@ export class FindPetUseCase {
     animalSize,
     levelOfIndependence,
     city,
+    page,
   }: FindPetUseCaseRequest): Promise<FindPetUseCaseResponse> {
     const pets = await this.petRepository.findByCharacteristics(
       age,
       energyLevel,
       animalSize,
       levelOfIndependence,
-      city
+      city,
+      page
     );
 
     return {

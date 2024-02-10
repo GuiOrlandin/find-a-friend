@@ -7,15 +7,22 @@ export async function petRegister(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
+  const PetImage = z.array(
+    z.object({
+      url: z.string(),
+    })
+  );
+
   const registerBodySchema = z.object({
     name: z.string(),
     city: z.string(),
-    description: z.string(),
+    description: z.string().array(),
     age: z.enum(["FILHOTE", "ADULTO"]),
     energyLevel: z.string(),
     animalSize: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
     levelOfIndependence: z.enum(["BAIXO", "MEDIO", "ALTO"]),
     enviroment: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
+    petImage: PetImage,
     requirement: z.string(),
   });
 
@@ -29,30 +36,25 @@ export async function petRegister(
     enviroment,
     levelOfIndependence,
     requirement,
+    petImage,
   } = registerBodySchema.parse(request.body);
+  console.log(request.files);
 
   const petRegisterUseCase = makePetRegisterUseCase();
 
-  try {
-    await petRegisterUseCase.execute({
-      name,
-      animalSize,
-      energyLevel,
-      city,
-      age,
-      description,
-      enviroment,
-      levelOfIndependence,
-      requirement,
-      org_id: request.user.sub,
-    });
-  } catch (err) {
-    if (err instanceof OrgAlreadyExistsError) {
-      return reply.status(409).send({ message: err.message });
-    }
-
-    return reply.status(500).send();
-  }
+  await petRegisterUseCase.execute({
+    name,
+    animalSize,
+    energyLevel,
+    city,
+    age,
+    description,
+    enviroment,
+    levelOfIndependence,
+    requirement,
+    petImage,
+    org_id: request.user.sub,
+  });
 
   return reply.status(201).send();
 }

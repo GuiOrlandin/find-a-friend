@@ -1,4 +1,4 @@
-import { Age, Independence, Pet, Size } from "@prisma/client";
+import { Age, Independence, Pet, Prisma, Size } from "@prisma/client";
 import { PetsRepository } from "@/repositories/pet-repository";
 import { OrgsRepository } from "@/repositories/org-repository";
 import { OrgDoesNotExistError } from "./errors/org-does-not-exist";
@@ -6,7 +6,7 @@ import { OrgDoesNotExistError } from "./errors/org-does-not-exist";
 interface PetRegisterUseCaseRequest {
   name: string;
   city: string;
-  description: string;
+  description: string[];
   age: Age;
   energyLevel: string;
   animalSize: Size;
@@ -14,6 +14,7 @@ interface PetRegisterUseCaseRequest {
   enviroment: Size;
   requirement: string;
   org_id: string;
+  petImage?: Array<Prisma.PetImageUncheckedCreateWithoutPetInput>
 }
 
 interface PetRegisterUseCaseResponse {
@@ -26,35 +27,28 @@ export class PetRegisterUseCase {
     private orgsRepository: OrgsRepository
   ) {}
 
-  async execute({
-    name,
-    city,
-    description,
-    age,
-    energyLevel,
-    animalSize,
-    levelOfIndependence,
-    enviroment,
-    requirement,
-    org_id,
-  }: PetRegisterUseCaseRequest): Promise<PetRegisterUseCaseResponse> {
-    const org = await this.orgsRepository.findById(org_id);
+  async execute(
+    data: PetRegisterUseCaseRequest): Promise<PetRegisterUseCaseResponse> {
+    const org = await this.orgsRepository.findById(data.org_id);
 
     if (!org) {
       throw new OrgDoesNotExistError();
     }
 
     const pet = await this.petRepository.register({
-      name,
-      city,
-      description,
-      age,
-      energyLevel,
-      animalSize,
-      levelOfIndependence,
-      enviroment,
-      requirement,
-      org_id,
+      name:data.name,
+      city:data.city,
+      description:data.description,
+      age:data.age,
+      energyLevel:data.energyLevel,
+      animalSize:data.animalSize,
+      levelOfIndependence:data.levelOfIndependence,
+      enviroment:data.enviroment,
+      requirement:data.requirement,
+      org_id:data.org_id,
+      PetImage:{
+        create: data.petImage,
+      }
     });
 
     return {

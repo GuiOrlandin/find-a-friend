@@ -10,16 +10,19 @@ export class InMemoryPetsRepository implements PetsRepository {
     energyLevel: string,
     animalSize: Size,
     levelOfIndependence: Independence,
-    city: string
+    city: string,
+    page: number
   ) {
-    const pet = this.items.filter(
-      (item) =>
-        (item.age === age ||
-          item.animalSize === animalSize ||
-          item.energyLevel === energyLevel ||
-          item.levelOfIndependence === levelOfIndependence) &&
-        item.city === city
-    );
+    const pet = this.items
+      .filter(
+        (item) =>
+          (item.age === age ||
+            item.animalSize === animalSize ||
+            item.energyLevel === energyLevel ||
+            item.levelOfIndependence === levelOfIndependence) &&
+          item.city === city
+      )
+      .slice((page - 1) * 20, page * 20);
 
     return pet;
   }
@@ -29,7 +32,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       id: randomUUID(),
       name: data.name,
       city: data.city,
-      description: data.description,
+      description: data.description as string[],
       created_at: new Date(),
       energyLevel: data.energyLevel,
       animalSize: data.animalSize,

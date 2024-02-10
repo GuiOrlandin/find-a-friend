@@ -28,17 +28,29 @@ model Pet {
     created_at DateTime @default(now())
     city      String
     name      String
-    description String
+    description String[]
     age Age
     energyLevel String
     animalSize Size
     levelOfIndependence Independence
     enviroment Size
     requirement String
+    PetImage           PetImage[]
     org       Org      @relation(fields: [org_id], references: [id])
     org_id String
 
     @@map("pets")
+}
+
+
+model PetImage {
+  id         String   @id @default(uuid())
+  url        String
+  created_at DateTime @default(now())
+  pet        Pet      @relation(fields: [pet_id], references: [id])
+  pet_id     String
+
+  @@map("pet_images")
 }
 
 enum Role {

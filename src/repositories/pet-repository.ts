@@ -6,7 +6,8 @@ export interface PetsRepository {
     energyLevel: string,
     animalSize: Size,
     levelOfIndependence: Independence,
-    city: string
+    city: string,
+    page: number
   ): Promise<Pet[]>;
   register(data: Prisma.PetUncheckedCreateInput): Promise<Pet>;
 }
