@@ -6,7 +6,7 @@ import {
 } from "../../styles/pages/home/styles";
 import findAFriendLogo from "../../assets/findAFriendLogo.svg";
 import animalsLogo from "../../assets/animalsLogo.svg";
-import StateDropMenu from "./components/stateDropMenu";
+import SelectState from "./components/SelectState";
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
 
         <SearchFriendParameters>
           <p>Busque um amigo:</p>
-          <StateDropMenu />
+          <SelectState />
         </SearchFriendParameters>
       </RightSideOfHome>
     </HomeContainer>
