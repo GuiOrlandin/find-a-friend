@@ -19,7 +19,7 @@ export const LeftSideOfHome = styled.div`
     font-style: normal;
     color: #ffffff;
 
-    margin-top: 8.25rem;
+    margin-top: 7.25rem;
   }
 
   p {
@@ -27,13 +27,13 @@ export const LeftSideOfHome = styled.div`
     font-weight: 500;
     color: #ffffff;
 
-    margin-top: 7.5625rem;
+    margin-top: 8.5625rem;
   }
 `;
 
 export const RightSideOfHome = styled.div`
   img {
-    margin-top: 12.0625rem;
+    margin-top: 8.0625rem;
     margin-left: 10.8125rem;
   }
 

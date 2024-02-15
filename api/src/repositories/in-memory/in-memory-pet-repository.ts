@@ -1,9 +1,17 @@
-import { Prisma, Pet, Age, Size, Independence } from "@prisma/client";
+import { Prisma, Pet, Age, Size, Independence, $Enums } from "@prisma/client";
 import { randomUUID } from "crypto";
 import { PetsRepository } from "../pet-repository";
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = [];
+
+  async findByCity(city: string, page: number) {
+    const pet = this.items
+      .filter((item) => item.city === city)
+      .slice((page - 1) * 20, page * 20);
+
+    return pet;
+  }
 
   async findByCharacteristics(
     age: Age,

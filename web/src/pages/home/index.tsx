@@ -6,7 +6,8 @@ import {
 } from "../../styles/pages/home/styles";
 import findAFriendLogo from "../../assets/findAFriendLogo.svg";
 import animalsLogo from "../../assets/animalsLogo.svg";
-import SelectState from "./components/SelectState";
+import SelectStateCityAndSearchButton from "./components/SelectStateCityAndSearchButtons";
+import LoginOrRegister from "./components/LoginOrRegister";
 
 export default function Home() {
   return (
@@ -19,11 +20,13 @@ export default function Home() {
         <p>Encontre o animal de estimação ideal para seu estilo de vida!</p>
       </LeftSideOfHome>
       <RightSideOfHome>
+        <LoginOrRegister />
+
         <img src={animalsLogo} alt="" />
 
         <SearchFriendParameters>
           <p>Busque um amigo:</p>
-          <SelectState />
+          <SelectStateCityAndSearchButton />
         </SearchFriendParameters>
       </RightSideOfHome>
     </HomeContainer>
