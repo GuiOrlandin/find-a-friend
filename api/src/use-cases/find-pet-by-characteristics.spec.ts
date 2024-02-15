@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pet-repository";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-org-respository";
-import { FindPetUseCase } from "./find-pet";
+import { findPetByCharacteristicsUseCase } from "./find-pet-by-characteristics";
 
 let petsRepository: InMemoryPetsRepository;
 let orgsRepository: InMemoryOrgsRepository;
 
-let sut: FindPetUseCase;
+let sut: findPetByCharacteristicsUseCase;
 
-describe("Find Pet Use Case ", () => {
+describe("Find Pet by Characteristics Use Case ", () => {
   beforeEach(() => {
     petsRepository = new InMemoryPetsRepository();
     orgsRepository = new InMemoryOrgsRepository();
-    sut = new FindPetUseCase(petsRepository);
+    sut = new findPetByCharacteristicsUseCase(petsRepository);
   });
   it("it should  be able to register a pet", async () => {
     const org = await orgsRepository.create({

@@ -1,7 +1,7 @@
 import { Age, Independence, Pet, Size } from "@prisma/client";
 import { PetsRepository } from "@/repositories/pet-repository";
 
-interface FindPetUseCaseRequest {
+interface findPetByCharacteristicsUseCaseRequest {
   age: Age;
   energyLevel: string;
   animalSize: Size;
@@ -10,11 +10,11 @@ interface FindPetUseCaseRequest {
   page: number;
 }
 
-interface FindPetUseCaseResponse {
+interface findPetByCharacteristicsUseCaseResponse {
   pets: Pet[];
 }
 
-export class FindPetUseCase {
+export class findPetByCharacteristicsUseCase {
   constructor(private petRepository: PetsRepository) {}
 
   async execute({
@@ -24,7 +24,7 @@ export class FindPetUseCase {
     levelOfIndependence,
     city,
     page,
-  }: FindPetUseCaseRequest): Promise<FindPetUseCaseResponse> {
+  }: findPetByCharacteristicsUseCaseRequest): Promise<findPetByCharacteristicsUseCaseResponse> {
     const pets = await this.petRepository.findByCharacteristics(
       age,
       energyLevel,

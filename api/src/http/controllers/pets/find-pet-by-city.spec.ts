@@ -3,7 +3,7 @@ import { app } from "../../../app";
 import request from "supertest";
 import { createAndAuthenticateOrganization } from "@/utils/tests/create-and-authenticate-organizations";
 
-describe("Find a pet (e2e)", () => {
+describe("Find a pet by city (e2e)", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -12,7 +12,7 @@ describe("Find a pet (e2e)", () => {
     await app.close();
   });
 
-  it("should be able to find a pet", async () => {
+  it("should be able to find a pet by city", async () => {
     const { token } = await createAndAuthenticateOrganization(app);
 
     await request(app.server)
@@ -33,13 +33,9 @@ describe("Find a pet (e2e)", () => {
       });
 
     const response = await request(app.server)
-      .get("/pets/available/characteristics")
+      .get("/pets/available/city")
       .query({
-        animalSize: "GRANDE",
-        energyLevel: "03",
         city: "Americo",
-        age: "ADULTO",
-        levelOfIndependence: "BAIXO",
         page: "1",
       })
       .send();

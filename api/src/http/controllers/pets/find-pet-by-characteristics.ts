@@ -1,4 +1,4 @@
-import { makeFindPetUseCase } from "@/use-cases/factories/make-find-peth";
+import { makeFindPetByCharacteristicsUseCase } from "@/use-cases/factories/make-find-pet-by-characteristics";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -18,7 +18,7 @@ export async function findPetByCharacteristics(
   const { animalSize, energyLevel, city, age, levelOfIndependence, page } =
     findPetBodySchema.parse(request.query);
 
-  const findPetUseCase = makeFindPetUseCase();
+  const findPetUseCase = makeFindPetByCharacteristicsUseCase();
 
   const { pets } = await findPetUseCase.execute({
     animalSize,
