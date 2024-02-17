@@ -8,8 +8,28 @@ import findAFriendLogo from "../../assets/findAFriendLogo.svg";
 import animalsLogo from "../../assets/animalsLogo.svg";
 import SelectStateCityAndSearchButton from "./components/SelectStateCityAndSearchButtons";
 import LoginOrRegister from "./components/LoginOrRegister";
+// import { useQuery } from "@tanstack/react-query";
+// import { Pet, findPetStore } from "../../store/findPetStore";
+// import axios from "axios";
 
 export default function Home() {
+  // const refreshPetList = findPetStore((state)=> state.refreshPetList)
+
+  // const { data: petList} = useQuery<Pet[]>({
+  //   queryKey: ["list-of-cities"],
+  //   queryFn: async () => {
+  //     return axios
+  //       .get(
+  //         `http://localhost:3333/pets/available/city?city=${}&page=${}`
+  //       )
+  //       .then((response) => response.data);
+  //   },
+  // });
+
+  // function handleRefreshPetList(item: Pet[]){
+  //     refreshPetList(item)
+  // }
+
   return (
     <HomeContainer>
       <LeftSideOfHome>
@@ -26,7 +46,7 @@ export default function Home() {
 
         <SearchFriendParameters>
           <p>Busque um amigo:</p>
-          <SelectStateCityAndSearchButton />
+          <SelectStateCityAndSearchButton variant="home" />
         </SearchFriendParameters>
       </RightSideOfHome>
     </HomeContainer>

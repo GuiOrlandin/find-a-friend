@@ -1,4 +1,5 @@
 import {
+  Container,
   SearchButton,
   SelectCityContainer,
   SelectStateContainer,
@@ -24,7 +25,11 @@ export interface Cities {
   codigo_ibge: string;
 }
 
-export default function SelectStateCityAndSearchButton() {
+interface Props {
+  variant: string;
+}
+
+export default function SelectStateCityAndSearchButton({ variant }: Props) {
   const [stateSelected, setStateSelected] = useState("RO");
   const [citySelected, setCitySelected] = useState("");
   const { data: states, isLoading } = useQuery<State[]>({
@@ -60,7 +65,7 @@ export default function SelectStateCityAndSearchButton() {
   }, [stateSelected]);
 
   return (
-    <>
+    <Container>
       {isLoading ? (
         <>
           <SelectStateContainer>
@@ -77,24 +82,27 @@ export default function SelectStateCityAndSearchButton() {
           <SelectStateContainer
             value={stateSelected}
             onChange={handleUpdateState}
+            variant={variant}
           >
             {states?.map((state) => (
               <option key={state.id}>{state.sigla}</option>
             ))}
           </SelectStateContainer>
-          <SelectCityContainer value={citySelected} onChange={handleUpdateCity}>
-            <select>
-              {cities?.map((city) => (
-                <option key={city.codigo_ibge}>{city.nome}</option>
-              ))}
-            </select>
+          <SelectCityContainer
+            value={citySelected}
+            onChange={handleUpdateCity}
+            variant={variant}
+          >
+            {cities?.map((city) => (
+              <option key={city.codigo_ibge}>{city.nome}</option>
+            ))}
           </SelectCityContainer>
         </>
       )}
 
-      <SearchButton>
+      <SearchButton variant={variant}>
         <img src={searchIcon} alt="" />
       </SearchButton>
-    </>
+    </Container>
   );
 }
