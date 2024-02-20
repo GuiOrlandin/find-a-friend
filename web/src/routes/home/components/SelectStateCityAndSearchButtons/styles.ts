@@ -16,7 +16,6 @@ export const SelectStateContainer = styled.select<SelectStateCityAndSearchButton
   background: none;
   border-radius: 20px;
   color: #ffffff;
-  font-size: 1.25rem;
 
   width: ${({ variant }) =>
     variant === "findPetPage" ? "4.1875rem" : "4.5rem"};
@@ -24,6 +23,9 @@ export const SelectStateContainer = styled.select<SelectStateCityAndSearchButton
     variant === "findPetPage" ? "3.75rem" : "4.5rem"};
   border: ${({ variant }) =>
     variant === "findPetPage" ? "solid 1px #F15156" : "solid px #FFFFFF"};
+
+  font-size: ${({ variant }) =>
+    variant === "findPetPage" ? "1rem" : "1.25rem"};
 
   &:focus {
     outline: none;
@@ -61,6 +63,9 @@ export const SelectCityContainer = styled.select<SelectStateCityAndSearchButtonP
   padding: ${({ variant }) =>
     variant === "findPetPage" ? "1.1875rem" : "1.7rem 1rem 1.4rem 1.1875rem"};
 
+  font-size: ${({ variant }) =>
+    variant === "findPetPage" ? "1rem" : "1.25rem"};
+
   &:focus {
     outline: none;
 
@@ -85,5 +90,7 @@ export const SearchButton = styled.button<SelectStateCityAndSearchButtonProps>`
 
   img {
     margin: 0;
+
+    width: ${({ variant }) => (variant === "findPetPage" ? "1.375rem" : "")};
   }
 `;

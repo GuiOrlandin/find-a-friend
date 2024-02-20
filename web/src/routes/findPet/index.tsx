@@ -1,11 +1,18 @@
-import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
+import SelectStateCityAndSearchButton from "../home/components/SelectStateCityAndSearchButtons";
+import FilterCharacteristicsSelect from "./components/filterCharacteristicsSelect";
+
 import {
   FilterContainer,
   FindPetContainer,
+  PetCardContainer,
+  PetListAndNumberOfPetsFound,
+  PetListContainer,
   SelectStateCityAndSearchButtonContainer,
 } from "../../styles/pages/findPet/styles";
-import SelectStateCityAndSearchButton from "../home/components/SelectStateCityAndSearchButtons";
-import FilterCharacteristicsSelect from "./components/filterCharacteristicsSelect";
+
+import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
+import dogImage from "../../assets/dogImage.svg";
+import littleLogoFace from "../../assets/littleLogoFace.svg";
 
 export default function FindPet() {
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
@@ -28,7 +35,7 @@ export default function FindPet() {
           <SelectStateCityAndSearchButton variant="findPetPage" />
         </SelectStateCityAndSearchButtonContainer>
         <FilterContainer>
-          <h2>Filtros</h2>
+          <h1>Filtros</h1>
 
           <FilterCharacteristicsSelect filterName="Idade" filterContent={age} />
           <FilterCharacteristicsSelect
@@ -45,6 +52,35 @@ export default function FindPet() {
           />
         </FilterContainer>
       </div>
+      <PetListAndNumberOfPetsFound>
+        <h1>
+          Encontre <span>324 amigos</span> na sua cidade
+        </h1>
+
+        <PetListContainer>
+          <PetCardContainer>
+            <img src={dogImage} alt="" />
+            <div>
+              <img src={littleLogoFace} alt="" />
+            </div>
+            <p>Alfredo</p>
+          </PetCardContainer>
+          <PetCardContainer>
+            <img src={dogImage} alt="" />
+            <div>
+              <img src={littleLogoFace} alt="" />
+            </div>
+            <p>Alfredo</p>
+          </PetCardContainer>
+          <PetCardContainer>
+            <img src={dogImage} alt="" />
+            <div>
+              <img src={littleLogoFace} alt="" />
+            </div>
+            <p>Alfredo</p>
+          </PetCardContainer>
+        </PetListContainer>
+      </PetListAndNumberOfPetsFound>
     </FindPetContainer>
   );
 }
