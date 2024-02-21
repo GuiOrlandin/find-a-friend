@@ -1,4 +1,3 @@
-import { OrgAlreadyExistsError } from "@/use-cases/errors/org-already-exists";
 import { makePetRegisterUseCase } from "@/use-cases/factories/make-pet-register";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
@@ -20,6 +19,7 @@ export async function petRegister(
     age: z.enum(["FILHOTE", "ADULTO"]),
     energyLevel: z.string(),
     animalSize: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
+    animalType: z.enum(["Gato", "Cachorro"]),
     levelOfIndependence: z.enum(["BAIXO", "MEDIO", "ALTO"]),
     enviroment: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
     petImage: PetImage,
@@ -34,6 +34,7 @@ export async function petRegister(
     age,
     description,
     enviroment,
+    animalType,
     levelOfIndependence,
     requirement,
     petImage,
@@ -50,6 +51,7 @@ export async function petRegister(
     age,
     description,
     enviroment,
+    animalType,
     levelOfIndependence,
     requirement,
     petImage,

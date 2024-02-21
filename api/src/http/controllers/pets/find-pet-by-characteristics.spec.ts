@@ -27,6 +27,7 @@ describe("Find a pet (e2e)", () => {
         animalSize: "GRANDE",
         levelOfIndependence: "BAIXO",
         enviroment: "GRANDE",
+        animalType: "Gato",
         requirement:
           "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
         petImage: [{ url: "url_da_imagem_1" }, { url: "url_da_imagem_2" }],

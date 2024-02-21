@@ -34,6 +34,7 @@ model Pet {
     animalSize Size
     levelOfIndependence Independence
     enviroment Size
+    animalType AnimalType 
     requirement String
     PetImage           PetImage[]
     org       Org      @relation(fields: [org_id], references: [id])
@@ -56,6 +57,11 @@ model PetImage {
 enum Role {
     USER
     ADMIN
+}
+
+enum AnimalType {
+    Gato
+    Cachorro
 }
 
 

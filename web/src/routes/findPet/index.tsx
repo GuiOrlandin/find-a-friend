@@ -2,10 +2,12 @@ import SelectStateCityAndSearchButton from "../home/components/SelectStateCityAn
 import FilterCharacteristicsSelect from "./components/filterCharacteristicsSelect";
 
 import {
+  BackgroundLogo,
   FilterContainer,
   FindPetContainer,
+  NumberOfPetsFoundAndCatOrDogFilterContainer,
   PetCardContainer,
-  PetListAndNumberOfPetsFound,
+  PetListAndNumberOfPetsFoundContainer,
   PetListContainer,
   SelectStateCityAndSearchButtonContainer,
 } from "../../styles/pages/findPet/styles";
@@ -14,7 +16,11 @@ import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
 import dogImage from "../../assets/dogImage.svg";
 import littleLogoFace from "../../assets/littleLogoFace.svg";
 
-export default function FindPet() {
+interface Props {
+  variant: string;
+}
+
+export default function FindPet({ variant }: Props) {
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
   const energyLevel = [{ title: "01" }, { title: "02" }, { title: "03" }];
   const size = [{ title: "Pequeno" }, { title: "Médio" }, { title: "Grande" }];
@@ -22,6 +28,11 @@ export default function FindPet() {
     { title: "Baixo" },
     { title: "Médio" },
     { title: "Alto" },
+  ];
+  const animalType = [
+    { title: "Gato" },
+    { title: "Cachorro" },
+    { title: "Gato e Cachorro" },
   ];
 
   return (
@@ -52,35 +63,43 @@ export default function FindPet() {
           />
         </FilterContainer>
       </div>
-      <PetListAndNumberOfPetsFound>
-        <h1>
-          Encontre <span>324 amigos</span> na sua cidade
-        </h1>
+      <PetListAndNumberOfPetsFoundContainer>
+        <NumberOfPetsFoundAndCatOrDogFilterContainer>
+          <h1>
+            Encontre <span>324 amigos</span> na sua cidade
+          </h1>
+
+          <select>
+            {animalType.map((animal) => (
+              <option key={animal.title}>{animal.title}</option>
+            ))}
+          </select>
+        </NumberOfPetsFoundAndCatOrDogFilterContainer>
 
         <PetListContainer>
           <PetCardContainer>
             <img src={dogImage} alt="" />
-            <div>
+            <BackgroundLogo variant="">
               <img src={littleLogoFace} alt="" />
-            </div>
+            </BackgroundLogo>
+            <p>Alfredo</p>
+          </PetCardContainer>
+          <PetCardContainer>
+            <img src={dogImage} />
+            <BackgroundLogo variant="Gato">
+              <img src={littleLogoFace} alt="" />
+            </BackgroundLogo>
             <p>Alfredo</p>
           </PetCardContainer>
           <PetCardContainer>
             <img src={dogImage} alt="" />
-            <div>
+            <BackgroundLogo variant="">
               <img src={littleLogoFace} alt="" />
-            </div>
-            <p>Alfredo</p>
-          </PetCardContainer>
-          <PetCardContainer>
-            <img src={dogImage} alt="" />
-            <div>
-              <img src={littleLogoFace} alt="" />
-            </div>
+            </BackgroundLogo>
             <p>Alfredo</p>
           </PetCardContainer>
         </PetListContainer>
-      </PetListAndNumberOfPetsFound>
+      </PetListAndNumberOfPetsFoundContainer>
     </FindPetContainer>
   );
 }
