@@ -10,6 +10,7 @@ export interface Pet {
   energyLevel: string;
   animalSize: string;
   levelOfIndependence: string;
+  animalType: string;
   enviroment: string;
   requirement: string;
   org_id: string;

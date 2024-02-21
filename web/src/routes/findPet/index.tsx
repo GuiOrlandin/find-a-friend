@@ -15,12 +15,15 @@ import {
 import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
 import dogImage from "../../assets/dogImage.svg";
 import littleLogoFace from "../../assets/littleLogoFace.svg";
+import { findPetStore } from "../../store/findPetStore";
 
 interface Props {
   variant: string;
 }
 
 export default function FindPet({ variant }: Props) {
+  const petList = findPetStore((state) => state.pet);
+
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
   const energyLevel = [{ title: "01" }, { title: "02" }, { title: "03" }];
   const size = [{ title: "Pequeno" }, { title: "Médio" }, { title: "Grande" }];
@@ -77,20 +80,6 @@ export default function FindPet({ variant }: Props) {
         </NumberOfPetsFoundAndCatOrDogFilterContainer>
 
         <PetListContainer>
-          <PetCardContainer>
-            <img src={dogImage} alt="" />
-            <BackgroundLogo variant="">
-              <img src={littleLogoFace} alt="" />
-            </BackgroundLogo>
-            <p>Alfredo</p>
-          </PetCardContainer>
-          <PetCardContainer>
-            <img src={dogImage} />
-            <BackgroundLogo variant="Gato">
-              <img src={littleLogoFace} alt="" />
-            </BackgroundLogo>
-            <p>Alfredo</p>
-          </PetCardContainer>
           <PetCardContainer>
             <img src={dogImage} alt="" />
             <BackgroundLogo variant="">

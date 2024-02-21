@@ -3,8 +3,9 @@ import { orgsRoutes } from "./http/controllers/orgs/routes";
 import { ZodError } from "zod";
 import { env } from "./env";
 import fastifyJwt from "@fastify/jwt";
-import multipart from '@fastify/multipart'
+import multipart from "@fastify/multipart";
 import fastifyCookie from "@fastify/cookie";
+import cors from "@fastify/cors";
 import { petsRoutes } from "./http/controllers/pets/routes";
 
 export const app = fastify();
@@ -21,10 +22,22 @@ app.register(fastifyJwt, {
 });
 
 app.register(fastifyCookie);
-app.register(multipart)
+app.register(multipart);
 
 app.register(orgsRoutes);
 app.register(petsRoutes);
+
+app.register(cors, {
+  origin: (origin, cb) => {
+    const hostname = new URL(origin!).hostname;
+    if (hostname === "localhost") {
+      cb(null, true);
+      return;
+    }
+
+    cb(new Error("Not allowed"), false);
+  },
+});
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

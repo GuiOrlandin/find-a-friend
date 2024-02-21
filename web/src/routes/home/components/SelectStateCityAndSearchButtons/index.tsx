@@ -27,9 +27,13 @@ export interface Cities {
 
 interface Props {
   variant: string;
+  setStateAndCity?: (city: string, state: string) => void;
 }
 
-export default function SelectStateCityAndSearchButton({ variant }: Props) {
+export default function SelectStateCityAndSearchButton({
+  variant,
+  setStateAndCity,
+}: Props) {
   const [stateSelected, setStateSelected] = useState("RO");
   const [citySelected, setCitySelected] = useState("");
   const { data: states, isLoading } = useQuery<State[]>({
@@ -100,7 +104,10 @@ export default function SelectStateCityAndSearchButton({ variant }: Props) {
         </>
       )}
 
-      <SearchButton variant={variant}>
+      <SearchButton
+        variant={variant}
+        onClick={() => setStateAndCity!(citySelected, stateSelected)}
+      >
         <img src={searchIcon} alt="" />
       </SearchButton>
     </Container>
