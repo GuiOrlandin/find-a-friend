@@ -13,6 +13,12 @@ import { Pet, findPetStore } from "../../store/findPetStore";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
+interface petListResponse {
+  pets: Pet[];
+}
+
 interface CityAndState {
   city: string;
   state: string;
@@ -23,9 +29,11 @@ export default function Home() {
   const refreshPetList = findPetStore((state) => state.refreshPetList);
   const pet = findPetStore((state) => state.pet);
 
+  const navigate = useNavigate();
+
   const city = cityAndState?.city.toLowerCase();
 
-  const { data: petList } = useQuery<Pet[]>({
+  const { data: petList } = useQuery<petListResponse>({
     queryKey: ["list-of-pets"],
     queryFn: async () => {
       return axios
@@ -38,12 +46,14 @@ export default function Home() {
 
   function handleSetStateAndCity(city: string, state: string) {
     setCityAndState({ city, state });
-    console.log(pet, "a");
   }
 
   useEffect(() => {
-    refreshPetList(petList!);
-  }, [cityAndState, petList]);
+    if (petList) {
+      refreshPetList(petList.pets);
+      navigate("/findPet");
+    }
+  }, [cityAndState]);
 
   return (
     <HomeContainer>

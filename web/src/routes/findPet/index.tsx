@@ -1,6 +1,5 @@
 import SelectStateCityAndSearchButton from "../home/components/SelectStateCityAndSearchButtons";
 import FilterCharacteristicsSelect from "./components/filterCharacteristicsSelect";
-
 import {
   BackgroundLogo,
   FilterContainer,
@@ -11,7 +10,6 @@ import {
   PetListContainer,
   SelectStateCityAndSearchButtonContainer,
 } from "../../styles/pages/findPet/styles";
-
 import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
 import dogImage from "../../assets/dogImage.svg";
 import littleLogoFace from "../../assets/littleLogoFace.svg";
@@ -22,7 +20,7 @@ interface Props {
 }
 
 export default function FindPet({ variant }: Props) {
-  const petList = findPetStore((state) => state.pet);
+  const pet = findPetStore((state) => state.pet);
 
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
   const energyLevel = [{ title: "01" }, { title: "02" }, { title: "03" }];
@@ -87,6 +85,22 @@ export default function FindPet({ variant }: Props) {
             </BackgroundLogo>
             <p>Alfredo</p>
           </PetCardContainer>
+          <PetCardContainer>
+            <img src={dogImage} alt="" />
+            <BackgroundLogo variant="">
+              <img src={littleLogoFace} alt="" />
+            </BackgroundLogo>
+            <p>Alfredo</p>
+          </PetCardContainer>
+          {pet.map((pet) => (
+            <PetCardContainer key={pet.id}>
+              <img src={dogImage} alt="" />
+              <BackgroundLogo variant="">
+                <img src={littleLogoFace} alt="" />
+              </BackgroundLogo>
+              <p>{pet.name}</p>
+            </PetCardContainer>
+          ))}
         </PetListContainer>
       </PetListAndNumberOfPetsFoundContainer>
     </FindPetContainer>

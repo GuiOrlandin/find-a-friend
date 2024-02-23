@@ -29,7 +29,12 @@ app.register(petsRoutes);
 
 app.register(cors, {
   origin: (origin, cb) => {
-    const hostname = new URL(origin!).hostname;
+    if (!origin) {
+      cb(null, true);
+      return;
+    }
+
+    const hostname = new URL(origin).hostname;
     if (hostname === "localhost") {
       cb(null, true);
       return;

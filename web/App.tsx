@@ -15,7 +15,7 @@ const router = createBrowserRouter([
 
   {
     path: "/findPet",
-    element: <FindPet />,
+    element: <FindPet variant="" />,
   },
 ]);
 
