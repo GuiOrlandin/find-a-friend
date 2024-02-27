@@ -31,29 +31,41 @@ export default function Home() {
 
   const navigate = useNavigate();
 
-  const city = cityAndState?.city.toLowerCase();
+  async function formatCity() {
+    const words = cityAndState!.city.toLowerCase().split(" ");
+    const formattedWords = words!.map((word) => {
+      return word.charAt(0).toLowerCase() + word.slice(1);
+    });
+    const formattedCity = formattedWords.join("%20");
+    return formattedCity;
+  }
 
-  const { data: petList } = useQuery<petListResponse>({
+  const { data: petList, refetch } = useQuery<petListResponse>({
     queryKey: ["list-of-pets"],
     queryFn: async () => {
-      return axios
-        .get(
-          `http://localhost:3333/pets/available/city?city=americo%20brasiliense&page=1`
-        )
-        .then((response) => response.data);
+      const formattedCity = await formatCity();
+
+      const response = await axios.get(
+        `http://localhost:3333/pets/available/city?city=${formattedCity}&page=1`
+      );
+      return response.data;
     },
   });
 
-  function handleSetStateAndCity(city: string, state: string) {
+  async function handleSetStateAndCity(city: string, state: string) {
     setCityAndState({ city, state });
   }
 
   useEffect(() => {
-    if (petList) {
+    if (cityAndState) {
+      refetch();
+    }
+
+    if (petList && cityAndState) {
       refreshPetList(petList.pets);
       navigate("/findPet");
     }
-  }, [cityAndState]);
+  }, [petList, cityAndState]);
 
   return (
     <HomeContainer>

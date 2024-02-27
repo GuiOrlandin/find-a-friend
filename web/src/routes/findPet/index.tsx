@@ -78,24 +78,10 @@ export default function FindPet({ variant }: Props) {
         </NumberOfPetsFoundAndCatOrDogFilterContainer>
 
         <PetListContainer>
-          <PetCardContainer>
-            <img src={dogImage} alt="" />
-            <BackgroundLogo variant="">
-              <img src={littleLogoFace} alt="" />
-            </BackgroundLogo>
-            <p>Alfredo</p>
-          </PetCardContainer>
-          <PetCardContainer>
-            <img src={dogImage} alt="" />
-            <BackgroundLogo variant="">
-              <img src={littleLogoFace} alt="" />
-            </BackgroundLogo>
-            <p>Alfredo</p>
-          </PetCardContainer>
           {pet.map((pet) => (
             <PetCardContainer key={pet.id}>
               <img src={dogImage} alt="" />
-              <BackgroundLogo variant="">
+              <BackgroundLogo variant={pet.animalType}>
                 <img src={littleLogoFace} alt="" />
               </BackgroundLogo>
               <p>{pet.name}</p>
