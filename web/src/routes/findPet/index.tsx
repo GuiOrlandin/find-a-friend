@@ -14,7 +14,6 @@ import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
 import dogImage from "../../assets/dogImage.svg";
 import littleLogoFace from "../../assets/littleLogoFace.svg";
 import { Pet, findPetStore } from "../../store/findPetStore";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -23,10 +22,8 @@ interface Props {
 
 export default function FindPet({ variant }: Props) {
   const pet = findPetStore((state) => state.pet);
-  const [petList, setPetList] = useState<Pet[]>();
+  const [petList, setPetList] = useState<Pet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const refreshPetList = findPetStore((state) => state.refreshPetList);
-
 
   function handleFilterPetType(petType: string) {
     if (petType === "Gato e Cachorro") {
@@ -52,14 +49,11 @@ export default function FindPet({ variant }: Props) {
   ];
 
   useEffect(() => {
-    if (!petList) {
+    if (petList.length === 0) {
       setPetList(pet);
-    }
-
-    if (petList) {
       setIsLoading(false);
     }
-  }, [pet, petList]);
+  }, [petList]);
 
   return (
     <FindPetContainer>
