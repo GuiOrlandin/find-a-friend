@@ -1,5 +1,14 @@
+import { useEffect, useState } from "react";
+
+import { Pet, findPetStore } from "../../store/findPetStore";
+
 import SelectStateCityAndSearchButton from "../home/components/SelectStateCityAndSearchButtons";
 import FilterCharacteristicsSelect from "./components/filterCharacteristicsSelect";
+
+import littleLogoFace from "../../assets/littleLogoFace.svg";
+import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
+import dogImage from "../../assets/dogImage.svg";
+
 import {
   BackgroundLogo,
   FilterContainer,
@@ -10,20 +19,25 @@ import {
   PetListContainer,
   SelectStateCityAndSearchButtonContainer,
 } from "../../styles/pages/findPet/styles";
-import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
-import dogImage from "../../assets/dogImage.svg";
-import littleLogoFace from "../../assets/littleLogoFace.svg";
-import { Pet, findPetStore } from "../../store/findPetStore";
-import { useEffect, useState } from "react";
 
 interface Props {
   variant: string;
+}
+
+export interface Characteristics {
+  animalSize: string;
+  energyLevel: string;
+  city: string;
+  age: string;
+  levelOfIndependence: string;
 }
 
 export default function FindPet({ variant }: Props) {
   const pet = findPetStore((state) => state.pet);
   const [petList, setPetList] = useState<Pet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [characteristicsForSearch, setCharacteristicsForSearch] =
+    useState<Characteristics>();
 
   function handleFilterPetType(petType: string) {
     if (petType === "Gato e Cachorro") {
@@ -32,6 +46,20 @@ export default function FindPet({ variant }: Props) {
 
     const filteredPets = pet.filter((pet) => pet.animalType === petType);
     setPetList(filteredPets);
+  }
+
+  function handleCharacteristicSelect(characteristic: string, value: string) {
+    setCharacteristicsForSearch({
+      ...characteristicsForSearch!,
+      [characteristic]: value
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase(),
+    });
+  }
+
+  function handleSearchPetsWithCharacteristics() {
+    console.log(characteristicsForSearch);
   }
 
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
@@ -51,6 +79,9 @@ export default function FindPet({ variant }: Props) {
   useEffect(() => {
     if (petList.length === 0) {
       setPetList(pet);
+    }
+
+    if (petList.length > 0) {
       setIsLoading(false);
     }
   }, [petList]);
@@ -58,7 +89,7 @@ export default function FindPet({ variant }: Props) {
   return (
     <FindPetContainer>
       {isLoading ? (
-        "Loading"
+        "Carregando.."
       ) : (
         <>
           <div>
@@ -67,7 +98,11 @@ export default function FindPet({ variant }: Props) {
                 <img src={logoFaceIcon} alt="" />
               </div>
 
-              <SelectStateCityAndSearchButton variant="findPetPage" />
+              <SelectStateCityAndSearchButton
+                variant="findPetPage"
+                characteristicsForSearch={characteristicsForSearch}
+                clickAction={() => handleSearchPetsWithCharacteristics()}
+              />
             </SelectStateCityAndSearchButtonContainer>
             <FilterContainer>
               <h1>Filtros</h1>
@@ -75,18 +110,30 @@ export default function FindPet({ variant }: Props) {
               <FilterCharacteristicsSelect
                 filterName="Idade"
                 filterContent={age}
+                onCharacteristicSelect={(value) =>
+                  handleCharacteristicSelect("age", value)
+                }
               />
               <FilterCharacteristicsSelect
                 filterName="Nível de Energia"
                 filterContent={energyLevel}
+                onCharacteristicSelect={(value) =>
+                  handleCharacteristicSelect("energyLevel", value)
+                }
               />
               <FilterCharacteristicsSelect
                 filterName="Porte do animal"
                 filterContent={size}
+                onCharacteristicSelect={(value) =>
+                  handleCharacteristicSelect("animalSize", value)
+                }
               />
               <FilterCharacteristicsSelect
                 filterName="Nível de independência"
                 filterContent={independence}
+                onCharacteristicSelect={(value) =>
+                  handleCharacteristicSelect("levelOfIndependence", value)
+                }
               />
             </FilterContainer>
           </div>
@@ -97,6 +144,7 @@ export default function FindPet({ variant }: Props) {
               </h1>
 
               <select
+                defaultValue={"Gato e Cachorro"}
                 onChange={(animalType) =>
                   handleFilterPetType(animalType.target.value)
                 }

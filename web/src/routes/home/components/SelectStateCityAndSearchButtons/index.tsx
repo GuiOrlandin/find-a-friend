@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Pet, findPetStore } from "../../../../store/findPetStore";
+import { Characteristics } from "../../../findPet";
 
 export interface petListResponse {
   pets: Pet[];
@@ -32,17 +33,18 @@ export interface Cities {
 
 interface Props {
   variant: string;
+  characteristicsForSearch?: Characteristics;
   clickAction?: () => void;
 }
 
 export default function SelectStateCityAndSearchButton({
   variant,
+  characteristicsForSearch,
   clickAction,
 }: Props) {
   const [stateSelected, setStateSelected] = useState("RO");
   const [citySelected, setCitySelected] = useState("");
   const refreshPetList = findPetStore((state) => state.refreshPetList);
-  const pet = findPetStore((state) => state.pet);
 
   const { data: states, isLoading } = useQuery<State[]>({
     queryKey: ["list-of-states"],
@@ -74,6 +76,21 @@ export default function SelectStateCityAndSearchButton({
     },
   });
 
+  const {
+    data: searchPetListWithCharacteristics,
+    refetch: petListWithCharacteristicsRefetch,
+  } = useQuery<petListResponse>({
+    queryKey: ["list-of-pets-with-characteristics"],
+    queryFn: async () => {
+      const response = await axios.get(
+        `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1
+
+        `
+      );
+      return response.data;
+    },
+  });
+
   function handleUpdateState(event: ChangeEvent<HTMLSelectElement>) {
     setStateSelected(event.target.value);
   }
@@ -90,10 +107,18 @@ export default function SelectStateCityAndSearchButton({
   useEffect(() => {
     refetch();
 
-    if (citySelected && petList) {
+    if (variant === "home" && citySelected && petList) {
       petListRefetch();
       refreshPetList(petList.pets);
-      console.log(petList.pets);
+    }
+    if (variant === "findPetPage" && citySelected) {
+      console.log(
+        `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1
+
+        `
+      );
+      petListWithCharacteristicsRefetch();
+      refreshPetList(searchPetListWithCharacteristics!.pets);
     }
   }, [stateSelected, citySelected, petList]);
 
