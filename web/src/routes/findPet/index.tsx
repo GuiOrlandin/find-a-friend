@@ -51,6 +51,9 @@ export default function FindPet({ variant }: Props) {
     }
 
     const filteredPets = pet.filter((pet) => pet.animalType === petType);
+    if (filteredPets.length === 0) {
+      setIsEmpty(true);
+    }
     setPetList(filteredPets);
   }
 
@@ -66,7 +69,6 @@ export default function FindPet({ variant }: Props) {
 
   function handleSearchPetsWithCharacteristics() {
     setPetList(pet);
-    console.log(pet);
   }
 
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
@@ -84,7 +86,7 @@ export default function FindPet({ variant }: Props) {
   ];
 
   useEffect(() => {
-    if (petList.length === 0) {
+    if (petList.length === 0 && isEmpty === false) {
       setPetList(pet);
     }
 
@@ -167,8 +169,8 @@ export default function FindPet({ variant }: Props) {
           <PetListContainer>
             {isEmpty ? (
               <AnimalsDontFound>
-                Não foram encontrados Animais com estas características ou nesta
-                cidade.
+                Não foram encontrados Animais com estas características ou esta
+                cidade não possui animais cadastrados.
               </AnimalsDontFound>
             ) : (
               petList!.map((pet) => (
