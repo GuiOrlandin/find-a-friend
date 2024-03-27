@@ -27,7 +27,7 @@ interface Props {
 export interface Characteristics {
   animalSize: string;
   energyLevel: string;
-  city: string;
+  city?: string;
   age: string;
   levelOfIndependence: string;
 }
@@ -37,7 +37,12 @@ export default function FindPet({ variant }: Props) {
   const [petList, setPetList] = useState<Pet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [characteristicsForSearch, setCharacteristicsForSearch] =
-    useState<Characteristics>();
+    useState<Characteristics>({
+      animalSize: "PEQUENO",
+      age: "FILHOTE",
+      energyLevel: "01",
+      levelOfIndependence: "BAIXO",
+    });
 
   function handleFilterPetType(petType: string) {
     if (petType === "Gato e Cachorro") {
@@ -59,7 +64,8 @@ export default function FindPet({ variant }: Props) {
   }
 
   function handleSearchPetsWithCharacteristics() {
-    console.log(characteristicsForSearch);
+    setPetList(pet);
+    console.log(pet);
   }
 
   const age = [{ title: "Filhote" }, { title: "Adulto" }];

@@ -43,7 +43,7 @@ export default function SelectStateCityAndSearchButton({
   clickAction,
 }: Props) {
   const [stateSelected, setStateSelected] = useState("RO");
-  const [citySelected, setCitySelected] = useState("");
+  const [citySelected, setCitySelected] = useState("Alta Floresta D'Oeste");
   const refreshPetList = findPetStore((state) => state.refreshPetList);
 
   const { data: states, isLoading } = useQuery<State[]>({
@@ -83,9 +83,7 @@ export default function SelectStateCityAndSearchButton({
     queryKey: ["list-of-pets-with-characteristics"],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1
-
-        `
+        `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1`
       );
       return response.data;
     },
@@ -112,15 +110,20 @@ export default function SelectStateCityAndSearchButton({
       refreshPetList(petList.pets);
     }
     if (variant === "findPetPage" && citySelected) {
-      console.log(
-        `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1
-
-        `
-      );
       petListWithCharacteristicsRefetch();
-      refreshPetList(searchPetListWithCharacteristics!.pets);
+
+      if (searchPetListWithCharacteristics) {
+        refreshPetList(searchPetListWithCharacteristics!.pets);
+        console.log(searchPetListWithCharacteristics);
+      }
     }
-  }, [stateSelected, citySelected, petList]);
+  }, [
+    stateSelected,
+    citySelected,
+    petList,
+    searchPetListWithCharacteristics,
+    characteristicsForSearch,
+  ]);
 
   return (
     <Container>
