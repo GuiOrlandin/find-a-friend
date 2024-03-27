@@ -97,6 +97,14 @@ export const PetListAndNumberOfPetsFoundContainer = styled.div`
   }
 `;
 
+export const AnimalsDontFound = styled.div`
+  display: flex;
+  margin: 17rem 23rem;
+  text-align: center;
+
+  font-weight: 900;
+`;
+
 export const NumberOfPetsFoundAndCatOrDogFilterContainer = styled.div`
   display: flex;
   justify-content: space-between;

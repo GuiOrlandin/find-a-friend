@@ -10,6 +10,7 @@ import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
 import dogImage from "../../assets/dogImage.svg";
 
 import {
+  AnimalsDontFound,
   BackgroundLogo,
   FilterContainer,
   FindPetContainer,
@@ -35,7 +36,7 @@ export interface Characteristics {
 export default function FindPet({ variant }: Props) {
   const pet = findPetStore((state) => state.pet);
   const [petList, setPetList] = useState<Pet[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isEmpty, setIsEmpty] = useState<boolean>(true);
   const [characteristicsForSearch, setCharacteristicsForSearch] =
     useState<Characteristics>({
       animalSize: "PEQUENO",
@@ -88,83 +89,89 @@ export default function FindPet({ variant }: Props) {
     }
 
     if (petList.length > 0) {
-      setIsLoading(false);
+      setIsEmpty(false);
+    }
+    if (petList.length === 0) {
+      setIsEmpty(true);
     }
   }, [petList]);
 
   return (
     <FindPetContainer>
-      {isLoading ? (
-        "Carregando.."
-      ) : (
-        <>
-          <div>
-            <SelectStateCityAndSearchButtonContainer>
-              <div>
-                <img src={logoFaceIcon} alt="" />
-              </div>
+      <>
+        <div>
+          <SelectStateCityAndSearchButtonContainer>
+            <div>
+              <img src={logoFaceIcon} alt="" />
+            </div>
 
-              <SelectStateCityAndSearchButton
-                variant="findPetPage"
-                characteristicsForSearch={characteristicsForSearch}
-                clickAction={() => handleSearchPetsWithCharacteristics()}
-              />
-            </SelectStateCityAndSearchButtonContainer>
-            <FilterContainer>
-              <h1>Filtros</h1>
+            <SelectStateCityAndSearchButton
+              variant="findPetPage"
+              characteristicsForSearch={characteristicsForSearch}
+              clickAction={() => handleSearchPetsWithCharacteristics()}
+            />
+          </SelectStateCityAndSearchButtonContainer>
+          <FilterContainer>
+            <h1>Filtros</h1>
 
-              <FilterCharacteristicsSelect
-                filterName="Idade"
-                filterContent={age}
-                onCharacteristicSelect={(value) =>
-                  handleCharacteristicSelect("age", value)
-                }
-              />
-              <FilterCharacteristicsSelect
-                filterName="Nível de Energia"
-                filterContent={energyLevel}
-                onCharacteristicSelect={(value) =>
-                  handleCharacteristicSelect("energyLevel", value)
-                }
-              />
-              <FilterCharacteristicsSelect
-                filterName="Porte do animal"
-                filterContent={size}
-                onCharacteristicSelect={(value) =>
-                  handleCharacteristicSelect("animalSize", value)
-                }
-              />
-              <FilterCharacteristicsSelect
-                filterName="Nível de independência"
-                filterContent={independence}
-                onCharacteristicSelect={(value) =>
-                  handleCharacteristicSelect("levelOfIndependence", value)
-                }
-              />
-            </FilterContainer>
-          </div>
-          <PetListAndNumberOfPetsFoundContainer>
-            <NumberOfPetsFoundAndCatOrDogFilterContainer>
-              <h1>
-                Encontre <span>324 amigos</span> na sua cidade
-              </h1>
+            <FilterCharacteristicsSelect
+              filterName="Idade"
+              filterContent={age}
+              onCharacteristicSelect={(value) =>
+                handleCharacteristicSelect("age", value)
+              }
+            />
+            <FilterCharacteristicsSelect
+              filterName="Nível de Energia"
+              filterContent={energyLevel}
+              onCharacteristicSelect={(value) =>
+                handleCharacteristicSelect("energyLevel", value)
+              }
+            />
+            <FilterCharacteristicsSelect
+              filterName="Porte do animal"
+              filterContent={size}
+              onCharacteristicSelect={(value) =>
+                handleCharacteristicSelect("animalSize", value)
+              }
+            />
+            <FilterCharacteristicsSelect
+              filterName="Nível de independência"
+              filterContent={independence}
+              onCharacteristicSelect={(value) =>
+                handleCharacteristicSelect("levelOfIndependence", value)
+              }
+            />
+          </FilterContainer>
+        </div>
+        <PetListAndNumberOfPetsFoundContainer>
+          <NumberOfPetsFoundAndCatOrDogFilterContainer>
+            <h1>
+              Encontre <span>324 amigos</span> na sua cidade
+            </h1>
 
-              <select
-                defaultValue={"Gato e Cachorro"}
-                onChange={(animalType) =>
-                  handleFilterPetType(animalType.target.value)
-                }
-              >
-                {animalType.map((animal) => (
-                  <option value={animal.title} key={animal.title}>
-                    {animal.title}
-                  </option>
-                ))}
-              </select>
-            </NumberOfPetsFoundAndCatOrDogFilterContainer>
+            <select
+              defaultValue={"Gato e Cachorro"}
+              onChange={(animalType) =>
+                handleFilterPetType(animalType.target.value)
+              }
+            >
+              {animalType.map((animal) => (
+                <option value={animal.title} key={animal.title}>
+                  {animal.title}
+                </option>
+              ))}
+            </select>
+          </NumberOfPetsFoundAndCatOrDogFilterContainer>
 
-            <PetListContainer>
-              {petList!.map((pet) => (
+          <PetListContainer>
+            {isEmpty ? (
+              <AnimalsDontFound>
+                Não foram encontrados Animais com estas características ou nesta
+                cidade.
+              </AnimalsDontFound>
+            ) : (
+              petList!.map((pet) => (
                 <PetCardContainer key={pet.id}>
                   <img src={dogImage} alt="" />
                   <BackgroundLogo variant={pet.animalType}>
@@ -172,11 +179,11 @@ export default function FindPet({ variant }: Props) {
                   </BackgroundLogo>
                   <p>{pet.name}</p>
                 </PetCardContainer>
-              ))}
-            </PetListContainer>
-          </PetListAndNumberOfPetsFoundContainer>
-        </>
-      )}
+              ))
+            )}
+          </PetListContainer>
+        </PetListAndNumberOfPetsFoundContainer>
+      </>
     </FindPetContainer>
   );
 }
