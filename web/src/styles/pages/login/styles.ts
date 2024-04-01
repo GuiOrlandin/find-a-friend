@@ -7,6 +7,13 @@ export const LoginContainer = styled.div`
   padding: 0 7rem;
 `;
 
+export const ButtonsFormattedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 3.8125rem;
+  gap: 1.3125rem;
+`;
+
 export const LeftSideContainer = styled.div`
   display: flex;
   flex-direction: column;

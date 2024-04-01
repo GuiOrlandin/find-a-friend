@@ -1,4 +1,5 @@
 import {
+  ButtonsFormattedContainer,
   LeftSideContainer,
   LoginContainer,
   LogoFindAFriendContainer,
@@ -8,6 +9,7 @@ import {
 import logoFindAFriend from "../../assets/findAFriendLogo.svg";
 import animalsLogo from "../../assets/animalsLogo.svg";
 import InputFormatted from "./components/inputFormatted";
+import ButtonFormatted from "./components/buttonFormatted";
 
 export default function Login() {
   return (
@@ -23,6 +25,11 @@ export default function Login() {
 
         <InputFormatted inputTitle="Email" isPassword={false} />
         <InputFormatted inputTitle="Senha" isPassword={true} />
+
+        <ButtonsFormattedContainer>
+          <ButtonFormatted variant="login" text="Login" />
+          <ButtonFormatted variant="" text="Cadastrar minha organização" />
+        </ButtonsFormattedContainer>
       </RightSideContainer>
     </LoginContainer>
   );
