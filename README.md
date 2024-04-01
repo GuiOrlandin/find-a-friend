@@ -1,8 +1,12 @@
 # APP
 
-app para adoção de animais.
+Projeto Fullstack para adoção de animais.
 
 # 🛠 Tecnologias utilizadas
+
+React.js
+
+ReactQuery
 
 TypeScript
 

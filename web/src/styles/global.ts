@@ -6,5 +6,17 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         font-family: "Nunito", sans-serif;
+
+        button {
+            &:hover {
+               cursor: pointer;
+            }       
+        }
+        
+        select {
+            &:hover {
+               cursor: pointer;
+            }       
+        }
     }
 `;

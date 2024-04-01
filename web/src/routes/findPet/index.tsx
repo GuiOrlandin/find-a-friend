@@ -36,7 +36,7 @@ export interface Characteristics {
 export default function FindPet({ variant }: Props) {
   const pet = findPetStore((state) => state.pet);
   const [petList, setPetList] = useState<Pet[]>([]);
-  const [isEmpty, setIsEmpty] = useState<boolean>(true);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [characteristicsForSearch, setCharacteristicsForSearch] =
     useState<Characteristics>({
       animalSize: "PEQUENO",
@@ -149,7 +149,13 @@ export default function FindPet({ variant }: Props) {
         <PetListAndNumberOfPetsFoundContainer>
           <NumberOfPetsFoundAndCatOrDogFilterContainer>
             <h1>
-              Encontre <span>324 amigos</span> na sua cidade
+              Foi encontrado{" "}
+              <span>
+                {petList.length > 1
+                  ? `${petList.length} amigos `
+                  : `${petList.length} amigo`}
+              </span>{" "}
+              na sua cidade
             </h1>
 
             <select
