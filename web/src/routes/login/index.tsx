@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+import { useAuthenticateMutate } from "../../hooks/useAuthenticateMutate";
+
+import InputFormatted from "./components/inputFormatted";
+import ButtonFormatted from "./components/buttonFormatted";
+
+import animalsLogo from "../../assets/animalsLogo.svg";
+import logoFindAFriend from "../../assets/findAFriendLogo.svg";
 import {
   ButtonsFormattedContainer,
   ErrorContainer,
@@ -8,13 +16,7 @@ import {
   LogoFindAFriendContainer,
   RightSideContainer,
 } from "../../styles/pages/login/styles";
-
-import logoFindAFriend from "../../assets/findAFriendLogo.svg";
-import animalsLogo from "../../assets/animalsLogo.svg";
-import InputFormatted from "./components/inputFormatted";
-import ButtonFormatted from "./components/buttonFormatted";
-import { useAuthenticateMutate } from "../../hooks/useAuthenticateMutate";
-import { useNavigate } from "react-router-dom";
+import FindAFriendPanel from "./components/findAFriendPanel";
 
 export interface AccountDetails {
   password: string;
@@ -30,6 +32,9 @@ export default function Login() {
 
   function handleAccountAuthenticate() {
     mutate(accountDetails!);
+  }
+  function handleRegisterOrg() {
+    navigate(`/registerOrg`);
   }
 
   function handleChangeAccountDetails(value: string, inputTitle: string) {
@@ -51,12 +56,7 @@ export default function Login() {
 
   return (
     <LoginContainer>
-      <LeftSideContainer>
-        <LogoFindAFriendContainer>
-          <img src={logoFindAFriend} />
-        </LogoFindAFriendContainer>
-        <img src={animalsLogo} />
-      </LeftSideContainer>
+      <FindAFriendPanel />;
       <RightSideContainer>
         <h1>Boas-Vindas!</h1>
 
@@ -87,7 +87,11 @@ export default function Login() {
             text="Login"
             onClick={handleAccountAuthenticate}
           />
-          <ButtonFormatted variant="" text="Cadastrar minha organização" />
+          <ButtonFormatted
+            variant=""
+            text="Cadastrar minha organização"
+            onClick={handleRegisterOrg}
+          />
         </ButtonsFormattedContainer>
       </RightSideContainer>
     </LoginContainer>
