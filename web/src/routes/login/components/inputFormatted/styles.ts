@@ -20,6 +20,7 @@ export const InputContentAndTitle = styled.div`
     padding: 1.125rem;
     color: #0d3b66;
     font-weight: 700;
+    font-size: 1.125rem;
   }
 `;
 

@@ -1,6 +1,5 @@
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeOrgAuthenticateUseCase } from "@/use-cases/factories/make-org-authenticate";
-import { sign } from "crypto";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 

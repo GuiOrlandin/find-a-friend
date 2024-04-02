@@ -149,11 +149,11 @@ export default function FindPet({ variant }: Props) {
         <PetListAndNumberOfPetsFoundContainer>
           <NumberOfPetsFoundAndCatOrDogFilterContainer>
             <h1>
-              Foi encontrado{" "}
+              {petList.length > 1 ? `Foram encotrados` : `Foi encontrado `}
               <span>
                 {petList.length > 1
-                  ? `${petList.length} amigos `
-                  : `${petList.length} amigo`}
+                  ? ` ${petList.length} amigos `
+                  : ` ${petList.length} amigo`}
               </span>{" "}
               na sua cidade
             </h1>

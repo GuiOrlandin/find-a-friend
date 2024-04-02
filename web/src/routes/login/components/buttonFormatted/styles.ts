@@ -10,6 +10,7 @@ export const ButtonContainer = styled.button<ButtonFormattedProps>`
   border-radius: 20px;
   border: none;
   font-weight: 800;
+  font-size: 1.25rem;
 
   background: ${({ variant }) => (variant === "login" ? "#0D3B66" : "#F5F8FA")};
   color: ${({ variant }) => (variant === "login" ? "#FFFFFF" : "#0D3B66")};

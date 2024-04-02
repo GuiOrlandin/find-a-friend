@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface SelectStateCityAndSearchButtonProps {
-  variant: string;
+  variant?: string;
 }
 export const Container = styled.div`
   display: flex;

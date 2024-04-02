@@ -9,6 +9,7 @@ export const LoginContainer = styled.div`
 
 export const ButtonsFormattedContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   margin-top: 3.8125rem;
   gap: 1.3125rem;
@@ -41,4 +42,10 @@ export const RightSideContainer = styled.div`
 export const LogoFindAFriendContainer = styled.div`
   margin-bottom: 17.125rem;
   margin-left: 5.2rem;
+`;
+
+export const ErrorContainer = styled.div`
+  position: absolute;
+  margin-top: 0.3rem;
+  color: red;
 `;
