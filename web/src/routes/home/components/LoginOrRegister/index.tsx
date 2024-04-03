@@ -10,7 +10,7 @@ export default function LoginOrRegister() {
   return (
     <ButtonsContainer>
       <LoginButton onClick={() => handleNavigate("login")}>Entrar</LoginButton>
-      <RegisterButton onClick={() => handleNavigate("register")}>
+      <RegisterButton onClick={() => handleNavigate("registerOrg")}>
         Registrar
       </RegisterButton>
     </ButtonsContainer>

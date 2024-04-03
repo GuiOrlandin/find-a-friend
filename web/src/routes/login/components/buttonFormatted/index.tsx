@@ -1,7 +1,7 @@
 import { ButtonContainer } from "./styles";
 
 interface ButtonFormattedProps {
-  variant: string;
+  variant?: string;
   text: string;
   onClick?: () => void;
 }

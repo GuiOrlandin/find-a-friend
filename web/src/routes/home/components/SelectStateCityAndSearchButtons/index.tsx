@@ -114,7 +114,6 @@ export default function SelectStateCityAndSearchButton({
 
       if (searchPetListWithCharacteristics) {
         refreshPetList(searchPetListWithCharacteristics!.pets);
-        console.log(searchPetListWithCharacteristics);
       }
     }
   }, [

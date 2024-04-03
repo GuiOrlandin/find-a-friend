@@ -39,7 +39,6 @@ export async function petRegister(
     requirement,
     petImage,
   } = registerBodySchema.parse(request.body);
-  console.log(request.files);
 
   const petRegisterUseCase = makePetRegisterUseCase();
 

@@ -88,7 +88,6 @@ export default function Login() {
             onClick={handleAccountAuthenticate}
           />
           <ButtonFormatted
-            variant=""
             text="Cadastrar minha organização"
             onClick={handleRegisterOrg}
           />

@@ -12,7 +12,7 @@ export async function orgRegister(
     adress: z.string(),
     CEP: z.string(),
     city: z.string(),
-    phone: z.string(),
+    phone: z.string().min(9),
     role: z.enum(["ADMIN", "USER"]).default("ADMIN"),
     email: z.string().email(),
     password: z.string().min(6),

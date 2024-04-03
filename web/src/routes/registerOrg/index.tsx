@@ -3,13 +3,18 @@ import { useState, useEffect } from "react";
 import FindAFriendPanel from "../login/components/findAFriendPanel";
 
 import {
+  AlreadyRegistered,
+  ErrorMessage,
   InputsContainer,
+  RegisterAndAlreadyRegisteredButtonContainer,
   RegisterOrgContainer,
   RightSideContainer,
 } from "../../styles/pages/registerOrg/styles";
 import InputFormatted from "../login/components/inputFormatted";
 import ButtonFormatted from "../login/components/buttonFormatted";
 import ShowInMap from "./components/showInMap";
+import { useNavigate } from "react-router-dom";
+import { useOrgRegisterMutate } from "../../hooks/useOrgRegisterMutate";
 
 export interface OrgRegisterDetails {
   name: string;
@@ -17,10 +22,9 @@ export interface OrgRegisterDetails {
   CEP: string;
   city: string;
   phone: string;
-  role: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  role: "ADMIN";
 }
 
 export interface setPositions {
@@ -30,9 +34,23 @@ export interface setPositions {
 
 export default function RegisterOrg() {
   const [orgDetailsForRegister, setOrgDetailsForRegister] =
-    useState<OrgRegisterDetails>();
-  const [passwordDontMath, setPasswordDontMath] = useState(false);
+    useState<OrgRegisterDetails>({
+      name: "",
+      adress: "",
+      CEP: "",
+      city: "",
+      phone: "",
+      email: "",
+      password: "",
+      role: "ADMIN",
+    });
+  const [errorFound, setErrorFound] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneIsCorrect, setPhoneIsCorrect] = useState("");
   const [position, setPosition] = useState<setPositions>();
+  const { mutate, isError, isSuccess, error } = useOrgRegisterMutate();
+
+  const navigate = useNavigate();
 
   function handleChangeOrgDetailsForRegister(
     value: string,
@@ -42,6 +60,24 @@ export default function RegisterOrg() {
       ...orgDetailsForRegister!,
       [inputTitle]: value,
     });
+  }
+
+  function handleOrgRegister() {
+    if (orgDetailsForRegister?.password !== confirmPassword) {
+      return setErrorFound("Senhas não coincidem!");
+    }
+
+    if (orgDetailsForRegister.phone.length < 9) {
+      return setErrorFound(
+        "O número de telefone precisa ter mais de 9 dígitos."
+      );
+    }
+
+    if (orgDetailsForRegister.password.length <= 5) {
+      return setErrorFound("A senha precisa ter mais de 5 dígitos.");
+    }
+    mutate(orgDetailsForRegister!);
+    setErrorFound("");
   }
 
   useEffect(() => {
@@ -55,21 +91,11 @@ export default function RegisterOrg() {
     } else {
       console.log("Geolocation is not available in your browser.");
     }
-  }, []);
 
-  //   useEffect(() => {
-  //     if (
-  //       orgDetailsForRegister?.confirmPassword !== orgDetailsForRegister?.password
-  //     ) {
-  //       setPasswordDontMath(true);
-  //     }
-
-  //     if (
-  //       orgDetailsForRegister?.confirmPassword === orgDetailsForRegister?.password
-  //     ) {
-  //       setPasswordDontMath(false);
-  //     }
-  //   }, [orgDetailsForRegister?.password]);
+    if (isSuccess) {
+      navigate("/login");
+    }
+  }, [isSuccess]);
 
   return (
     <RegisterOrgContainer>
@@ -101,6 +127,14 @@ export default function RegisterOrg() {
             }
           />
           <InputFormatted
+            inputTitle="Cidade"
+            isPassword={false}
+            handleChangeAccountDetails={(value) =>
+              handleChangeOrgDetailsForRegister(value, "city")
+            }
+          />
+
+          <InputFormatted
             inputTitle="Endereço"
             isPassword={false}
             handleChangeAccountDetails={(value) =>
@@ -118,26 +152,38 @@ export default function RegisterOrg() {
               handleChangeOrgDetailsForRegister(value, "phone")
             }
           />
+          {}
 
           <InputFormatted
             inputTitle="Senha"
             isPassword={true}
             handleChangeAccountDetails={(value) =>
-              handleChangeOrgDetailsForRegister(value, "phone")
+              handleChangeOrgDetailsForRegister(value, "password")
             }
           />
 
           <InputFormatted
             inputTitle="Confirmar Senha"
             isPassword={true}
-            handleChangeAccountDetails={(value) =>
-              handleChangeOrgDetailsForRegister(value, "confirmPassword")
-            }
+            handleChangeAccountDetails={(value) => setConfirmPassword(value)}
           />
-          {passwordDontMath && <div>Senhas não coincidem!</div>}
+          {errorFound.length > 1 && <ErrorMessage>{errorFound}</ErrorMessage>}
+          {error?.message === "Request failed with status code 409" &&
+            errorFound.length < 1 && (
+              <ErrorMessage>Email ja em uso!</ErrorMessage>
+            )}
         </InputsContainer>
 
-        <ButtonFormatted variant="register" text="Cadastrar" />
+        <RegisterAndAlreadyRegisteredButtonContainer>
+          <ButtonFormatted
+            variant="register"
+            text="Cadastrar"
+            onClick={handleOrgRegister}
+          />
+          <AlreadyRegistered onClick={() => navigate("/login")}>
+            Já possui conta?
+          </AlreadyRegistered>
+        </RegisterAndAlreadyRegisteredButtonContainer>
       </RightSideContainer>
     </RegisterOrgContainer>
   );

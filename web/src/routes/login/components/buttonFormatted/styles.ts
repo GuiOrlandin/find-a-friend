@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface ButtonFormattedProps {
-  variant: string;
+  variant?: string;
 }
 
 export const ButtonContainer = styled.button<ButtonFormattedProps>`
@@ -12,8 +12,6 @@ export const ButtonContainer = styled.button<ButtonFormattedProps>`
   font-weight: 800;
   font-size: 1.25rem;
 
-  background: ${({ variant }) =>
-    variant === "login" || "register" ? "#0D3B66" : "#F5F8FA"};
-  color: ${({ variant }) =>
-    variant === "login" || "register" ? "#FFFFFF" : "#0D3B66"};
+  background: ${({ variant }) => (variant ? "#0D3B66" : "#F5F8FA")};
+  color: ${({ variant }) => (variant ? "#FFFFFF" : "#0D3B66")};
 `;
