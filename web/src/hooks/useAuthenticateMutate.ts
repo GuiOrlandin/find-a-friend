@@ -10,5 +10,7 @@ export function useAuthenticateMutate() {
   const mutate = useMutation({
     mutationFn: postData,
   });
+
+  console.log(mutate);
   return mutate;
 }
