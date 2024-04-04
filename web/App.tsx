@@ -8,6 +8,7 @@ import Home from "./src/routes/home";
 import FindPet from "./src/routes/findPet";
 import Login from "./src/routes/login";
 import RegisterOrg from "./src/routes/registerOrg";
+import PetRegister from "./src/routes/petRegister";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/registerOrg",
     element: <RegisterOrg />,
+  },
+  {
+    path: "/petRegister",
+    element: <PetRegister />,
   },
 ]);
 

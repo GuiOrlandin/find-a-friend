@@ -46,7 +46,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(`/`);
+      navigate(`/petRegister`);
     }
 
     if (isError) {

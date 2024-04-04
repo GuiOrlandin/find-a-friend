@@ -20,6 +20,7 @@ export async function orgInfo(request: FastifyRequest, reply: FastifyReply) {
   console.log(org);
 
   return reply.status(200).send({
-    org,
+    ...org,
+    password_hash: undefined,
   });
 }

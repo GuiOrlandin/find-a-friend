@@ -46,9 +46,8 @@ export default function RegisterOrg() {
     });
   const [errorFound, setErrorFound] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneIsCorrect, setPhoneIsCorrect] = useState("");
   const [position, setPosition] = useState<setPositions>();
-  const { mutate, isError, isSuccess, error } = useOrgRegisterMutate();
+  const { mutate, isSuccess, error } = useOrgRegisterMutate();
 
   const navigate = useNavigate();
 
