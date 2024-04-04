@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface FilterCharacteristicsProps {
+  isPetRegister?: string;
+}
+
 export const FilterContainer = styled.div`
   h2 {
     font-size: 0.75rem;
@@ -9,7 +13,7 @@ export const FilterContainer = styled.div`
   }
 `;
 
-export const SelectAgeContainer = styled.select`
+export const SelectAgeContainer = styled.select<FilterCharacteristicsProps>`
   display: flex;
   align-items: center;
   justify-content: center;

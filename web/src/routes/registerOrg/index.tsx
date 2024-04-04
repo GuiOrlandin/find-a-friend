@@ -109,6 +109,7 @@ export default function RegisterOrg() {
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "name")
             }
+            isText={true}
           />
 
           <InputFormatted
@@ -117,6 +118,7 @@ export default function RegisterOrg() {
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "email")
             }
+            isText={true}
           />
           <InputFormatted
             inputTitle="CEP"
@@ -124,6 +126,7 @@ export default function RegisterOrg() {
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "CEP")
             }
+            isText={true}
           />
           <InputFormatted
             inputTitle="Cidade"
@@ -131,6 +134,7 @@ export default function RegisterOrg() {
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "city")
             }
+            isText={true}
           />
 
           <InputFormatted
@@ -139,6 +143,7 @@ export default function RegisterOrg() {
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "adress")
             }
+            isText={true}
           />
           <div>
             <ShowInMap positionDetails={position!} />
@@ -150,8 +155,8 @@ export default function RegisterOrg() {
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "phone")
             }
+            isText={true}
           />
-          {}
 
           <InputFormatted
             inputTitle="Senha"

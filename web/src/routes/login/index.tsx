@@ -66,6 +66,7 @@ export default function Login() {
           handleChangeAccountDetails={(value) =>
             handleChangeAccountDetails(value, "email")
           }
+          isText={true}
         />
         <InputFormatted
           inputTitle="Senha"

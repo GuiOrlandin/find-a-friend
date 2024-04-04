@@ -61,3 +61,32 @@ export const LogoutButton = styled.button`
     height: 1.5rem;
   }
 `;
+
+export const FormPetRegisterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 4rem 5rem 5rem 5rem;
+`;
+
+export const TitleAndBorderBottom = styled.div`
+  width: 34rem;
+
+  h1 {
+    color: #0d3b66;
+    font-size: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #d3e2e5;
+  }
+`;
+
+export const FormAndOrgInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  gap: 1.9375rem;
+
+  background: #fdeced;
+`;
