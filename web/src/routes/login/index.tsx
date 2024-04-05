@@ -6,14 +6,10 @@ import { useAuthenticateMutate } from "../../hooks/useAuthenticateMutate";
 import InputFormatted from "./components/inputFormatted";
 import ButtonFormatted from "./components/buttonFormatted";
 
-import animalsLogo from "../../assets/animalsLogo.svg";
-import logoFindAFriend from "../../assets/findAFriendLogo.svg";
 import {
   ButtonsFormattedContainer,
   ErrorContainer,
-  LeftSideContainer,
   LoginContainer,
-  LogoFindAFriendContainer,
   RightSideContainer,
 } from "../../styles/pages/login/styles";
 import FindAFriendPanel from "./components/findAFriendPanel";
@@ -26,7 +22,7 @@ export interface AccountDetails {
 export default function Login() {
   const [accountDetails, setAccountDetails] = useState<AccountDetails>();
   const [authenticateError, setAuthenticateError] = useState(false);
-  const { mutate, isSuccess, isError } = useAuthenticateMutate();
+  const { mutate, isSuccess, isError, data } = useAuthenticateMutate();
 
   const navigate = useNavigate();
 
@@ -46,7 +42,7 @@ export default function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(`/petRegister`);
+      navigate(`/petRegister`, { state: data });
     }
 
     if (isError) {

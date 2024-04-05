@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   BackgroundLogo,
@@ -15,6 +15,9 @@ import littleLogoFace from "../../assets/littleLogoFace.svg";
 
 import { LuLogOut } from "react-icons/lu";
 import InputFormatted from "../login/components/inputFormatted";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface petRegisterDetails {
   name: string;
@@ -30,9 +33,39 @@ interface petRegisterDetails {
   requirement: string;
 }
 
+export interface OrgResponse {
+  name: string;
+  adress: string;
+  CEP: string;
+  city: string;
+  phone: string;
+  email: string;
+  password: string;
+}
+
 export default function PetRegister() {
   const [petRegisterDetails, setPetRegisterDetails] =
     useState<petRegisterDetails>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const token = location.state;
+
+  const { data: orgInfo } = useQuery<OrgResponse[]>({
+    queryKey: ["org-info"],
+    queryFn: async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      return axios
+        .get(
+          "http://localhost:3333/orgInfo?email=guiorlandin%40gmail.com",
+          config
+        )
+        .then((response) => response.data);
+    },
+  });
 
   function handleChangePetDetailsForRegister(
     value: string,
@@ -43,6 +76,12 @@ export default function PetRegister() {
       [inputTitle]: value,
     });
   }
+
+  useEffect(() => {
+    if (orgInfo === undefined) {
+      navigate("/login");
+    }
+  }, []);
   return (
     <PetRegisterContainer>
       <FormAndOrgInfoContainer>

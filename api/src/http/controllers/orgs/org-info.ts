@@ -22,5 +22,6 @@ export async function orgInfo(request: FastifyRequest, reply: FastifyReply) {
   return reply.status(200).send({
     ...org,
     password_hash: undefined,
+    role: undefined,
   });
 }
