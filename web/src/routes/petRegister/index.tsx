@@ -17,7 +17,8 @@ import { LuLogOut } from "react-icons/lu";
 import InputFormatted from "../login/components/inputFormatted";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { tokenStore } from "../../store/tokenStore";
 
 interface petRegisterDetails {
   name: string;
@@ -46,16 +47,17 @@ export interface OrgResponse {
 export default function PetRegister() {
   const [petRegisterDetails, setPetRegisterDetails] =
     useState<petRegisterDetails>();
-  const location = useLocation();
   const navigate = useNavigate();
-  const token = location.state;
+  const storeToken = localStorage.getItem("storeToken");
+  const token = tokenStore((state) => state.token);
 
   const { data: orgInfo } = useQuery<OrgResponse[]>({
     queryKey: ["org-info"],
     queryFn: async () => {
+      const authToken = token || storeToken || "";
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       };
       return axios
@@ -78,10 +80,16 @@ export default function PetRegister() {
   }
 
   useEffect(() => {
-    if (orgInfo === undefined) {
+    if (token) {
+      localStorage.setItem("storeToken", token);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (!token && !storeToken) {
       navigate("/login");
     }
-  }, []);
+  }, [token, storeToken, navigate]);
   return (
     <PetRegisterContainer>
       <FormAndOrgInfoContainer>

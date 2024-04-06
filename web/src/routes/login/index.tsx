@@ -13,6 +13,7 @@ import {
   RightSideContainer,
 } from "../../styles/pages/login/styles";
 import FindAFriendPanel from "./components/findAFriendPanel";
+import { tokenStore } from "../../store/tokenStore";
 
 export interface AccountDetails {
   password: string;
@@ -23,6 +24,7 @@ export default function Login() {
   const [accountDetails, setAccountDetails] = useState<AccountDetails>();
   const [authenticateError, setAuthenticateError] = useState(false);
   const { mutate, isSuccess, isError, data } = useAuthenticateMutate();
+  const saveToken = tokenStore((state) => state.setToken);
 
   const navigate = useNavigate();
 
@@ -42,7 +44,8 @@ export default function Login() {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate(`/petRegister`, { state: data });
+      saveToken(data);
+      navigate(`/petRegister`);
     }
 
     if (isError) {
