@@ -51,13 +51,15 @@ export const AlreadyRegistered = styled.a`
   }
 `;
 
-export const RegisterAndAlreadyRegisteredButtonContainer = styled.a`
+export const RegisterAndAlreadyRegisteredButtonContainer = styled.div`
   display: flex;
   position: relative;
   margin-top: 0.25rem;
+  background: none;
+  border: none;
   flex-direction: column;
 `;
-export const ErrorMessage = styled.a`
+export const ErrorMessage = styled.p`
   display: flex;
   color: red;
   position: absolute;

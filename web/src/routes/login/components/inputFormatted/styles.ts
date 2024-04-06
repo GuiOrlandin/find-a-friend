@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 interface InputFormattedProps {
-  variant?: boolean;
-  isAbout?: boolean;
+  variant?: string;
 }
 
 export const InputContentAndTitle = styled.div<InputFormattedProps>`
@@ -17,7 +16,8 @@ export const InputContentAndTitle = styled.div<InputFormattedProps>`
   }
 
   input {
-    width: ${({ variant }) => (variant ? "34.25rem" : "30.5rem")};
+    width: ${({ variant }) =>
+      variant === "petRegister" ? "34.25rem" : "30.5rem"};
     height: 4rem;
     background: #f5f8fa;
     border: 1px solid #d3e2e5;

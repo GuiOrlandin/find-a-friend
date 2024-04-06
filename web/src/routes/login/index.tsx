@@ -83,7 +83,7 @@ export default function Login() {
 
         <ButtonsFormattedContainer>
           <ButtonFormatted
-            variant="login"
+            variant={true}
             text="Login"
             onClick={handleAccountAuthenticate}
           />

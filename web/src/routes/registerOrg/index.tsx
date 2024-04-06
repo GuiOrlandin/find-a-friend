@@ -105,45 +105,45 @@ export default function RegisterOrg() {
 
           <InputFormatted
             inputTitle="Nome do responsável"
-            isPassword={false}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "name")
             }
-            isText={true}
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
           />
 
           <InputFormatted
             inputTitle="Email"
-            isPassword={false}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "email")
             }
-            isText={true}
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
           />
           <InputFormatted
             inputTitle="CEP"
-            isPassword={false}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "CEP")
             }
-            isText={true}
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
           />
           <InputFormatted
             inputTitle="Cidade"
-            isPassword={false}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "city")
             }
-            isText={true}
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
           />
 
           <InputFormatted
             inputTitle="Endereço"
-            isPassword={false}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "adress")
             }
-            isText={true}
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
           />
           <div>
             <ShowInMap positionDetails={position!} />
@@ -151,25 +151,27 @@ export default function RegisterOrg() {
 
           <InputFormatted
             inputTitle="Whatsapp"
-            isPassword={false}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "phone")
             }
-            isText={true}
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
           />
 
           <InputFormatted
             inputTitle="Senha"
-            isPassword={true}
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "password")
             }
+            inputActive="password"
+            pageWithTheComponent="orgRegister"
           />
 
           <InputFormatted
             inputTitle="Confirmar Senha"
-            isPassword={true}
             handleChangeAccountDetails={(value) => setConfirmPassword(value)}
+            inputActive="password"
+            pageWithTheComponent="orgRegister"
           />
           {errorFound.length > 1 && <ErrorMessage>{errorFound}</ErrorMessage>}
           {error?.message === "Request failed with status code 409" &&

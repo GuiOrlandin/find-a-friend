@@ -21,10 +21,6 @@ import {
   SelectStateCityAndSearchButtonContainer,
 } from "../../styles/pages/findPet/styles";
 
-interface Props {
-  variant: string;
-}
-
 export interface Characteristics {
   animalSize: string;
   energyLevel: string;
@@ -33,7 +29,7 @@ export interface Characteristics {
   levelOfIndependence: string;
 }
 
-export default function FindPet({ variant }: Props) {
+export default function FindPet() {
   const pet = findPetStore((state) => state.pet);
   const [petList, setPetList] = useState<Pet[]>([]);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);

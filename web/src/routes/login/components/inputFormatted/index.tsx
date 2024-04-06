@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 
 import { FiEyeOff } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa6";
@@ -11,24 +11,28 @@ import {
 
 interface Props {
   inputTitle: string;
-  isPassword: boolean;
   handleChangeAccountDetails: (event: string) => void;
-  isPetRegister?: boolean;
-  isAbout?: boolean;
-  isText?: boolean;
+  pageWithTheComponent: string;
+  inputActive: string;
+}
+
+interface IsActiveProps {
+  about: boolean;
+  text: boolean;
+  password: boolean;
 }
 
 export default function InputFormatted({
   inputTitle,
-  isPassword,
   handleChangeAccountDetails,
-  isPetRegister,
-  isAbout,
-  isText,
+  pageWithTheComponent,
+  inputActive,
 }: Props) {
   const [showPassword, setShowPassword] = useState(true);
   const [inputType, setInputType] = useState("password");
   const [textAreaValue, setTextAreaValue] = useState("");
+  const [pageActive, setPageActive] = useState("");
+  const [isActive, setIsActive] = useState<IsActiveProps>();
 
   function handleHidePassword() {
     setShowPassword(!showPassword);
@@ -53,9 +57,39 @@ export default function InputFormatted({
     handleChangeAccountDetails(value);
   }
 
+  useEffect(() => {
+    if (inputActive === "text") {
+      setIsActive({
+        text: true,
+        about: false,
+        password: false,
+      });
+    }
+
+    if (inputActive === "about") {
+      setIsActive({
+        text: false,
+        about: true,
+        password: false,
+      });
+    }
+
+    if (inputActive === "password") {
+      setIsActive({
+        text: false,
+        about: false,
+        password: true,
+      });
+    }
+
+    if (pageWithTheComponent) {
+      setPageActive(pageWithTheComponent);
+    }
+  }, [inputActive, pageWithTheComponent]);
+
   return (
     <>
-      {isPassword && (
+      {isActive?.password && (
         <InputContainer>
           <InputContentAndTitle>
             <span>{inputTitle}</span>
@@ -71,8 +105,8 @@ export default function InputFormatted({
         </InputContainer>
       )}
 
-      {isAbout && (
-        <InputContentAndTitle variant={isPetRegister!}>
+      {isActive?.about && (
+        <InputContentAndTitle variant={pageActive}>
           <TitleAndMaximumCharactersContainer>
             <span>{inputTitle}</span>
             <p>Máximo de 300 catacteres</p>
@@ -87,8 +121,8 @@ export default function InputFormatted({
         </InputContentAndTitle>
       )}
 
-      {isText && (
-        <InputContentAndTitle variant={isPetRegister!}>
+      {isActive?.text && (
+        <InputContentAndTitle variant={pageActive}>
           <span>{inputTitle}</span>
           <input onChange={handleChange}></input>
         </InputContentAndTitle>

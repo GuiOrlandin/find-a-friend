@@ -113,22 +113,20 @@ export default function PetRegister() {
 
           <InputFormatted
             inputTitle="Nome"
-            isPassword={false}
-            isPetRegister={true}
+            pageWithTheComponent="petRegister"
             handleChangeAccountDetails={(value) =>
               handleChangePetDetailsForRegister(value, "nome")
             }
-            isText={true}
+            inputActive="text"
           />
 
           <InputFormatted
             inputTitle="Sobre"
-            isPassword={false}
-            isPetRegister={true}
+            pageWithTheComponent="petRegister"
             handleChangeAccountDetails={(value) =>
               handleChangePetDetailsForRegister(value, "nome")
             }
-            isAbout={true}
+            inputActive="about"
           />
         </FormPetRegisterContainer>
       </FormAndOrgInfoContainer>
