@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const PetRegisterContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background: #fdeced;
+  height: 100%;
 `;
 
 export const OrgInformationContainer = styled.div`
@@ -12,7 +14,7 @@ export const OrgInformationContainer = styled.div`
   background: #0d3b66;
   border-radius: 20px;
   align-items: center;
-  padding-left: 4.5rem;
+  padding: 1.75rem 4rem 1.75rem 4rem;
   gap: 1rem;
 
   h1 {
@@ -64,6 +66,7 @@ export const LogoutButton = styled.button`
 
 export const FormPetRegisterContainer = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   background: #ffffff;
   border-radius: 20px;
@@ -85,8 +88,112 @@ export const FormAndOrgInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   gap: 1.9375rem;
+`;
 
-  background: #fdeced;
+export const SelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  span {
+    color: #0d3b66;
+    font-weight: 700;
+  }
+
+  select {
+    width: 34.25rem;
+    height: 4rem;
+    background: #f5f8fa;
+    border: 1px solid #d3e2e5;
+    border-radius: 10px;
+    padding: 1.125rem;
+    color: #0d3b66;
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+`;
+
+export const UploadImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0d3b66;
+  border-radius: 10px;
+  background: #f5f8fa;
+  text-align: center;
+  height: 9.5rem;
+
+  &:hover {
+    background: #d3e2e5;
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 1.125rem;
+  }
+
+  input {
+    display: none;
+  }
+`;
+
+export const UploadImageAndTitleContainer = styled.div`
+  span {
+    display: flex;
+    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
+    color: #0d3b66;
+    font-weight: 700;
+  }
+`;
+
+export const UploadImageAndTitleContainerOnHover = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #0d3b66;
+  border-radius: 10px;
+  background: #d3e2e5;
+  text-align: center;
+  height: 9.5rem;
+
+  p {
+    font-size: 1.125rem;
+  }
+
+  input {
+    display: none;
+  }
+`;
+
+export const ImageNameContainer = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 0.8125rem;
+  height: 3.125rem;
+  border: 1px solid #d3e2e5;
+  border-radius: 10px;
+  color: #0d3b66;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  left: 31rem;
+  background: none;
+  border: none;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 `;
