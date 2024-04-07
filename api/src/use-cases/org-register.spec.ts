@@ -22,6 +22,7 @@ describe("Register Use Case ", () => {
       password: "123456",
       phone: "43984862237",
       role: "ADMIN",
+      state: "SP",
     });
 
     expect(org.id).toEqual(expect.any(String));
@@ -37,6 +38,7 @@ describe("Register Use Case ", () => {
       password: "123456",
       phone: "43984862237",
       role: "ADMIN",
+      state: "SP",
     });
 
     const isPasswordCorrectlyHashed = await compare(
@@ -57,6 +59,7 @@ describe("Register Use Case ", () => {
       password: "123456",
       phone: "43984862237",
       role: "ADMIN",
+      state: "SP",
     });
 
     await expect(() =>
@@ -68,6 +71,7 @@ describe("Register Use Case ", () => {
         name: "Guilherme",
         password: "123456",
         phone: "43984862237",
+        state: "SP",
         role: "ADMIN",
       })
     ).rejects.toBeInstanceOf(OrgAlreadyExistsError);

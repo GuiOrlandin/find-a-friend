@@ -25,6 +25,7 @@ export default function Login() {
   const [authenticateError, setAuthenticateError] = useState(false);
   const { mutate, isSuccess, isError, data } = useAuthenticateMutate();
   const saveToken = tokenStore((state) => state.setToken);
+  const storeToken = localStorage.getItem("storeToken");
 
   const navigate = useNavigate();
 
@@ -53,6 +54,12 @@ export default function Login() {
     }
   }, [isSuccess, isError]);
 
+  useEffect(() => {
+    if (storeToken) {
+      navigate(`/petRegister`);
+    }
+  }, [storeToken]);
+
   return (
     <LoginContainer>
       <FindAFriendPanel />;
@@ -61,18 +68,19 @@ export default function Login() {
 
         <InputFormatted
           inputTitle="Email"
-          isPassword={false}
+          inputActive="text"
           handleChangeAccountDetails={(value) =>
             handleChangeAccountDetails(value, "email")
           }
-          isText={true}
+          pageWithTheComponent="login"
         />
         <InputFormatted
           inputTitle="Senha"
-          isPassword={true}
+          inputActive="password"
           handleChangeAccountDetails={(value) =>
             handleChangeAccountDetails(value, "password")
           }
+          pageWithTheComponent="login"
         />
 
         {authenticateError ? (
@@ -83,7 +91,7 @@ export default function Login() {
 
         <ButtonsFormattedContainer>
           <ButtonFormatted
-            variant={true}
+            variant="true"
             text="Login"
             onClick={handleAccountAuthenticate}
           />

@@ -12,6 +12,7 @@ interface OrgRegisterUseCaseRequest {
   phone: string;
   CEP: string;
   role: Role;
+  state: string;
 }
 
 interface OrgRegisterUseCaseResponse {
@@ -30,6 +31,7 @@ export class OrgRegisterUseCase {
     phone,
     CEP,
     role,
+    state,
   }: OrgRegisterUseCaseRequest): Promise<OrgRegisterUseCaseResponse> {
     const password_hash = await hash(password, 6);
 
@@ -47,6 +49,7 @@ export class OrgRegisterUseCase {
       phone,
       CEP,
       role,
+      state
     });
 
     return {

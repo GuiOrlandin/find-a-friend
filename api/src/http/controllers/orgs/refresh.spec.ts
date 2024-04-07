@@ -20,6 +20,7 @@ describe("refresh token (e2e)", () => {
       name: "Guilherme",
       password: "123456",
       phone: "168849405",
+      state: "SP",
     });
 
     const authResponse = await request(app.server).post("/authenticate").send({

@@ -20,6 +20,5 @@ export function useAuthenticateMutate() {
     mutationFn: postData,
   });
 
-  console.log(mutate);
   return mutate;
 }

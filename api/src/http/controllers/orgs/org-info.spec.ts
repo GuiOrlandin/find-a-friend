@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { app } from "../../../app";
+import { createAndAuthenticateOrganization } from "@/utils/tests/create-and-authenticate-organizations";
 
 describe("Org info (e2e)", () => {
   beforeAll(async () => {
@@ -12,26 +13,17 @@ describe("Org info (e2e)", () => {
   });
 
   it("should be able to show org information", async () => {
-    await request(app.server).post("/orgs").send({
-      adress: "Rua do meio",
-      CEP: "182024000",
-      city: "americo",
-      email: "test@gmail.com",
-      name: "Guilherme",
-      password: "123456",
-      phone: "168849405",
-    });
+    const { token } = await createAndAuthenticateOrganization(app);
 
     const response = await request(app.server)
       .get("/orgInfo")
+      .set("Authorization", `Bearer ${token}`)
       .query({
         email: "test@gmail.com",
       })
       .send();
 
-    console.log(response.body.org);
-
     expect(response.statusCode).toEqual(200);
-    expect(response.body.org.email).toEqual("test@gmail.com");
+    expect(response.body.email).toEqual("test@gmail.com");
   });
 });

@@ -12,13 +12,14 @@ export async function orgRegister(
     adress: z.string(),
     CEP: z.string(),
     city: z.string(),
+    state: z.string().max(2),
     phone: z.string().min(9),
     role: z.enum(["ADMIN", "USER"]).default("ADMIN"),
     email: z.string().email(),
     password: z.string().min(6),
   });
 
-  const { email, name, password, adress, CEP, city, phone, role } =
+  const { email, name, password, adress, CEP, city, phone, role, state } =
     registerBodySchema.parse(request.body);
 
   try {
@@ -33,6 +34,7 @@ export async function orgRegister(
       password,
       phone,
       role,
+      state,
     });
   } catch (err) {
     if (err instanceof OrgAlreadyExistsError) {

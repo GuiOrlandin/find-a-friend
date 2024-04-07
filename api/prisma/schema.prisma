@@ -14,6 +14,7 @@ model Org {
     password_hash String
     adress        String
     city          String
+    state         String
     name          String
     CEP           String
     phone         String   @unique

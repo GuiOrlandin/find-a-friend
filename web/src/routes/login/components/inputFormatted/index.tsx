@@ -11,7 +11,7 @@ import {
 
 interface Props {
   inputTitle: string;
-  handleChangeAccountDetails: (event: string) => void;
+  handleChangeAccountDetails?: (event: string) => void;
   pageWithTheComponent: string;
   inputActive: string;
 }
@@ -54,7 +54,7 @@ export default function InputFormatted({
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
   ) {
     const { value } = event.target;
-    handleChangeAccountDetails(value);
+    handleChangeAccountDetails!(value);
   }
 
   useEffect(() => {

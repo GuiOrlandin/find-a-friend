@@ -13,13 +13,14 @@ describe("Org Register (e2e)", () => {
 
   it("should be able to register a org", async () => {
     const response = await request(app.server).post("/orgs").send({
-        adress: "Rua do meio",
-        CEP: "182024000",
-        city: "americo",
-        email: "test@gmail.com",
-        name: "Guilherme",
-        password: "123456",
-        phone: "168849405"
+      adress: "Rua do meio",
+      CEP: "182024000",
+      city: "americo",
+      email: "test@gmail.com",
+      name: "Guilherme",
+      password: "123456",
+      phone: "168849405",
+      state: "SP",
     });
 
     expect(response.statusCode).toEqual(201);

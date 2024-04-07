@@ -24,6 +24,7 @@ describe("Find Pet by city Use Case ", () => {
       password_hash: "123456",
       phone: "43984862237",
       role: "ADMIN",
+      state: "SP",
     });
 
     petsRepository.register({
@@ -38,6 +39,7 @@ describe("Find Pet by city Use Case ", () => {
       requirement:
         "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
       org_id: org.id,
+      animalType: "Cachorro",
     });
 
     petsRepository.register({
@@ -52,6 +54,7 @@ describe("Find Pet by city Use Case ", () => {
       requirement:
         "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
       org_id: org.id,
+      animalType: "Cachorro",
     });
 
     const response = await sut.execute({

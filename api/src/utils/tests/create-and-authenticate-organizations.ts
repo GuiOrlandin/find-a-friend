@@ -14,6 +14,7 @@ export async function createAndAuthenticateOrganization(app: FastifyInstance) {
       name: "Guilherme",
       password_hash: await hash("123456", 6),
       phone: "168849405",
+      state: "SP",
     },
   });
 

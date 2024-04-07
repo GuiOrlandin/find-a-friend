@@ -2,20 +2,47 @@ import styled from "styled-components";
 
 export const PetRegisterContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 19.875rem;
   background: #fdeced;
   height: 100%;
+`;
+export const SideBarContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 43rem;
+  align-items: center;
+  padding: 2rem;
+  width: 6rem;
+  height: 51.25rem;
+  background: #f15156;
+`;
+export const ButtonBackPage = styled.button`
+  display: flex;
+  padding: 0.75rem;
+  background: #f4d35e;
+  border-radius: 15px;
+  border: none;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 `;
 
 export const OrgInformationContainer = styled.div`
   display: flex;
   width: 44.25rem;
+  margin-top: 2rem;
   height: 7.5625rem;
   background: #0d3b66;
   border-radius: 20px;
   align-items: center;
   padding: 1.75rem 4rem 1.75rem 4rem;
   gap: 1rem;
+
+  svg {
+    position: relative;
+  }
 
   h1 {
     color: #ffffff;
@@ -48,6 +75,9 @@ export const BackgroundLogo = styled.div`
 
 export const LogoutButton = styled.button`
   display: flex;
+  position: absolute;
+  margin-left: 32rem;
+
   align-items: center;
   justify-content: center;
   width: 4rem;
@@ -55,8 +85,6 @@ export const LogoutButton = styled.button`
   border: none;
   border-radius: 15px;
   background: #114a80;
-
-  margin-left: 6rem;
 
   svg {
     width: 1.5rem;
@@ -101,6 +129,8 @@ export const SelectContainer = styled.div`
   span {
     color: #0d3b66;
     font-weight: 700;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 
   select {
@@ -169,11 +199,11 @@ export const UploadImageAndTitleContainerOnHover = styled.div`
   }
 `;
 
-export const ImageNameContainer = styled.div`
+export const ImageNameUploadedContainer = styled.div`
   display: flex;
   position: relative;
   align-items: center;
-  padding: 0.8125rem;
+  padding: 1rem;
   height: 3.125rem;
   border: 1px solid #d3e2e5;
   border-radius: 10px;
@@ -189,11 +219,48 @@ export const ImageNameContainer = styled.div`
 
 export const CloseButton = styled.button`
   position: absolute;
-  left: 31rem;
+  left: 31.3rem;
   background: none;
   border: none;
   svg {
     width: 20px;
     height: 20px;
+  }
+`;
+export const AddRequirement = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.75rem;
+  background: #fdeced;
+  border-radius: 10px;
+  border: 2px dashed #e44449;
+
+  width: 34.25rem;
+  height: 4rem;
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+export const AnimalRequirementContainer = styled.div`
+  margin-top: 4.375rem;
+`;
+
+export const RequirementUploadedContainer = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 1rem;
+  height: 3.125rem;
+  border: 1px solid #d3e2e5;
+  border-radius: 10px;
+  color: #0d3b66;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  svg {
+    width: 24px;
+    height: 24px;
   }
 `;

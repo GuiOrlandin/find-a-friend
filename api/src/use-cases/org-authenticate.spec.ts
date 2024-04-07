@@ -21,6 +21,7 @@ describe("OrgAuthenticate Use Case ", () => {
       name: "Guilherme",
       password_hash: await hash("123456", 6),
       phone: "43984862237",
+      state: "SP",
     });
 
     const { org } = await sut.execute({

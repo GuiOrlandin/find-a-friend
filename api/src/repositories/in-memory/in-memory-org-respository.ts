@@ -36,6 +36,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
       CEP: data.CEP,
       created_at: new Date(),
       role: data.role!,
+      state: data.state,
     };
 
     this.items.push(org);
