@@ -29,14 +29,14 @@ model Pet {
     created_at DateTime @default(now())
     city      String
     name      String
-    description String[]
+    description String
     age Age
     energyLevel String
     animalSize Size
     levelOfIndependence Independence
     enviroment Size
     animalType AnimalType 
-    requirement String
+    requirement String[]
     PetImage           PetImage[]
     org       Org      @relation(fields: [org_id], references: [id])
     org_id String
@@ -47,7 +47,7 @@ model Pet {
 
 model PetImage {
   id         String   @id @default(uuid())
-  url        String
+  path        String
   created_at DateTime @default(now())
   pet        Pet      @relation(fields: [pet_id], references: [id])
   pet_id     String

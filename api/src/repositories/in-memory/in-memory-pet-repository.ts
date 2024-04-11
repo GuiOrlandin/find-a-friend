@@ -40,7 +40,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       id: randomUUID(),
       name: data.name,
       city: data.city,
-      description: data.description as string[],
+      description: data.description as string,
       created_at: new Date(),
       energyLevel: data.energyLevel,
       animalSize: data.animalSize,
@@ -48,7 +48,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       age: data.age,
       enviroment: data.enviroment,
       org_id: data.org_id,
-      requirement: data.requirement,
+      requirement: data.requirement as string[],
       animalType: data.animalType,
     };
 

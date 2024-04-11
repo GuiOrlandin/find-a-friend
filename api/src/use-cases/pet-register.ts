@@ -13,14 +13,14 @@ import { OrgDoesNotExistError } from "./errors/org-does-not-exist";
 interface PetRegisterUseCaseRequest {
   name: string;
   city: string;
-  description: string[];
+  description: string;
   age: Age;
   energyLevel: string;
   animalSize: Size;
   levelOfIndependence: Independence;
   enviroment: Size;
   animalType: AnimalType;
-  requirement: string;
+  requirement: string[];
   org_id: string;
   petImage?: Array<Prisma.PetImageUncheckedCreateWithoutPetInput>;
 }

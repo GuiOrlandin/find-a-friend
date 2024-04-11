@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { useDropzone } from "react-dropzone";
 
@@ -15,6 +15,7 @@ import {
   OrgInformationContainer,
   OrgNameAndAddressContainer,
   PetRegisterContainer,
+  RegisterPetButton,
   RequirementUploadedContainer,
   SelectContainer,
   SideBarContainer,
@@ -40,8 +41,9 @@ import { FaPlus } from "react-icons/fa6";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 import { v4 as uuidv4 } from "uuid";
+import { usePetRegisterMutate } from "../../hooks/petRegisterMutate";
 
-interface petRegisterDetails {
+export interface petRegisterDetails {
   name: string;
   city: string;
   description: string;
@@ -51,8 +53,8 @@ interface petRegisterDetails {
   animalType: string;
   levelOfIndependence: string;
   enviroment: string;
-  petImage: string;
-  requirement: string;
+  petImage: File[];
+  requirement: string[];
 }
 
 export interface OrgResponse {
@@ -70,8 +72,11 @@ export default function PetRegister() {
   const [petRegisterDetails, setPetRegisterDetails] =
     useState<petRegisterDetails>();
   const [tokenActive, setTokenActive] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [requirements, setRequirements] = useState<string[]>([]);
+  const [inputRequirementsValue, setInputRequirementsValue] = useState("");
+  const { mutate } = usePetRegisterMutate();
 
   const navigate = useNavigate();
   const storeToken = localStorage.getItem("storeToken");
@@ -88,16 +93,12 @@ export default function PetRegister() {
     { title: "Alto" },
   ];
 
-  const animalType = [
-    { title: "Gato" },
-    { title: "Cachorro" },
-    { title: "Gato e Cachorro" },
-  ];
+  const animalType = [{ title: "Gato" }, { title: "Cachorro" }];
 
   const {
     data: orgInfo,
     refetch,
-    isLoading,
+    error,
   } = useQuery<OrgResponse>({
     queryKey: ["org-info"],
     queryFn: async () => {
@@ -107,17 +108,20 @@ export default function PetRegister() {
           Authorization: `Bearer ${authToken}`,
         },
       };
-      return axios
-        .get(
-          "http://localhost:3333/orgInfo?email=guizinmir24%40gmail.com",
-          config
-        )
-        .then((response) => response.data);
+
+      if (authToken) {
+        return axios
+          .get(
+            "http://localhost:3333/orgInfo?email=guizinmir24%40gmail.com",
+            config
+          )
+          .then((response) => response.data);
+      }
     },
   });
 
   function handleChangePetDetailsForRegister(
-    value: string,
+    value: string | string[],
     inputTitle: string
   ) {
     setPetRegisterDetails({
@@ -125,6 +129,7 @@ export default function PetRegister() {
       [inputTitle]: value,
     });
   }
+
   function handleRemoveUploadedFile(fileUploaded: File) {
     const index = images?.indexOf(fileUploaded);
 
@@ -138,19 +143,16 @@ export default function PetRegister() {
   }
 
   function handleRemoveUploadedText(fileUploaded: string) {
-    const index = requirements?.indexOf(fileUploaded);
+    const index = requirements.indexOf(fileUploaded);
 
     if (index !== -1) {
       const textFiltered = [
         ...requirements.slice(0, index),
-        ...requirements.slice(index + 1),
+        ...requirements.slice(index! + 1),
       ];
+
       setRequirements(textFiltered);
     }
-  }
-
-  function handleAddRequirement(requirement: string) {
-    setRequirements((prevRequirement) => [...prevRequirement, requirement]);
   }
 
   function onDrop(image: File[]) {
@@ -170,23 +172,45 @@ export default function PetRegister() {
     },
   });
 
+  function handlePetRegister() {
+    if (petRegisterDetails) {
+      mutate(petRegisterDetails);
+    }
+  }
+
   useEffect(() => {
     if (token) {
       localStorage.setItem("storeToken", token);
-      console.log(storeToken);
     }
-    console.log(storeToken);
 
     if (!token && !storeToken && tokenActive === false) {
       navigate("/login");
     }
-  }, [token, storeToken, tokenActive]);
+
+    if (error?.message === "Request failed with status code 401") {
+      localStorage.removeItem("storeToken");
+      navigate("/login");
+    }
+  }, [token, storeToken, tokenActive, error]);
 
   useEffect(() => {
     if (orgInfo === undefined) {
       refetch();
+    } else {
+      setIsLoading(false);
     }
   }, [orgInfo]);
+
+  useEffect(() => {
+    if (orgInfo !== undefined) {
+      setPetRegisterDetails({
+        ...petRegisterDetails!,
+        city: orgInfo.city,
+        requirement: requirements,
+        petImage: images,
+      });
+    }
+  }, [requirements, images]);
 
   return (
     <>
@@ -225,7 +249,7 @@ export default function PetRegister() {
                 inputTitle="Nome"
                 pageWithTheComponent="petRegister"
                 handleChangeAccountDetails={(value) =>
-                  handleChangePetDetailsForRegister(value, "nome")
+                  handleChangePetDetailsForRegister(value, "name")
                 }
                 inputActive="text"
               />
@@ -234,13 +258,20 @@ export default function PetRegister() {
                 inputTitle="Sobre"
                 pageWithTheComponent="petRegister"
                 handleChangeAccountDetails={(value) =>
-                  handleChangePetDetailsForRegister(value, "nome")
+                  handleChangePetDetailsForRegister(value, "description")
                 }
                 inputActive="about"
               />
               <SelectContainer>
                 <span>Idade</span>
-                <select>
+                <select
+                  onChange={(age) =>
+                    handleChangePetDetailsForRegister(
+                      age.target.value.toUpperCase(),
+                      "age"
+                    )
+                  }
+                >
                   {age.map((age) => (
                     <option key={age.title}>{age.title}</option>
                   ))}
@@ -248,7 +279,17 @@ export default function PetRegister() {
               </SelectContainer>
               <SelectContainer>
                 <span>Porte</span>
-                <select>
+                <select
+                  onChange={(animalSize) =>
+                    handleChangePetDetailsForRegister(
+                      animalSize.target.value
+                        .normalize("NFD")
+                        .replace(/[^a-zA-Z\s]/g, "")
+                        .toUpperCase(),
+                      "animalSize"
+                    )
+                  }
+                >
                   {size.map((size) => (
                     <option key={size.title}>{size.title}</option>
                   ))}
@@ -256,7 +297,14 @@ export default function PetRegister() {
               </SelectContainer>
               <SelectContainer>
                 <span>Nível de energia</span>
-                <select>
+                <select
+                  onChange={(energyLevel) =>
+                    handleChangePetDetailsForRegister(
+                      energyLevel.target.value.toUpperCase(),
+                      "energyLevel"
+                    )
+                  }
+                >
                   {energyLevel.map((energyLevel) => (
                     <option key={energyLevel.title}>{energyLevel.title}</option>
                   ))}
@@ -264,7 +312,17 @@ export default function PetRegister() {
               </SelectContainer>
               <SelectContainer>
                 <span>Nível de independência</span>
-                <select>
+                <select
+                  onChange={(levelOfIndependence) =>
+                    handleChangePetDetailsForRegister(
+                      levelOfIndependence.target.value
+                        .normalize("NFD")
+                        .replace(/[^a-zA-Z\s]/g, "")
+                        .toUpperCase(),
+                      "levelOfIndependence"
+                    )
+                  }
+                >
                   {independence.map((independence) => (
                     <option key={independence.title}>
                       {independence.title}
@@ -274,7 +332,17 @@ export default function PetRegister() {
               </SelectContainer>
               <SelectContainer>
                 <span>Ambiente</span>
-                <select>
+                <select
+                  onChange={(enviroment) =>
+                    handleChangePetDetailsForRegister(
+                      enviroment.target.value
+                        .normalize("NFD")
+                        .replace(/[^a-zA-Z\s]/g, "")
+                        .toUpperCase(),
+                      "enviroment"
+                    )
+                  }
+                >
                   {size.map((size) => (
                     <option key={size.title}>{size.title}</option>
                   ))}
@@ -282,7 +350,14 @@ export default function PetRegister() {
               </SelectContainer>
               <SelectContainer>
                 <span>Tipo do Animal</span>
-                <select>
+                <select
+                  onChange={(animalType) =>
+                    handleChangePetDetailsForRegister(
+                      animalType.target.value,
+                      "animalType"
+                    )
+                  }
+                >
                   {animalType.map((animalType) => (
                     <option key={animalType.title}>{animalType.title}</option>
                   ))}
@@ -328,9 +403,9 @@ export default function PetRegister() {
                   inputActive="text"
                   pageWithTheComponent="petRegister"
                   inputTitle="Requisito"
-                  handleChangeAccountDetails={(value) =>
-                    handleChangePetDetailsForRegister(value, "requirement")
-                  }
+                  handleChangeAccountDetails={(value) => {
+                    setInputRequirementsValue(value);
+                  }}
                 />
                 {requirements.map((requirement) => (
                   <RequirementUploadedContainer key={`${uuidv4()}`}>
@@ -345,12 +420,18 @@ export default function PetRegister() {
 
                 <AddRequirement
                   onClick={() =>
-                    handleAddRequirement(petRegisterDetails!.requirement)
+                    setRequirements((prevValue) => [
+                      ...prevValue,
+                      inputRequirementsValue,
+                    ])
                   }
                 >
                   <FaPlus color="#E44449" />
                 </AddRequirement>
               </AnimalRequirementContainer>
+              <RegisterPetButton onClick={() => handlePetRegister()}>
+                Confirmar
+              </RegisterPetButton>
             </FormPetRegisterContainer>
           </FormAndOrgInfoContainer>
         </PetRegisterContainer>

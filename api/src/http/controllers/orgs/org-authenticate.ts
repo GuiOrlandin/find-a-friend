@@ -29,6 +29,7 @@ export async function orgAuthenticate(
       {
         sign: {
           sub: org.id,
+          expiresIn: "1d",
         },
       }
     );

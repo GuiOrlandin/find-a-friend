@@ -8,14 +8,14 @@ export async function petRegister(
 ) {
   const PetImage = z.array(
     z.object({
-      url: z.string(),
+      path: z.string(),
     })
   );
 
   const registerBodySchema = z.object({
     name: z.string(),
     city: z.string(),
-    description: z.string().array(),
+    description: z.string(),
     age: z.enum(["FILHOTE", "ADULTO"]),
     energyLevel: z.string(),
     animalSize: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
@@ -23,7 +23,7 @@ export async function petRegister(
     levelOfIndependence: z.enum(["BAIXO", "MEDIO", "ALTO"]),
     enviroment: z.enum(["PEQUENO", "MEDIO", "GRANDE"]),
     petImage: PetImage,
-    requirement: z.string(),
+    requirement: z.string().array(),
   });
 
   const {

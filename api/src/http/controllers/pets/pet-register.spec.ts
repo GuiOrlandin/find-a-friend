@@ -21,16 +21,18 @@ describe("Pet Register (e2e)", () => {
       .send({
         name: "Jule",
         city: "Aco",
-        description: [" Cachorro de porte grande e dócio"],
+        description: " Cachorro de porte grande e dócio",
         age: "ADULTO",
         energyLevel: "03",
         animalSize: "GRANDE",
         levelOfIndependence: "BAIXO",
         enviroment: "GRANDE",
         animalType: "Gato",
-        requirement:
+        requirement: [
           "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
-        petImage: [{ url: "url_da_imagem_1" }, { url: "url_da_imagem_2" }],
+          "Dar bastante atenção para o animal",
+        ],
+        petImage: [{ path: "url_da_imagem_1" }, { path: "url_da_imagem_2" }],
       });
 
     expect(response.statusCode).toEqual(201);

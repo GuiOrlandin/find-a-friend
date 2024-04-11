@@ -15,22 +15,23 @@ describe("Find a pet (e2e)", () => {
   it("should be able to find a pet", async () => {
     const { token } = await createAndAuthenticateOrganization(app);
 
-    await request(app.server)
+    const test = await request(app.server)
       .post(`/pets`)
       .set("Authorization", `Bearer ${token}`)
       .send({
         name: "Jule",
         city: "Americo",
-        description: [" Cachorro de porte grande e dócio"],
+        description: " Cachorro de porte grande e dócio",
         age: "ADULTO",
         energyLevel: "03",
         animalSize: "GRANDE",
         levelOfIndependence: "BAIXO",
         enviroment: "GRANDE",
         animalType: "Gato",
-        requirement:
+        requirement: [
           "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
-        petImage: [{ url: "url_da_imagem_1" }, { url: "url_da_imagem_2" }],
+        ],
+        petImage: [{ path: "url_da_imagem_1" }, { path: "url_da_imagem_2" }],
       });
 
     const response = await request(app.server)

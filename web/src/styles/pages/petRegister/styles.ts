@@ -264,3 +264,19 @@ export const RequirementUploadedContainer = styled.div`
     height: 24px;
   }
 `;
+
+export const RegisterPetButton = styled.button`
+  display: flex;
+  width: 34.25rem;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: none;
+  padding: 0.75rem;
+  margin-top: 7.375rem;
+  background: #f4d35e;
+  color: #0d3b66;
+  font-size: 1.125rem;
+  font-weight: bold;
+`;

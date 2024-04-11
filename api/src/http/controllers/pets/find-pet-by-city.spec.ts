@@ -21,16 +21,17 @@ describe("Find a pet by city (e2e)", () => {
       .send({
         name: "Jule",
         city: "Americo",
-        description: [" Cachorro de porte grande e dócio"],
+        description: " Cachorro de porte grande e dócio",
         age: "ADULTO",
         energyLevel: "03",
         animalSize: "GRANDE",
         levelOfIndependence: "BAIXO",
         enviroment: "GRANDE",
         animalType: "Gato",
-        requirement:
+        requirement: [
           "Dar bastante atenção para o animal e não deixa-lo muito tempo sozinho",
-        petImage: [{ url: "url_da_imagem_1" }, { url: "url_da_imagem_2" }],
+        ],
+        petImage: [{ path: "url_da_imagem_1" }, { path: "url_da_imagem_2" }],
       });
 
     const response = await request(app.server)
