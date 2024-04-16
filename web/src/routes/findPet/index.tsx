@@ -7,7 +7,6 @@ import FilterCharacteristicsSelect from "./components/filterCharacteristicsSelec
 
 import littleLogoFace from "../../assets/littleLogoFace.svg";
 import logoFaceIcon from "../../assets/findFriendFaceLogo.svg";
-import dogImage from "../../assets/dogImage.svg";
 
 import {
   AnimalsDontFound,
@@ -16,10 +15,12 @@ import {
   FindPetContainer,
   NumberOfPetsFoundAndCatOrDogFilterContainer,
   PetCardContainer,
+  PetCardPetImageContainer,
   PetListAndNumberOfPetsFoundContainer,
   PetListContainer,
   SelectStateCityAndSearchButtonContainer,
 } from "../../styles/pages/findPet/styles";
+import { useNavigate } from "react-router-dom";
 
 export interface Characteristics {
   animalSize: string;
@@ -32,6 +33,7 @@ export interface Characteristics {
 export default function FindPet() {
   const pet = findPetStore((state) => state.pet);
   const [petList, setPetList] = useState<Pet[]>([]);
+  const navigate = useNavigate();
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [characteristicsForSearch, setCharacteristicsForSearch] =
     useState<Characteristics>({
@@ -94,12 +96,18 @@ export default function FindPet() {
     }
   }, [petList]);
 
+  useEffect(() => {
+    console.log(petList);
+    console.log(pet);
+    const mapPet = petList.map((pets) => console.log(pets.petImage[0].path));
+  }, []);
+
   return (
     <FindPetContainer>
       <>
         <div>
           <SelectStateCityAndSearchButtonContainer>
-            <div>
+            <div onClick={() => navigate("/")}>
               <img src={logoFaceIcon} alt="" />
             </div>
 
@@ -175,15 +183,22 @@ export default function FindPet() {
                 cidade não possui animais cadastrados.
               </AnimalsDontFound>
             ) : (
-              petList!.map((pet) => (
-                <PetCardContainer key={pet.id}>
-                  <img src={dogImage} alt="" />
-                  <BackgroundLogo variant={pet.animalType}>
-                    <img src={littleLogoFace} alt="" />
-                  </BackgroundLogo>
-                  <p>{pet.name}</p>
-                </PetCardContainer>
-              ))
+              petList!.map((pet) => {
+                return (
+                  <PetCardContainer key={pet.id}>
+                    <PetCardPetImageContainer>
+                      <img
+                        src={`http://localhost:3333/files/${pet.petImage[0].path}`}
+                        alt=""
+                      />
+                    </PetCardPetImageContainer>
+                    <BackgroundLogo variant={pet.animalType}>
+                      <img src={littleLogoFace} alt="" />
+                    </BackgroundLogo>
+                    <p>{pet.name}</p>
+                  </PetCardContainer>
+                );
+              })
             )}
           </PetListContainer>
         </PetListAndNumberOfPetsFoundContainer>

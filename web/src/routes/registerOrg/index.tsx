@@ -24,12 +24,13 @@ export interface OrgRegisterDetails {
   phone: string;
   email: string;
   password: string;
+  state: string;
   role: "ADMIN";
 }
 
 export interface setPositions {
-  latitude: number;
-  longitude: number;
+  latitude: string;
+  longitude: string;
 }
 
 export default function RegisterOrg() {
@@ -42,6 +43,7 @@ export default function RegisterOrg() {
       phone: "",
       email: "",
       password: "",
+      state: "",
       role: "ADMIN",
     });
   const [errorFound, setErrorFound] = useState("");
@@ -83,8 +85,8 @@ export default function RegisterOrg() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(function (position) {
         setPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+          latitude: JSON.stringify(position.coords.latitude),
+          longitude: JSON.stringify(position.coords.longitude),
         });
       });
     } else {
@@ -141,6 +143,14 @@ export default function RegisterOrg() {
             inputTitle="Endereço"
             handleChangeAccountDetails={(value) =>
               handleChangeOrgDetailsForRegister(value, "adress")
+            }
+            inputActive="text"
+            pageWithTheComponent="orgRegister"
+          />
+          <InputFormatted
+            inputTitle="Estado"
+            handleChangeAccountDetails={(value) =>
+              handleChangeOrgDetailsForRegister(value, "state")
             }
             inputActive="text"
             pageWithTheComponent="orgRegister"

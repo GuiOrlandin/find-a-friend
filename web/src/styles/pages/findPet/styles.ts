@@ -19,6 +19,10 @@ export const SelectStateCityAndSearchButtonContainer = styled.div`
 
   div {
     margin-bottom: 1.625rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -66,6 +70,14 @@ export const PetCardContainer = styled.div`
     margin-top: 1.6rem;
     font-size: 1.125rem;
     font-weight: 700;
+  }
+`;
+
+export const PetCardPetImageContainer = styled.div`
+  img {
+    width: 17.125rem;
+    height: 8.4375rem;
+    border-radius: 20px;
   }
 `;
 

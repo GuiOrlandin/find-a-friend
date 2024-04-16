@@ -37,7 +37,7 @@ model Pet {
     enviroment Size
     animalType AnimalType 
     requirement String[]
-    PetImage           PetImage[]
+    petImage           PetImage[]
     org       Org      @relation(fields: [org_id], references: [id])
     org_id String
 

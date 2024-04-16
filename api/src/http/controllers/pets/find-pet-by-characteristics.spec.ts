@@ -15,7 +15,7 @@ describe("Find a pet (e2e)", () => {
   it("should be able to find a pet", async () => {
     const { token } = await createAndAuthenticateOrganization(app);
 
-    const test = await request(app.server)
+    await request(app.server)
       .post(`/pets`)
       .set("Authorization", `Bearer ${token}`)
       .send({
@@ -45,6 +45,8 @@ describe("Find a pet (e2e)", () => {
         page: "1",
       })
       .send();
+
+    console.log(response);
 
     expect(response.statusCode).toEqual(200);
     expect(response.body.pets).toHaveLength(1);

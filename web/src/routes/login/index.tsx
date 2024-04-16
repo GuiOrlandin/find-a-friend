@@ -46,7 +46,7 @@ export default function Login() {
   useEffect(() => {
     if (isSuccess) {
       saveToken(data);
-      navigate(`/petRegister`);
+      navigate(`/petRegister`, { state: { email: accountDetails?.email } });
     }
 
     if (isError) {
@@ -58,7 +58,12 @@ export default function Login() {
     if (storeToken) {
       navigate(`/petRegister`);
     }
-  }, [storeToken]);
+
+    if (!accountDetails?.email) {
+      localStorage.removeItem("storeToken");
+      navigate("/login");
+    }
+  }, [storeToken, accountDetails?.email]);
 
   return (
     <LoginContainer>

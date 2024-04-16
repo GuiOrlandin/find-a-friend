@@ -8,10 +8,13 @@ import { findPetByCity } from "./find-pet-by-city";
 const upload = uploadImages();
 
 export async function petsRoutes(app: FastifyInstance) {
+  app.post("/pets", { onRequest: [verifyJWT], preHandler: upload.array("petImage", 4)}, petRegister);
   app.post(
-    "/pets",
+    "/upload",
     { onRequest: [verifyJWT], preHandler: upload.array("petImage", 4) },
-    petRegister
+    async (request, reply) => {
+      reply.send("Upload de imagens realizado com sucesso!");
+    }
   );
   app.get("/pets/available/characteristics", findPetByCharacteristics);
   app.get("/pets/available/city", findPetByCity);

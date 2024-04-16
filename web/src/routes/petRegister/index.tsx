@@ -1,6 +1,8 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useDropzone } from "react-dropzone";
+
+import { useLocation } from "react-router-dom";
 
 import {
   AddRequirement,
@@ -15,6 +17,7 @@ import {
   OrgInformationContainer,
   OrgNameAndAddressContainer,
   PetRegisterContainer,
+  PetRegisteredSuccessful,
   RegisterPetButton,
   RequirementUploadedContainer,
   SelectContainer,
@@ -42,6 +45,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 import { v4 as uuidv4 } from "uuid";
 import { usePetRegisterMutate } from "../../hooks/petRegisterMutate";
+import { useUploadImageMutate } from "../../hooks/uploadImageMutate";
 
 export interface petRegisterDetails {
   name: string;
@@ -73,13 +77,18 @@ export default function PetRegister() {
     useState<petRegisterDetails>();
   const [tokenActive, setTokenActive] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [emailActive, setEmailActive] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [requirements, setRequirements] = useState<string[]>([]);
   const [inputRequirementsValue, setInputRequirementsValue] = useState("");
-  const { mutate } = usePetRegisterMutate();
+  const { mutate, isSuccess } = usePetRegisterMutate();
+  const { mutate: upload } = useUploadImageMutate();
+  const location = useLocation();
+  const { email } = location.state;
 
   const navigate = useNavigate();
   const storeToken = localStorage.getItem("storeToken");
+  const storedEmail = localStorage.getItem("storedEmail");
 
   const token = tokenStore((state) => state.token);
   const removeToken = tokenStore((state) => state.removeToken);
@@ -111,10 +120,7 @@ export default function PetRegister() {
 
       if (authToken) {
         return axios
-          .get(
-            "http://localhost:3333/orgInfo?email=guizinmir24%40gmail.com",
-            config
-          )
+          .get(`http://localhost:3333/orgInfo?email=${storedEmail}`, config)
           .then((response) => response.data);
       }
     },
@@ -161,6 +167,7 @@ export default function PetRegister() {
 
   function handleLogout() {
     localStorage.removeItem("storeToken");
+    localStorage.removeItem("storedEmail");
     removeToken();
     setTokenActive(false);
   }
@@ -175,12 +182,14 @@ export default function PetRegister() {
   function handlePetRegister() {
     if (petRegisterDetails) {
       mutate(petRegisterDetails);
+      upload(images);
     }
   }
 
   useEffect(() => {
-    if (token) {
+    if (token && email) {
       localStorage.setItem("storeToken", token);
+      localStorage.setItem("storedEmail", email);
     }
 
     if (!token && !storeToken && tokenActive === false) {
@@ -189,15 +198,29 @@ export default function PetRegister() {
 
     if (error?.message === "Request failed with status code 401") {
       localStorage.removeItem("storeToken");
+      localStorage.removeItem("storedEmail");
       navigate("/login");
     }
   }, [token, storeToken, tokenActive, error]);
 
   useEffect(() => {
-    if (orgInfo === undefined) {
+    if (email) {
+      setEmailActive(email);
       refetch();
     } else {
+      navigate("/login");
+    }
+
+    if (orgInfo !== undefined) {
       setIsLoading(false);
+    }
+
+    console.log(orgInfo);
+  }, []);
+
+  useEffect(() => {
+    if (orgInfo === undefined) {
+      refetch();
     }
   }, [orgInfo]);
 
@@ -229,12 +252,14 @@ export default function PetRegister() {
               <BackgroundLogo>
                 <img src={littleLogoFace} alt="" width={27} />
               </BackgroundLogo>
-              <OrgNameAndAddressContainer>
-                <h1>{orgInfo?.name}</h1>
-                <span>
-                  {orgInfo?.adress}, {orgInfo?.city}, {orgInfo?.state}
-                </span>
-              </OrgNameAndAddressContainer>
+              {orgInfo !== undefined && (
+                <OrgNameAndAddressContainer>
+                  <h1>{orgInfo?.name}</h1>
+                  <span>
+                    {orgInfo?.adress}, {orgInfo?.city}, {orgInfo?.state}
+                  </span>
+                </OrgNameAndAddressContainer>
+              )}
 
               <LogoutButton onClick={() => handleLogout()}>
                 <LuLogOut color="FFFFFF" />
@@ -387,7 +412,7 @@ export default function PetRegister() {
                 )}
               </UploadImageAndTitleContainer>
               {images?.map((image) => (
-                <ImageNameUploadedContainer>
+                <ImageNameUploadedContainer key={image.name}>
                   <CiImageOn />
                   {image?.name}
                   <CloseButton onClick={() => handleRemoveUploadedFile(image)}>
@@ -429,9 +454,17 @@ export default function PetRegister() {
                   <FaPlus color="#E44449" />
                 </AddRequirement>
               </AnimalRequirementContainer>
-              <RegisterPetButton onClick={() => handlePetRegister()}>
-                Confirmar
-              </RegisterPetButton>
+
+              <div>
+                <RegisterPetButton onClick={() => handlePetRegister()}>
+                  Confirmar
+                </RegisterPetButton>
+                {isSuccess && (
+                  <PetRegisteredSuccessful>
+                    Pet Cadastrado!
+                  </PetRegisteredSuccessful>
+                )}
+              </div>
             </FormPetRegisterContainer>
           </FormAndOrgInfoContainer>
         </PetRegisterContainer>

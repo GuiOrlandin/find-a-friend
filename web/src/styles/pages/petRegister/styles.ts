@@ -266,6 +266,7 @@ export const RequirementUploadedContainer = styled.div`
 `;
 
 export const RegisterPetButton = styled.button`
+  position: relative;
   display: flex;
   width: 34.25rem;
   height: 4rem;
@@ -279,4 +280,12 @@ export const RegisterPetButton = styled.button`
   color: #0d3b66;
   font-size: 1.125rem;
   font-weight: bold;
+`;
+
+export const PetRegisteredSuccessful = styled.div`
+  position: absolute;
+  color: #0d3b66;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: -6rem;
 `;

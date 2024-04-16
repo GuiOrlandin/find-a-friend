@@ -1,12 +1,17 @@
 import fastify from "fastify";
-import { orgsRoutes } from "./http/controllers/orgs/routes";
-import { ZodError } from "zod";
-import { env } from "./env";
+import fastifyStatic from "@fastify/static";
 import fastifyJwt from "@fastify/jwt";
-import multipart from "@fastify/multipart";
 import fastifyCookie from "@fastify/cookie";
 import cors from "@fastify/cors";
+import multipart from "@fastify/multipart";
+
+import { ZodError } from "zod";
+
+import { env } from "./env";
+
+import { orgsRoutes } from "./http/controllers/orgs/routes";
 import { petsRoutes } from "./http/controllers/pets/routes";
+import path from "path";
 
 export const app = fastify();
 
@@ -26,6 +31,11 @@ app.register(multipart);
 
 app.register(orgsRoutes);
 app.register(petsRoutes);
+
+app.register(fastifyStatic, {
+  root: path.join(__dirname, "..", "uploads"),
+  prefix: "/files",
+});
 
 app.register(cors, {
   origin: (origin, cb) => {
@@ -54,7 +64,6 @@ app.setErrorHandler((error, _, reply) => {
   if (env.NODE_ENV !== "production") {
     console.error(error);
   } else {
-    //log to external tool like datadog/newrelic/sentry
   }
 
   return reply.status(500).send({ message: "Internal server error." });

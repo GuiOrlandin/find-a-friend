@@ -1,18 +1,26 @@
 import { create } from "zustand";
 
+interface PetImage {
+  created_at: string;
+  id: string;
+  path: string;
+  pet_id: string;
+}
+
 export interface Pet {
   id: string;
   created_at: Date;
   city: string;
   name: string;
-  description: string[];
+  description: string;
   age: string;
   energyLevel: string;
   animalSize: string;
   levelOfIndependence: string;
   animalType: string;
   enviroment: string;
-  requirement: string;
+  requirement: string[];
+  petImage: PetImage[];
   org_id: string;
 }
 

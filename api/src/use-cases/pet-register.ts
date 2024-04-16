@@ -22,7 +22,7 @@ interface PetRegisterUseCaseRequest {
   animalType: AnimalType;
   requirement: string[];
   org_id: string;
-  petImage?: Array<Prisma.PetImageUncheckedCreateWithoutPetInput>;
+  petImage?: Array<Prisma.PetImageCreateInput>;
 }
 
 interface PetRegisterUseCaseResponse {
@@ -56,7 +56,7 @@ export class PetRegisterUseCase {
       animalType: data.animalType,
       requirement: data.requirement,
       org_id: data.org_id,
-      PetImage: {
+      petImage: {
         create: data.petImage,
       },
     });

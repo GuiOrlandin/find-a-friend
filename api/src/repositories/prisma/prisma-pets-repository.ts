@@ -1,4 +1,4 @@
-import { $Enums, Age, Independence, Pet, Prisma, Size } from "@prisma/client";
+import { Age, Independence, Pet, Prisma, Size } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PetsRepository } from "../pet-repository";
 
@@ -15,6 +15,9 @@ export class PrismaPetsRepository implements PetsRepository {
     const pets = await prisma.pet.findMany({
       where: {
         city,
+      },
+      include: {
+        petImage: true,
       },
       take: 5,
       skip: (page - 1) * 5,
@@ -53,6 +56,9 @@ export class PrismaPetsRepository implements PetsRepository {
             city,
           },
         ],
+      },
+      include: {
+        petImage: true,
       },
       take: 5,
       skip: (page - 1) * 5,
