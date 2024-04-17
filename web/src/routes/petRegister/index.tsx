@@ -8,7 +8,6 @@ import {
   AddRequirement,
   AnimalRequirementContainer,
   BackgroundLogo,
-  ButtonBackPage,
   CloseButton,
   FormAndOrgInfoContainer,
   FormPetRegisterContainer,
@@ -21,13 +20,11 @@ import {
   RegisterPetButton,
   RequirementUploadedContainer,
   SelectContainer,
-  SideBarContainer,
   TitleAndBorderBottom,
   UploadImageAndTitleContainer,
   UploadImageAndTitleContainerOnHover,
   UploadImageContainer,
 } from "../../styles/pages/petRegister/styles";
-
 import littleLogoFace from "../../assets/littleLogoFace.svg";
 
 import InputFormatted from "../login/components/inputFormatted";
@@ -41,11 +38,11 @@ import { LuLogOut } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
 import { FaRegWindowClose } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa6";
-import { IoMdArrowRoundBack } from "react-icons/io";
 
 import { v4 as uuidv4 } from "uuid";
 import { usePetRegisterMutate } from "../../hooks/petRegisterMutate";
 import { useUploadImageMutate } from "../../hooks/uploadImageMutate";
+import SideBar from "./components/sideBar";
 
 export interface petRegisterDetails {
   name: string;
@@ -251,12 +248,7 @@ export default function PetRegister() {
         <div>Carregando...</div>
       ) : (
         <PetRegisterContainer>
-          <SideBarContainer>
-            <img src={littleLogoFace} alt="" width={27} />
-            <ButtonBackPage onClick={() => navigate("/")}>
-              <IoMdArrowRoundBack color="#0D3B66" />
-            </ButtonBackPage>
-          </SideBarContainer>
+          <SideBar />
           <FormAndOrgInfoContainer>
             <OrgInformationContainer>
               <BackgroundLogo>

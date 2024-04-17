@@ -9,6 +9,7 @@ import FindPet from "./src/routes/findPet";
 import Login from "./src/routes/login";
 import RegisterOrg from "./src/routes/registerOrg";
 import PetRegister from "./src/routes/petRegister";
+import PetInfo from "./src/routes/petInfo";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
 
   {
     path: "/findPet",
-    element: <FindPet variant="" />,
+    element: <FindPet />,
   },
 
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/petRegister",
     element: <PetRegister />,
+  },
+  {
+    path: "/petInfo",
+    element: <PetInfo />,
   },
 ]);
 

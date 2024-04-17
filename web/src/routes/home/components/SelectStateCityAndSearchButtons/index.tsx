@@ -43,7 +43,9 @@ export default function SelectStateCityAndSearchButton({
   clickAction,
 }: Props) {
   const [stateSelected, setStateSelected] = useState<string>("RO");
-  const [citySelected, setCitySelected] = useState<string>("Alta Floresta D Oeste");
+  const [citySelected, setCitySelected] = useState<string>(
+    "Alta Floresta D Oeste"
+  );
 
   const refreshPetList = findPetStore((state) => state.refreshPetList);
 
@@ -56,6 +58,18 @@ export default function SelectStateCityAndSearchButton({
     },
   });
 
+  const { data: petList, refetch: petListRefetch } = useQuery<petListResponse>({
+    queryKey: ["list-of-pets"],
+    queryFn: async () => {
+      const url =
+        variant === "home"
+          ? `http://localhost:3333/pets/available/city?city=${citySelected}&page=1`
+          : `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1`;
+      const response = await axios.get(url);
+      return response.data;
+    },
+  });
+
   const { data: cities, refetch } = useQuery<Cities[]>({
     queryKey: ["list-of-cities"],
     queryFn: async () => {
@@ -64,29 +78,6 @@ export default function SelectStateCityAndSearchButton({
           `https://brasilapi.com.br/api/ibge/municipios/v1/${stateSelected}?providers=dados-abertos-br,gov,wikipedia`
         )
         .then((response) => response.data);
-    },
-  });
-
-  const { data: petList, refetch: petListRefetch } = useQuery<petListResponse>({
-    queryKey: ["list-of-pets"],
-    queryFn: async () => {
-      const response = await axios.get(
-        `http://localhost:3333/pets/available/city?city=${citySelected}&page=1`
-      );
-      return response.data;
-    },
-  });
-
-  const {
-    data: searchPetListWithCharacteristics,
-    refetch: petListWithCharacteristicsRefetch,
-  } = useQuery<petListResponse>({
-    queryKey: ["list-of-pets-with-characteristics"],
-    queryFn: async () => {
-      const response = await axios.get(
-        `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1`
-      );
-      return response.data;
     },
   });
 
@@ -105,25 +96,11 @@ export default function SelectStateCityAndSearchButton({
 
   useEffect(() => {
     refetch();
-
-    if (variant === "home" && citySelected && petList) {
+    if (petList) {
       petListRefetch();
       refreshPetList(petList.pets);
     }
-    if (variant === "findPetPage" && citySelected) {
-      petListWithCharacteristicsRefetch();
-
-      if (searchPetListWithCharacteristics) {
-        refreshPetList(searchPetListWithCharacteristics!.pets);
-      }
-    }
-  }, [
-    stateSelected,
-    citySelected,
-    petList,
-    searchPetListWithCharacteristics,
-    characteristicsForSearch,
-  ]);
+  }, [stateSelected, citySelected, petList, characteristicsForSearch]);
 
   return (
     <Container>

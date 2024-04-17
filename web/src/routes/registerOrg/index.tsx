@@ -133,7 +133,14 @@ export default function RegisterOrg() {
           <InputFormatted
             inputTitle="Cidade"
             handleChangeAccountDetails={(value) =>
-              handleChangeOrgDetailsForRegister(value.toLowerCase(), "city")
+              handleChangeOrgDetailsForRegister(
+                value
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/[\u0300-\u036f]/g, "")
+                  .replace(/[^\w\s]/g, ""),
+                "city"
+              )
             }
             inputActive="text"
             pageWithTheComponent="orgRegister"
