@@ -12,6 +12,7 @@ import {
   AnimalsDontFound,
   BackgroundLogo,
   FilterContainer,
+  FiltersPetContainer,
   FindPetContainer,
   NumberOfPetsFoundAndCatOrDogFilterContainer,
   PetCardContainer,
@@ -96,113 +97,105 @@ export default function FindPet() {
     }
   }, [petList]);
 
-  useEffect(() => {
-    console.log(petList);
-    console.log(pet);
-    const mapPet = petList.map((pets) => console.log(pets.petImage[0].path));
-  }, []);
-
   return (
     <FindPetContainer>
-      <>
-        <div>
-          <SelectStateCityAndSearchButtonContainer>
-            <div onClick={() => navigate("/")}>
-              <img src={logoFaceIcon} alt="" />
-            </div>
+      <FiltersPetContainer>
+        <SelectStateCityAndSearchButtonContainer>
+          <div onClick={() => navigate("/")}>
+            <img src={logoFaceIcon} alt="" />
+          </div>
 
-            <SelectStateCityAndSearchButton
-              variant="findPetPage"
-              characteristicsForSearch={characteristicsForSearch}
-              clickAction={() => handleSearchPetsWithCharacteristics()}
-            />
-          </SelectStateCityAndSearchButtonContainer>
-          <FilterContainer>
-            <h1>Filtros</h1>
+          <SelectStateCityAndSearchButton
+            variant="findPetPage"
+            characteristicsForSearch={characteristicsForSearch}
+            clickAction={() => handleSearchPetsWithCharacteristics()}
+          />
+        </SelectStateCityAndSearchButtonContainer>
+        <FilterContainer>
+          <h1>Filtros</h1>
 
-            <FilterCharacteristicsSelect
-              filterName="Idade"
-              filterContent={age}
-              onCharacteristicSelect={(value) =>
-                handleCharacteristicSelect("age", value)
-              }
-            />
-            <FilterCharacteristicsSelect
-              filterName="Nível de Energia"
-              filterContent={energyLevel}
-              onCharacteristicSelect={(value) =>
-                handleCharacteristicSelect("energyLevel", value)
-              }
-            />
-            <FilterCharacteristicsSelect
-              filterName="Porte do animal"
-              filterContent={size}
-              onCharacteristicSelect={(value) =>
-                handleCharacteristicSelect("animalSize", value)
-              }
-            />
-            <FilterCharacteristicsSelect
-              filterName="Nível de independência"
-              filterContent={independence}
-              onCharacteristicSelect={(value) =>
-                handleCharacteristicSelect("levelOfIndependence", value)
-              }
-            />
-          </FilterContainer>
-        </div>
-        <PetListAndNumberOfPetsFoundContainer>
-          <NumberOfPetsFoundAndCatOrDogFilterContainer>
-            <h1>
-              {petList.length > 1 ? `Foram encotrados` : `Foi encontrado `}
-              <span>
-                {petList.length > 1
-                  ? ` ${petList.length} amigos `
-                  : ` ${petList.length} amigo`}
-              </span>{" "}
-              na sua cidade
-            </h1>
+          <FilterCharacteristicsSelect
+            filterName="Idade"
+            filterContent={age}
+            onCharacteristicSelect={(value) =>
+              handleCharacteristicSelect("age", value)
+            }
+          />
+          <FilterCharacteristicsSelect
+            filterName="Nível de Energia"
+            filterContent={energyLevel}
+            onCharacteristicSelect={(value) =>
+              handleCharacteristicSelect("energyLevel", value)
+            }
+          />
+          <FilterCharacteristicsSelect
+            filterName="Porte do animal"
+            filterContent={size}
+            onCharacteristicSelect={(value) =>
+              handleCharacteristicSelect("animalSize", value)
+            }
+          />
+          <FilterCharacteristicsSelect
+            filterName="Nível de independência"
+            filterContent={independence}
+            onCharacteristicSelect={(value) =>
+              handleCharacteristicSelect("levelOfIndependence", value)
+            }
+          />
+        </FilterContainer>
+      </FiltersPetContainer>
+      <PetListAndNumberOfPetsFoundContainer>
+        <NumberOfPetsFoundAndCatOrDogFilterContainer>
+          <h1>
+            {petList.length > 1 ? `Foram encotrados` : `Foi encontrado `}
+            <span>
+              {petList.length > 1
+                ? ` ${petList.length} amigos `
+                : ` ${petList.length} amigo`}
+            </span>{" "}
+            na sua cidade
+          </h1>
 
-            <select
-              defaultValue={"Gato e Cachorro"}
-              onChange={(animalType) =>
-                handleFilterPetType(animalType.target.value)
-              }
-            >
-              {animalType.map((animal) => (
-                <option value={animal.title} key={animal.title}>
-                  {animal.title}
-                </option>
-              ))}
-            </select>
-          </NumberOfPetsFoundAndCatOrDogFilterContainer>
+          <select
+            defaultValue={"Gato e Cachorro"}
+            onChange={(animalType) =>
+              handleFilterPetType(animalType.target.value)
+            }
+          >
+            {animalType.map((animal) => (
+              <option value={animal.title} key={animal.title}>
+                {animal.title}
+              </option>
+            ))}
+          </select>
+        </NumberOfPetsFoundAndCatOrDogFilterContainer>
 
-          <PetListContainer>
-            {isEmpty ? (
-              <AnimalsDontFound>
-                Não foram encontrados Animais com estas características ou esta
-                cidade não possui animais cadastrados.
-              </AnimalsDontFound>
-            ) : (
-              petList!.map((pet) => {
-                return (
-                  <PetCardContainer key={pet.id}>
-                    <PetCardPetImageContainer>
-                      <img
-                        src={`http://localhost:3333/files/${pet.petImage[0].path}`}
-                        alt=""
-                      />
-                    </PetCardPetImageContainer>
-                    <BackgroundLogo variant={pet.animalType}>
-                      <img src={littleLogoFace} alt="" />
-                    </BackgroundLogo>
-                    <p>{pet.name}</p>
-                  </PetCardContainer>
-                );
-              })
-            )}
-          </PetListContainer>
-        </PetListAndNumberOfPetsFoundContainer>
-      </>
+        <PetListContainer>
+          {isEmpty ? (
+            <AnimalsDontFound>
+              Não foram encontrados Animais com estas características ou esta
+              cidade não possui animais cadastrados.
+            </AnimalsDontFound>
+          ) : (
+            petList!.map((pet) => {
+              return (
+                <PetCardContainer key={pet.id}>
+                  <PetCardPetImageContainer>
+                    <img
+                      src={`http://localhost:3333/files/${pet.petImage[0].path}`}
+                      alt=""
+                    />
+                  </PetCardPetImageContainer>
+                  <BackgroundLogo variant={pet.animalType}>
+                    <img src={littleLogoFace} alt="" />
+                  </BackgroundLogo>
+                  <p>{pet.name}</p>
+                </PetCardContainer>
+              );
+            })
+          )}
+        </PetListContainer>
+      </PetListAndNumberOfPetsFoundContainer>
     </FindPetContainer>
   );
 }

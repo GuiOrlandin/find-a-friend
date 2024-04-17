@@ -74,10 +74,21 @@ export interface OrgResponse {
 
 export default function PetRegister() {
   const [petRegisterDetails, setPetRegisterDetails] =
-    useState<petRegisterDetails>();
+    useState<petRegisterDetails>({
+      name: "",
+      city: "",
+      description: "",
+      age: "FILHOTE",
+      energyLevel: "01",
+      animalSize: "PEQUENO",
+      animalType: "Gato",
+      levelOfIndependence: "BAIXO",
+      enviroment: "PEQUENO",
+      petImage: [],
+      requirement: [],
+    });
   const [tokenActive, setTokenActive] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [emailActive, setEmailActive] = useState("");
   const [images, setImages] = useState<File[]>([]);
   const [requirements, setRequirements] = useState<string[]>([]);
   const [inputRequirementsValue, setInputRequirementsValue] = useState("");
@@ -205,7 +216,6 @@ export default function PetRegister() {
 
   useEffect(() => {
     if (email) {
-      setEmailActive(email);
       refetch();
     } else {
       navigate("/login");

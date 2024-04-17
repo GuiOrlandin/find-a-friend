@@ -7,6 +7,9 @@ interface SelectAnimalType {
 export const FindPetContainer = styled.div`
   display: flex;
   background: #f15156;
+`;
+
+export const FiltersPetContainer = styled.div`
   height: 100vh;
 `;
 

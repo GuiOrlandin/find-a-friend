@@ -133,7 +133,7 @@ export default function RegisterOrg() {
           <InputFormatted
             inputTitle="Cidade"
             handleChangeAccountDetails={(value) =>
-              handleChangeOrgDetailsForRegister(value, "city")
+              handleChangeOrgDetailsForRegister(value.toLowerCase(), "city")
             }
             inputActive="text"
             pageWithTheComponent="orgRegister"

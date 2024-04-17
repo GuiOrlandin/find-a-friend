@@ -11,10 +11,7 @@ export function uploadImages() {
         return callback(new Error("Only image files are allowed!"));
       }
 
-      const hash = crypto.randomBytes(6).toString("hex");
-      const fileExt = file.originalname.split(".").pop();
-
-      const fileName = `${file.originalname}-${hash}.${fileExt}`;
+      const fileName = `${file.originalname}`;
       return callback(null, fileName);
     },
   });

@@ -42,8 +42,9 @@ export default function SelectStateCityAndSearchButton({
   characteristicsForSearch,
   clickAction,
 }: Props) {
-  const [stateSelected, setStateSelected] = useState("RO");
-  const [citySelected, setCitySelected] = useState("Alta Floresta D'Oeste");
+  const [stateSelected, setStateSelected] = useState<string>("RO");
+  const [citySelected, setCitySelected] = useState<string>("Alta Floresta D Oeste");
+
   const refreshPetList = findPetStore((state) => state.refreshPetList);
 
   const { data: states, isLoading } = useQuery<State[]>({
