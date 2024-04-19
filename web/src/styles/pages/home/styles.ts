@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HomeContainer = styled.div`
   display: grid;
-  grid-template-columns: 0.56fr 1fr;
+  grid-template-columns: 1fr 1fr;
   background: #f15156;
   height: 100vh;
   width: 100vw;

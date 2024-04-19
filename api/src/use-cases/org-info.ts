@@ -3,7 +3,8 @@ import { Org } from "@prisma/client";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
 interface OrgInfoUseCaseRequest {
-  email: string;
+  email?: string;
+  id?: string;
 }
 
 interface OrgInfoUseCaseResponse {
@@ -15,15 +16,32 @@ export class OrgInfoUseCase {
 
   async execute({
     email,
+    id,
   }: OrgInfoUseCaseRequest): Promise<OrgInfoUseCaseResponse> {
-    const org = await this.orgsRepository.findByEmail(email);
+    if (email) {
+      const org = await this.orgsRepository.findByEmail(email);
 
-    if (!org) {
-      throw new InvalidCredentialsError();
+      if (!org) {
+        throw new InvalidCredentialsError();
+      }
+
+      return {
+        org,
+      };
     }
 
-    return {
-      org,
-    };
+    if (id) {
+      const org = await this.orgsRepository.findById(id);
+
+      if (!org) {
+        throw new InvalidCredentialsError();
+      }
+
+      return {
+        org,
+      };
+    }
+
+    throw new InvalidCredentialsError();
   }
 }

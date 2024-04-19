@@ -12,7 +12,6 @@ import {
 } from "../../styles/pages/registerOrg/styles";
 import InputFormatted from "../login/components/inputFormatted";
 import ButtonFormatted from "../login/components/buttonFormatted";
-import ShowInMap from "./components/showInMap";
 import { useNavigate } from "react-router-dom";
 import { useOrgRegisterMutate } from "../../hooks/useOrgRegisterMutate";
 
@@ -48,7 +47,6 @@ export default function RegisterOrg() {
     });
   const [errorFound, setErrorFound] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [position, setPosition] = useState<setPositions>();
   const { mutate, isSuccess, error } = useOrgRegisterMutate();
 
   const navigate = useNavigate();
@@ -82,17 +80,6 @@ export default function RegisterOrg() {
   }
 
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        setPosition({
-          latitude: JSON.stringify(position.coords.latitude),
-          longitude: JSON.stringify(position.coords.longitude),
-        });
-      });
-    } else {
-      console.log("Geolocation is not available in your browser.");
-    }
-
     if (isSuccess) {
       navigate("/login");
     }
@@ -162,9 +149,6 @@ export default function RegisterOrg() {
             inputActive="text"
             pageWithTheComponent="orgRegister"
           />
-          <div>
-            <ShowInMap positionDetails={position!} />
-          </div>
 
           <InputFormatted
             inputTitle="Whatsapp"

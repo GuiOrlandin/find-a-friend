@@ -43,6 +43,7 @@ export const InputContainer = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   margin-top: 1rem;
+  position: relative;
 
   span {
     color: #0d3b66;
@@ -52,7 +53,7 @@ export const InputContainer = styled.div`
   button {
     position: absolute;
     margin-top: 3.8rem;
-    left: 73rem;
+    left: 27rem;
     background: none;
     border: none;
   }

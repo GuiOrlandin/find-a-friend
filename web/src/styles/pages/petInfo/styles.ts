@@ -1,7 +1,12 @@
 import styled from "styled-components";
 
+interface petInfoProps {
+  variant?: string;
+}
+
 export const PetInfoContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
   gap: 19.875rem;
   height: 100%;
   background: #fdeced;
@@ -30,22 +35,23 @@ export const LittlePetImageContainer = styled.div`
   display: flex;
   gap: 1rem;
   margin: 2rem 4.5rem;
+`;
 
-  img {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 15px;
+export const LittlePetImage = styled.img<petInfoProps>`
+  display: flex;
 
-    cursor: pointer;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 15px;
 
-    &:not(:hover) {
-      opacity: 0.3;
-    }
+  cursor: pointer;
 
-    &:active {
-      border: 2px solid #0d3b66;
-    }
-  }
+  opacity: ${({ variant }) => variant !== "active" && "0.3"};
+
+  border: ${({ variant }) =>
+    variant === "active" ? "2px solid #0d3b66" : "none"};
+
+  opacity: ${({ variant }) => (variant === "active" ? "unset" : "none")};
 `;
 
 export const CharacteristicsPetContainer = styled.div`
@@ -143,9 +149,12 @@ export const EnergyPetInfo = styled.div`
     font-size: 1.125rem;
     font-weight: 500;
   }
-
   border: 1px solid #d3e2e5;
   border-radius: 20px;
+`;
+
+export const EnergySvgContainer = styled.div`
+  display: flex;
 `;
 
 export const EnvironmentPetInfo = styled.div`

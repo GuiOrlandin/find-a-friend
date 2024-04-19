@@ -31,11 +31,11 @@ const router = createBrowserRouter([
     element: <RegisterOrg />,
   },
   {
-    path: "/petRegister",
+    path: "/petRegister/:email",
     element: <PetRegister />,
   },
   {
-    path: "/petInfo",
+    path: "/petInfo/:petId",
     element: <PetInfo />,
   },
 ]);

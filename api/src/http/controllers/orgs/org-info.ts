@@ -4,20 +4,34 @@ import { z } from "zod";
 
 export async function orgInfo(request: FastifyRequest, reply: FastifyReply) {
   const orgInfoBodySchema = z.object({
-    email: z.string().email(),
+    email: z.string().email().optional(),
+    id: z.string().optional(),
   });
 
-  const { email } = orgInfoBodySchema.parse(request.query);
+  const { email, id } = orgInfoBodySchema.parse(request.query);
 
   const orgInfoUseCase = makeOrgInfoUseCase();
 
-  const { org } = await orgInfoUseCase.execute({
-    email,
-  });
+  if (email) {
+    const { org } = await orgInfoUseCase.execute({
+      email,
+    });
 
-  return reply.status(200).send({
-    ...org,
-    password_hash: undefined,
-    role: undefined,
-  });
+    return reply.status(200).send({
+      ...org,
+      password_hash: undefined,
+      role: undefined,
+    });
+  }
+  if (id) {
+    const { org } = await orgInfoUseCase.execute({
+      id,
+    });
+
+    return reply.status(200).send({
+      ...org,
+      password_hash: undefined,
+      role: undefined,
+    });
+  }
 }

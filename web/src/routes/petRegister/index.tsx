@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useDropzone } from "react-dropzone";
 
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import {
   AddRequirement,
@@ -91,8 +91,7 @@ export default function PetRegister() {
   const [inputRequirementsValue, setInputRequirementsValue] = useState("");
   const { mutate, isSuccess } = usePetRegisterMutate();
   const { mutate: upload } = useUploadImageMutate();
-  const location = useLocation();
-  const { email } = location.state;
+  const { email } = useParams();
 
   const navigate = useNavigate();
   const storeToken = localStorage.getItem("storeToken");
@@ -119,18 +118,9 @@ export default function PetRegister() {
   } = useQuery<OrgResponse>({
     queryKey: ["org-info"],
     queryFn: async () => {
-      const authToken = storeToken;
-      const config = {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      };
-
-      if (authToken) {
-        return axios
-          .get(`http://localhost:3333/orgInfo?email=${storedEmail}`, config)
-          .then((response) => response.data);
-      }
+      return axios
+        .get(`http://localhost:3333/orgInfo?email=${storedEmail}`)
+        .then((response) => response.data);
     },
   });
 
@@ -214,16 +204,15 @@ export default function PetRegister() {
   useEffect(() => {
     if (email) {
       refetch();
-    } else {
+    }
+    if (email === null) {
       navigate("/login");
     }
 
     if (orgInfo !== undefined) {
       setIsLoading(false);
     }
-
-    console.log(orgInfo);
-  }, []);
+  }, [email]);
 
   useEffect(() => {
     if (orgInfo === undefined) {

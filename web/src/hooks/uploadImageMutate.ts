@@ -19,7 +19,6 @@ async function postData(files: File[]) {
     });
 
     await axios.post("http://localhost:3333/upload", formData, config);
-    console.log("Upload bem-sucedido!");
   } catch (error) {
     console.error("Erro ao postar:", error);
   }

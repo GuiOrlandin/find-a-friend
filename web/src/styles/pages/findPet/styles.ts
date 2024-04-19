@@ -59,6 +59,7 @@ export const PetCardContainer = styled.div`
 
   &:hover {
     background: #0d3b66;
+    cursor: pointer;
 
     p {
       color: #ffffff;

@@ -179,7 +179,10 @@ export default function FindPet() {
           ) : (
             petList!.map((pet) => {
               return (
-                <PetCardContainer key={pet.id}>
+                <PetCardContainer
+                  key={pet.id}
+                  onClick={() => navigate(`/petInfo/${pet.id}`)}
+                >
                   <PetCardPetImageContainer>
                     <img
                       src={`http://localhost:3333/files/${pet.petImage[0].path}`}

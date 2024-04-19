@@ -7,7 +7,7 @@ import { verifyJWT } from "../middleware/verify-jwt";
 
 export async function orgsRoutes(app: FastifyInstance) {
   app.post("/orgs", orgRegister);
-  app.get("/orgInfo", { onRequest: [verifyJWT] }, orgInfo);
+  app.get("/orgInfo", orgInfo);
   app.post("/authenticate", orgAuthenticate);
   app.patch("/token/refresh", refresh);
 }

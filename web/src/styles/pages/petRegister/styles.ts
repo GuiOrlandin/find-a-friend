@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const PetRegisterContainer = styled.div`
-  display: flex;
-  gap: 19.875rem;
+  display: grid;
+  grid-template-columns: 0.5fr 5fr;
+  justify-content: space-evenly;
   background: #fdeced;
   height: 100%;
 `;

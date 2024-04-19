@@ -46,7 +46,7 @@ export default function Login() {
   useEffect(() => {
     if (isSuccess) {
       saveToken(data);
-      navigate(`/petRegister`, { state: { email: accountDetails?.email } });
+      navigate(`/petRegister/${accountDetails?.email}`);
     }
 
     if (isError) {
