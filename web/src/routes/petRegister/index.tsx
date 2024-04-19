@@ -68,6 +68,10 @@ export interface OrgResponse {
   password: string;
   state: string;
 }
+export interface Credentials {
+  email: string;
+  token: string;
+}
 
 export default function PetRegister() {
   const [petRegisterDetails, setPetRegisterDetails] =
@@ -84,11 +88,11 @@ export default function PetRegister() {
       petImage: [],
       requirement: [],
     });
-  const [tokenActive, setTokenActive] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [requirements, setRequirements] = useState<string[]>([]);
   const [inputRequirementsValue, setInputRequirementsValue] = useState("");
+  const [credentials, setCredentials] = useState<Credentials>();
   const { mutate, isSuccess } = usePetRegisterMutate();
   const { mutate: upload } = useUploadImageMutate();
   const { email } = useParams();
@@ -166,8 +170,11 @@ export default function PetRegister() {
   function handleLogout() {
     localStorage.removeItem("storeToken");
     localStorage.removeItem("storedEmail");
+    setCredentials({
+      email: "",
+      token: "",
+    });
     removeToken();
-    setTokenActive(false);
   }
 
   const dropzone = useDropzone({
@@ -185,12 +192,18 @@ export default function PetRegister() {
   }
 
   useEffect(() => {
+    refetch();
+
     if (token && email) {
+      setCredentials({
+        email: email,
+        token: token,
+      });
       localStorage.setItem("storeToken", token);
       localStorage.setItem("storedEmail", email);
     }
 
-    if (!token && !storeToken && tokenActive === false) {
+    if (!token && !storeToken) {
       navigate("/login");
     }
 
@@ -199,12 +212,11 @@ export default function PetRegister() {
       localStorage.removeItem("storedEmail");
       navigate("/login");
     }
-  }, [token, storeToken, tokenActive, error]);
+  }, [token, storeToken, error, storedEmail]);
 
   useEffect(() => {
-    if (email) {
-      refetch();
-    }
+    refetch();
+
     if (email === null) {
       navigate("/login");
     }

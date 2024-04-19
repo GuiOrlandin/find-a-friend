@@ -56,11 +56,10 @@ export default function Login() {
 
   useEffect(() => {
     if (storeToken) {
-      navigate(`/petRegister`);
+      navigate(`/petRegister/${accountDetails?.email}`);
     }
 
-    if (!accountDetails?.email) {
-      localStorage.removeItem("storeToken");
+    if (!storeToken) {
       navigate("/login");
     }
   }, [storeToken, accountDetails?.email]);
