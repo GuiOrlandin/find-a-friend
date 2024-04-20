@@ -225,12 +225,16 @@ export default function PetRegister() {
       navigate("/login");
     }
 
-    if (error?.message === "Request failed with status code 401") {
+    if (
+      error?.message === "Request failed with status code 401" ||
+      error?.message === "Request failed with status code 400"
+    ) {
       localStorage.removeItem("storeToken");
       localStorage.removeItem("storedEmail");
       navigate("/login");
     }
   }, [email, credential, token, storeToken, error]);
+  console.log(error);
 
   useEffect(() => {
     if (orgInfo !== undefined) {
