@@ -68,10 +68,6 @@ export interface OrgResponse {
   password: string;
   state: string;
 }
-export interface Credentials {
-  email: string;
-  token: string;
-}
 
 export default function PetRegister() {
   const [petRegisterDetails, setPetRegisterDetails] =
@@ -88,20 +84,22 @@ export default function PetRegister() {
       petImage: [],
       requirement: [],
     });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [requirements, setRequirements] = useState<string[]>([]);
   const [inputRequirementsValue, setInputRequirementsValue] = useState("");
-  const [credentials, setCredentials] = useState<Credentials>();
-  const { mutate, isSuccess } = usePetRegisterMutate();
+  const [credential, setCredential] = useState<string>();
+  const [orgInfo, setOrgInfo] = useState<OrgResponse>();
+  const [responseOfPetRegister, setResponseOfPetRegister] = useState<string>();
+  const { mutate } = usePetRegisterMutate();
   const { mutate: upload } = useUploadImageMutate();
   const { email } = useParams();
 
   const navigate = useNavigate();
   const storeToken = localStorage.getItem("storeToken");
-  const storedEmail = localStorage.getItem("storedEmail");
 
   const token = tokenStore((state) => state.token);
+  const setToken = tokenStore((state) => state.setToken);
   const removeToken = tokenStore((state) => state.removeToken);
 
   const age = [{ title: "Filhote" }, { title: "Adulto" }];
@@ -114,19 +112,6 @@ export default function PetRegister() {
   ];
 
   const animalType = [{ title: "Gato" }, { title: "Cachorro" }];
-
-  const {
-    data: orgInfo,
-    refetch,
-    error,
-  } = useQuery<OrgResponse>({
-    queryKey: ["org-info"],
-    queryFn: async () => {
-      return axios
-        .get(`http://localhost:3333/orgInfo?email=${storedEmail}`)
-        .then((response) => response.data);
-    },
-  });
 
   function handleChangePetDetailsForRegister(
     value: string | string[],
@@ -169,11 +154,7 @@ export default function PetRegister() {
 
   function handleLogout() {
     localStorage.removeItem("storeToken");
-    localStorage.removeItem("storedEmail");
-    setCredentials({
-      email: "",
-      token: "",
-    });
+    setCredential("");
     removeToken();
   }
 
@@ -185,25 +166,62 @@ export default function PetRegister() {
   });
 
   function handlePetRegister() {
-    if (petRegisterDetails) {
+    if (
+      petRegisterDetails &&
+      petRegisterDetails.name !== "" &&
+      petRegisterDetails.requirement.length >= 1 &&
+      petRegisterDetails.petImage.length >= 1
+    ) {
       mutate(petRegisterDetails);
       upload(images);
+      setResponseOfPetRegister("Pet Cadastrado!");
+    } else {
+      setResponseOfPetRegister("Por favor, preencha todos os campos.");
     }
   }
 
-  useEffect(() => {
-    refetch();
+  const { data, refetch, error } = useQuery<OrgResponse>({
+    queryKey: ["org-info"],
+    queryFn: async () => {
+      if (credential) {
+        return axios
+          .get(`http://localhost:3333/orgInfo?email=${credential}`)
+          .then((response) => response.data);
+      }
+    },
+  });
 
-    if (token && email) {
-      setCredentials({
-        email: email,
-        token: token,
-      });
+  useEffect(() => {
+    if (email && token) {
+      setCredential(email);
       localStorage.setItem("storeToken", token);
-      localStorage.setItem("storedEmail", email);
+      console.log("au");
+      refetch();
     }
 
+    if (email && !token) {
+      setCredential(email);
+      setToken(storeToken!);
+      console.log("ui");
+      refetch();
+    }
+
+    if (data !== undefined) {
+      setOrgInfo(data);
+      setIsLoading(false);
+    }
+
+    if (credential === undefined) {
+      refetch();
+    }
+  }, [token, email, credential, data]);
+
+  useEffect(() => {
     if (!token && !storeToken) {
+      navigate("/login");
+    }
+
+    if (email === null) {
       navigate("/login");
     }
 
@@ -212,25 +230,7 @@ export default function PetRegister() {
       localStorage.removeItem("storedEmail");
       navigate("/login");
     }
-  }, [token, storeToken, error, storedEmail]);
-
-  useEffect(() => {
-    refetch();
-
-    if (email === null) {
-      navigate("/login");
-    }
-
-    if (orgInfo !== undefined) {
-      setIsLoading(false);
-    }
-  }, [email]);
-
-  useEffect(() => {
-    if (orgInfo === undefined) {
-      refetch();
-    }
-  }, [orgInfo]);
+  }, [email, credential, token, storeToken, error]);
 
   useEffect(() => {
     if (orgInfo !== undefined) {
@@ -462,9 +462,9 @@ export default function PetRegister() {
                 <RegisterPetButton onClick={() => handlePetRegister()}>
                   Confirmar
                 </RegisterPetButton>
-                {isSuccess && (
+                {responseOfPetRegister && (
                   <PetRegisteredSuccessful>
-                    Pet Cadastrado!
+                    {responseOfPetRegister}
                   </PetRegisteredSuccessful>
                 )}
               </div>
