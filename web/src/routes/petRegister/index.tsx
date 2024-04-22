@@ -253,7 +253,7 @@ export default function PetRegister() {
         <div>Carregando...</div>
       ) : (
         <PetRegisterContainer>
-          <SideBar />
+          <SideBar redirectSite="/" />
           <FormAndOrgInfoContainer>
             <OrgInformationContainer>
               <BackgroundLogo>

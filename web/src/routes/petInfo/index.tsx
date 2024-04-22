@@ -58,15 +58,25 @@ export default function PetInfo() {
 
   const { data: orgInfo, refetch } = useQuery<OrgResponse>({
     queryKey: ["org-info"],
+
     queryFn: async () => {
-      return axios
-        .get(`http://localhost:3333/orgInfo?id=${orgId}`)
-        .then((response) => response.data);
+      if (orgId) {
+        return axios
+          .get(`http://localhost:3333/orgInfo?id=${orgId}`)
+          .then((response) => response.data);
+      }
     },
   });
 
+  console.log(selectedPet);
+  console.log(orgId);
+
   useEffect(() => {
-    if (selectedPet.length !== 0) {
+    refetch();
+
+    if (selectedPet.length >= 1) {
+      setPetInfo(selectedPet[0]);
+      setOrgId(selectedPet[0].org_id);
       localStorage.setItem("storagePet", JSON.stringify(selectedPet));
       localStorage.setItem(
         "storageOrgId",
@@ -74,7 +84,11 @@ export default function PetInfo() {
       );
     }
 
-    if (petInfo === undefined && storagePet!?.length > 0) {
+    if (
+      petInfo === undefined &&
+      storagePet!?.length > 0 &&
+      selectedPet.length === 0
+    ) {
       const parsedStoragePet = JSON.parse(storagePet!);
       const firstPet: Pet = parsedStoragePet[0];
       let orgIdWithoutQuotes = storageOrgId!.replace(/"/g, "");
@@ -82,11 +96,9 @@ export default function PetInfo() {
       setPetInfo(firstPet);
       setOrgId(orgIdWithoutQuotes!);
     }
-  }, [selectedPet, selectImage]);
+  }, [selectedPet, selectImage, orgId]);
 
   useEffect(() => {
-    refetch();
-
     if (orgInfo !== undefined) {
       setIsLoading(false);
     }
@@ -98,7 +110,7 @@ export default function PetInfo() {
         <div>Carregando...</div>
       ) : (
         <PetInfoContainer>
-          <SideBar />
+          <SideBar redirectSite="findPet" />
           <PetInfoContent>
             <BigPetImageContainer>
               <img

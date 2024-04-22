@@ -22,7 +22,7 @@ interface PetRegisterUseCaseRequest {
   animalType: AnimalType;
   requirement: string[];
   org_id: string;
-  petImage?: Array<Prisma.PetImageCreateInput>;
+  petImage?: Array<Prisma.PetImageCreateWithoutPetInput>;
 }
 
 interface PetRegisterUseCaseResponse {
@@ -38,6 +38,7 @@ export class PetRegisterUseCase {
   async execute(
     data: PetRegisterUseCaseRequest
   ): Promise<PetRegisterUseCaseResponse> {
+    console.log(data);
     const org = await this.orgsRepository.findById(data.org_id);
 
     if (!org) {

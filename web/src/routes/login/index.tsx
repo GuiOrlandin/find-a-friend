@@ -26,6 +26,7 @@ export default function Login() {
   const { mutate, isSuccess, isError, data } = useAuthenticateMutate();
   const saveToken = tokenStore((state) => state.setToken);
   const storeToken = localStorage.getItem("storeToken");
+  const storeEmail = localStorage.getItem("storeEmail");
 
   const navigate = useNavigate();
 
@@ -46,6 +47,8 @@ export default function Login() {
   useEffect(() => {
     if (isSuccess) {
       saveToken(data);
+      localStorage.setItem("storeToken", data);
+      localStorage.setItem("storeEmail", accountDetails!.email);
       navigate(`/petRegister/${accountDetails?.email}`);
     }
 
@@ -55,11 +58,9 @@ export default function Login() {
   }, [isSuccess, isError]);
 
   useEffect(() => {
-    if (storeToken) {
-      navigate(`/petRegister/${accountDetails?.email}`);
-    }
-
-    if (!storeToken) {
+    if (storeToken && storeEmail) {
+      navigate(`/petRegister/${storeEmail}`);
+    } else {
       navigate("/login");
     }
   }, [storeToken, accountDetails?.email]);

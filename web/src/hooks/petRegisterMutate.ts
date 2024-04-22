@@ -4,17 +4,18 @@ import { petRegisterDetails } from "../routes/petRegister";
 
 const storeToken = localStorage.getItem("storeToken");
 
-const authToken = storeToken;
 const config = {
   headers: {
-    Authorization: `Bearer ${authToken}`,
+    Authorization: `Bearer ${storeToken}`,
   },
 };
 
 async function postData(data: petRegisterDetails) {
   try {
-    await axios.post("http://localhost:3333/pets", data, config);
-    console.log("Postagem bem-sucedida!");
+    if (config) {
+      await axios.post("http://localhost:3333/pets", data, config);
+      console.log("Postagem bem-sucedida!");
+    }
   } catch (error) {
     console.error("Erro ao postar:", error);
   }

@@ -18,7 +18,9 @@ async function postData(files: File[]) {
       formData.append(`petImage`, file);
     });
 
-    await axios.post("http://localhost:3333/upload", formData, config);
+    if (config) {
+      await axios.post("http://localhost:3333/upload", formData, config);
+    }
   } catch (error) {
     console.error("Erro ao postar:", error);
   }
