@@ -11,36 +11,35 @@ import RegisterOrg from "./src/routes/registerOrg";
 import PetRegister from "./src/routes/petRegister";
 import PetInfo from "./src/routes/petInfo";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-
-  {
-    path: "/findPet",
-    element: <FindPet />,
-  },
-
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/registerOrg",
-    element: <RegisterOrg />,
-  },
-  {
-    path: "/petRegister/:email",
-    element: <PetRegister />,
-  },
-  {
-    path: "/petInfo/:petId",
-    element: <PetInfo />,
-  },
-]);
-
 export function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+
+    {
+      path: "/findPet",
+      element: <FindPet />,
+    },
+
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/registerOrg",
+      element: <RegisterOrg />,
+    },
+    {
+      path: "/petRegister/:email",
+      element: <PetRegister />,
+    },
+    {
+      path: "/petInfo/:petId",
+      element: <PetInfo />,
+    },
+  ]);
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />

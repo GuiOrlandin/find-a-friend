@@ -1,18 +1,16 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { petRegisterDetails } from "../routes/petRegister";
+import { tokenStore } from "../store/tokenStore";
 
-const storeToken = localStorage.getItem("storeToken");
-
-const config = {
-  headers: {
-    Authorization: `Bearer ${storeToken}`,
-  },
-};
-
-async function postData(data: petRegisterDetails) {
+async function postData(data: petRegisterDetails, authToken: string) {
   try {
-    if (config) {
+    if (authToken) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      };
       await axios.post("http://localhost:3333/pets", data, config);
       console.log("Postagem bem-sucedida!");
     }
@@ -22,8 +20,16 @@ async function postData(data: petRegisterDetails) {
 }
 
 export function usePetRegisterMutate() {
+  const storeToken = localStorage.getItem("storeToken");
+  const setToken = tokenStore((state) => state.setToken);
+  const authToken = tokenStore((state) => state.token);
+
+  if (storeToken) {
+    setToken(storeToken);
+  }
+
   const mutate = useMutation({
-    mutationFn: postData,
+    mutationFn: (data: petRegisterDetails) => postData(data, authToken),
   });
   return mutate;
 }

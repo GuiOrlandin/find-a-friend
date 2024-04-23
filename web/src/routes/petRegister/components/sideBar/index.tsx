@@ -12,10 +12,14 @@ interface Props {
 export default function SideBar({ redirectSite }: Props) {
   const navigate = useNavigate();
 
+  function handleNavigate(redirectSite: string) {
+    navigate(`/${redirectSite}`, { replace: true });
+  }
+
   return (
     <SideBarContainer>
       <img src={littleLogoFace} alt="" width={27} />
-      <ButtonBackPage onClick={() => navigate(`/${redirectSite}`)}>
+      <ButtonBackPage onClick={() => handleNavigate(redirectSite)}>
         <IoMdArrowRoundBack color="#0D3B66" />
       </ButtonBackPage>
     </SideBarContainer>

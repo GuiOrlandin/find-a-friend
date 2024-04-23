@@ -1,24 +1,21 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { tokenStore } from "../store/tokenStore";
 
-const storeToken = localStorage.getItem("storeToken");
-
-const authToken = storeToken;
-const config = {
-  headers: {
-    Authorization: `Bearer ${authToken}`,
-  },
-};
-
-async function postData(files: File[]) {
+async function postData(files: File[], authToken: string) {
   try {
-    const formData = new FormData();
+    if (files) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      };
+      const formData = new FormData();
 
-    files.forEach((file) => {
-      formData.append(`petImage`, file);
-    });
+      files.forEach((file) => {
+        formData.append(`petImage`, file);
+      });
 
-    if (config) {
       await axios.post("http://localhost:3333/upload", formData, config);
     }
   } catch (error) {
@@ -27,8 +24,16 @@ async function postData(files: File[]) {
 }
 
 export function useUploadImageMutate() {
+  const storeToken = localStorage.getItem("storeToken");
+  const setToken = tokenStore((state) => state.setToken);
+  const authToken = tokenStore((state) => state.token);
+
+  if (storeToken) {
+    setToken(storeToken);
+  }
+
   const mutate = useMutation({
-    mutationFn: postData,
+    mutationFn: (data: File[]) => postData(data, authToken),
   });
   return mutate;
 }

@@ -84,7 +84,6 @@ export default function PetRegister() {
       petImage: [],
       requirement: [],
     });
-  const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [requirements, setRequirements] = useState<string[]>([]);
   const [inputRequirementsValue, setInputRequirementsValue] = useState("");
@@ -195,20 +194,17 @@ export default function PetRegister() {
     if (email && token) {
       setCredential(email);
       localStorage.setItem("storeToken", token);
-      console.log("au");
       refetch();
     }
 
     if (email && !token) {
       setCredential(email);
       setToken(storeToken!);
-      console.log("ui");
       refetch();
     }
 
     if (data !== undefined) {
       setOrgInfo(data);
-      setIsLoading(false);
     }
 
     if (credential === undefined) {
@@ -234,7 +230,6 @@ export default function PetRegister() {
       navigate("/login");
     }
   }, [email, credential, token, storeToken, error]);
-  console.log(error);
 
   useEffect(() => {
     if (orgInfo !== undefined) {
@@ -249,233 +244,227 @@ export default function PetRegister() {
 
   return (
     <>
-      {isLoading ? (
-        <div>Carregando...</div>
-      ) : (
-        <PetRegisterContainer>
-          <SideBar redirectSite="/" />
-          <FormAndOrgInfoContainer>
-            <OrgInformationContainer>
-              <BackgroundLogo>
-                <img src={littleLogoFace} alt="" width={27} />
-              </BackgroundLogo>
-              {orgInfo !== undefined && (
-                <OrgNameAndAddressContainer>
-                  <h1>{orgInfo?.name}</h1>
-                  <span>
-                    {orgInfo?.adress}, {orgInfo?.city}, {orgInfo?.state}
-                  </span>
-                </OrgNameAndAddressContainer>
+      <PetRegisterContainer>
+        <SideBar redirectSite="" />
+        <FormAndOrgInfoContainer>
+          <OrgInformationContainer>
+            <BackgroundLogo>
+              <img src={littleLogoFace} alt="" width={27} />
+            </BackgroundLogo>
+            {orgInfo !== undefined && (
+              <OrgNameAndAddressContainer>
+                <h1>{orgInfo?.name}</h1>
+                <span>
+                  {orgInfo?.adress}, {orgInfo?.city}, {orgInfo?.state}
+                </span>
+              </OrgNameAndAddressContainer>
+            )}
+
+            <LogoutButton onClick={() => handleLogout()}>
+              <LuLogOut color="FFFFFF" />
+            </LogoutButton>
+          </OrgInformationContainer>
+          <FormPetRegisterContainer>
+            <TitleAndBorderBottom>
+              <h1>Adicione um pet</h1>
+            </TitleAndBorderBottom>
+
+            <InputFormatted
+              inputTitle="Nome"
+              pageWithTheComponent="petRegister"
+              handleChangeAccountDetails={(value) =>
+                handleChangePetDetailsForRegister(value, "name")
+              }
+              inputActive="text"
+            />
+
+            <InputFormatted
+              inputTitle="Sobre"
+              pageWithTheComponent="petRegister"
+              handleChangeAccountDetails={(value) =>
+                handleChangePetDetailsForRegister(value, "description")
+              }
+              inputActive="about"
+            />
+            <SelectContainer>
+              <span>Idade</span>
+              <select
+                onChange={(age) =>
+                  handleChangePetDetailsForRegister(
+                    age.target.value.toUpperCase(),
+                    "age"
+                  )
+                }
+              >
+                {age.map((age) => (
+                  <option key={age.title}>{age.title}</option>
+                ))}
+              </select>
+            </SelectContainer>
+            <SelectContainer>
+              <span>Porte</span>
+              <select
+                onChange={(animalSize) =>
+                  handleChangePetDetailsForRegister(
+                    animalSize.target.value
+                      .normalize("NFD")
+                      .replace(/[^a-zA-Z\s]/g, "")
+                      .toUpperCase(),
+                    "animalSize"
+                  )
+                }
+              >
+                {size.map((size) => (
+                  <option key={size.title}>{size.title}</option>
+                ))}
+              </select>
+            </SelectContainer>
+            <SelectContainer>
+              <span>Nível de energia</span>
+              <select
+                onChange={(energyLevel) =>
+                  handleChangePetDetailsForRegister(
+                    energyLevel.target.value.toUpperCase(),
+                    "energyLevel"
+                  )
+                }
+              >
+                {energyLevel.map((energyLevel) => (
+                  <option key={energyLevel.title}>{energyLevel.title}</option>
+                ))}
+              </select>
+            </SelectContainer>
+            <SelectContainer>
+              <span>Nível de independência</span>
+              <select
+                onChange={(levelOfIndependence) =>
+                  handleChangePetDetailsForRegister(
+                    levelOfIndependence.target.value
+                      .normalize("NFD")
+                      .replace(/[^a-zA-Z\s]/g, "")
+                      .toUpperCase(),
+                    "levelOfIndependence"
+                  )
+                }
+              >
+                {independence.map((independence) => (
+                  <option key={independence.title}>{independence.title}</option>
+                ))}
+              </select>
+            </SelectContainer>
+            <SelectContainer>
+              <span>Ambiente</span>
+              <select
+                onChange={(enviroment) =>
+                  handleChangePetDetailsForRegister(
+                    enviroment.target.value
+                      .normalize("NFD")
+                      .replace(/[^a-zA-Z\s]/g, "")
+                      .toUpperCase(),
+                    "enviroment"
+                  )
+                }
+              >
+                {size.map((size) => (
+                  <option key={size.title}>{size.title}</option>
+                ))}
+              </select>
+            </SelectContainer>
+            <SelectContainer>
+              <span>Tipo do Animal</span>
+              <select
+                onChange={(animalType) =>
+                  handleChangePetDetailsForRegister(
+                    animalType.target.value,
+                    "animalType"
+                  )
+                }
+              >
+                {animalType.map((animalType) => (
+                  <option key={animalType.title}>{animalType.title}</option>
+                ))}
+              </select>
+            </SelectContainer>
+
+            <UploadImageAndTitleContainer>
+              <span>Fotos</span>
+              {dropzone.isDragActive ? (
+                <UploadImageAndTitleContainerOnHover
+                  {...dropzone.getRootProps()}
+                >
+                  <label>
+                    <IoCloudUploadOutline height={24} />
+                    <p>Arraste e solte o arquivo</p>
+                  </label>
+                  <input type="" {...dropzone.getInputProps()} />
+                </UploadImageAndTitleContainerOnHover>
+              ) : (
+                <UploadImageContainer {...dropzone.getRootProps()}>
+                  <label>
+                    <IoCloudUploadOutline height={24} />
+                    <p>Arraste e solte o arquivo</p>
+                  </label>
+                  <input type="" {...dropzone.getInputProps()} />
+                </UploadImageContainer>
               )}
-
-              <LogoutButton onClick={() => handleLogout()}>
-                <LuLogOut color="FFFFFF" />
-              </LogoutButton>
-            </OrgInformationContainer>
-            <FormPetRegisterContainer>
+            </UploadImageAndTitleContainer>
+            {images?.map((image) => (
+              <ImageNameUploadedContainer key={image.name}>
+                <CiImageOn />
+                {image?.name}
+                <CloseButton onClick={() => handleRemoveUploadedFile(image)}>
+                  <FaRegWindowClose color="#E44449" />
+                </CloseButton>
+              </ImageNameUploadedContainer>
+            ))}
+            <AnimalRequirementContainer>
               <TitleAndBorderBottom>
-                <h1>Adicione um pet</h1>
+                <h1>Requesitos para adoção</h1>
               </TitleAndBorderBottom>
-
               <InputFormatted
-                inputTitle="Nome"
-                pageWithTheComponent="petRegister"
-                handleChangeAccountDetails={(value) =>
-                  handleChangePetDetailsForRegister(value, "name")
-                }
                 inputActive="text"
-              />
-
-              <InputFormatted
-                inputTitle="Sobre"
                 pageWithTheComponent="petRegister"
-                handleChangeAccountDetails={(value) =>
-                  handleChangePetDetailsForRegister(value, "description")
-                }
-                inputActive="about"
+                inputTitle="Requisito"
+                handleChangeAccountDetails={(value) => {
+                  setInputRequirementsValue(value);
+                }}
               />
-              <SelectContainer>
-                <span>Idade</span>
-                <select
-                  onChange={(age) =>
-                    handleChangePetDetailsForRegister(
-                      age.target.value.toUpperCase(),
-                      "age"
-                    )
-                  }
-                >
-                  {age.map((age) => (
-                    <option key={age.title}>{age.title}</option>
-                  ))}
-                </select>
-              </SelectContainer>
-              <SelectContainer>
-                <span>Porte</span>
-                <select
-                  onChange={(animalSize) =>
-                    handleChangePetDetailsForRegister(
-                      animalSize.target.value
-                        .normalize("NFD")
-                        .replace(/[^a-zA-Z\s]/g, "")
-                        .toUpperCase(),
-                      "animalSize"
-                    )
-                  }
-                >
-                  {size.map((size) => (
-                    <option key={size.title}>{size.title}</option>
-                  ))}
-                </select>
-              </SelectContainer>
-              <SelectContainer>
-                <span>Nível de energia</span>
-                <select
-                  onChange={(energyLevel) =>
-                    handleChangePetDetailsForRegister(
-                      energyLevel.target.value.toUpperCase(),
-                      "energyLevel"
-                    )
-                  }
-                >
-                  {energyLevel.map((energyLevel) => (
-                    <option key={energyLevel.title}>{energyLevel.title}</option>
-                  ))}
-                </select>
-              </SelectContainer>
-              <SelectContainer>
-                <span>Nível de independência</span>
-                <select
-                  onChange={(levelOfIndependence) =>
-                    handleChangePetDetailsForRegister(
-                      levelOfIndependence.target.value
-                        .normalize("NFD")
-                        .replace(/[^a-zA-Z\s]/g, "")
-                        .toUpperCase(),
-                      "levelOfIndependence"
-                    )
-                  }
-                >
-                  {independence.map((independence) => (
-                    <option key={independence.title}>
-                      {independence.title}
-                    </option>
-                  ))}
-                </select>
-              </SelectContainer>
-              <SelectContainer>
-                <span>Ambiente</span>
-                <select
-                  onChange={(enviroment) =>
-                    handleChangePetDetailsForRegister(
-                      enviroment.target.value
-                        .normalize("NFD")
-                        .replace(/[^a-zA-Z\s]/g, "")
-                        .toUpperCase(),
-                      "enviroment"
-                    )
-                  }
-                >
-                  {size.map((size) => (
-                    <option key={size.title}>{size.title}</option>
-                  ))}
-                </select>
-              </SelectContainer>
-              <SelectContainer>
-                <span>Tipo do Animal</span>
-                <select
-                  onChange={(animalType) =>
-                    handleChangePetDetailsForRegister(
-                      animalType.target.value,
-                      "animalType"
-                    )
-                  }
-                >
-                  {animalType.map((animalType) => (
-                    <option key={animalType.title}>{animalType.title}</option>
-                  ))}
-                </select>
-              </SelectContainer>
-
-              <UploadImageAndTitleContainer>
-                <span>Fotos</span>
-                {dropzone.isDragActive ? (
-                  <UploadImageAndTitleContainerOnHover
-                    {...dropzone.getRootProps()}
+              {requirements.map((requirement) => (
+                <RequirementUploadedContainer key={`${uuidv4()}`}>
+                  {requirement}
+                  <CloseButton
+                    onClick={() => handleRemoveUploadedText(requirement)}
                   >
-                    <label>
-                      <IoCloudUploadOutline height={24} />
-                      <p>Arraste e solte o arquivo</p>
-                    </label>
-                    <input type="" {...dropzone.getInputProps()} />
-                  </UploadImageAndTitleContainerOnHover>
-                ) : (
-                  <UploadImageContainer {...dropzone.getRootProps()}>
-                    <label>
-                      <IoCloudUploadOutline height={24} />
-                      <p>Arraste e solte o arquivo</p>
-                    </label>
-                    <input type="" {...dropzone.getInputProps()} />
-                  </UploadImageContainer>
-                )}
-              </UploadImageAndTitleContainer>
-              {images?.map((image) => (
-                <ImageNameUploadedContainer key={image.name}>
-                  <CiImageOn />
-                  {image?.name}
-                  <CloseButton onClick={() => handleRemoveUploadedFile(image)}>
                     <FaRegWindowClose color="#E44449" />
                   </CloseButton>
-                </ImageNameUploadedContainer>
+                </RequirementUploadedContainer>
               ))}
-              <AnimalRequirementContainer>
-                <TitleAndBorderBottom>
-                  <h1>Requesitos para adoção</h1>
-                </TitleAndBorderBottom>
-                <InputFormatted
-                  inputActive="text"
-                  pageWithTheComponent="petRegister"
-                  inputTitle="Requisito"
-                  handleChangeAccountDetails={(value) => {
-                    setInputRequirementsValue(value);
-                  }}
-                />
-                {requirements.map((requirement) => (
-                  <RequirementUploadedContainer key={`${uuidv4()}`}>
-                    {requirement}
-                    <CloseButton
-                      onClick={() => handleRemoveUploadedText(requirement)}
-                    >
-                      <FaRegWindowClose color="#E44449" />
-                    </CloseButton>
-                  </RequirementUploadedContainer>
-                ))}
 
-                <AddRequirement
-                  onClick={() =>
-                    setRequirements((prevValue) => [
-                      ...prevValue,
-                      inputRequirementsValue,
-                    ])
-                  }
-                >
-                  <FaPlus color="#E44449" />
-                </AddRequirement>
-              </AnimalRequirementContainer>
+              <AddRequirement
+                onClick={() =>
+                  setRequirements((prevValue) => [
+                    ...prevValue,
+                    inputRequirementsValue,
+                  ])
+                }
+              >
+                <FaPlus color="#E44449" />
+              </AddRequirement>
+            </AnimalRequirementContainer>
 
-              <div>
-                <RegisterPetButton onClick={() => handlePetRegister()}>
-                  Confirmar
-                </RegisterPetButton>
-                {responseOfPetRegister && (
-                  <PetRegisteredSuccessful>
-                    {responseOfPetRegister}
-                  </PetRegisteredSuccessful>
-                )}
-              </div>
-            </FormPetRegisterContainer>
-          </FormAndOrgInfoContainer>
-        </PetRegisterContainer>
-      )}
+            <div>
+              <RegisterPetButton onClick={() => handlePetRegister()}>
+                Confirmar
+              </RegisterPetButton>
+              {responseOfPetRegister && (
+                <PetRegisteredSuccessful>
+                  {responseOfPetRegister}
+                </PetRegisteredSuccessful>
+              )}
+            </div>
+          </FormPetRegisterContainer>
+        </FormAndOrgInfoContainer>
+      </PetRegisterContainer>
     </>
   );
 }

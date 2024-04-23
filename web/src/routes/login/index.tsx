@@ -23,7 +23,7 @@ export interface AccountDetails {
 export default function Login() {
   const [accountDetails, setAccountDetails] = useState<AccountDetails>();
   const [authenticateError, setAuthenticateError] = useState(false);
-  const { mutate, isSuccess, isError, data } = useAuthenticateMutate();
+  const { mutate, isSuccess, data, isError } = useAuthenticateMutate();
   const saveToken = tokenStore((state) => state.setToken);
   const storeToken = localStorage.getItem("storeToken");
   const storeEmail = localStorage.getItem("storeEmail");
@@ -45,11 +45,11 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (isSuccess) {
+    if (data) {
       saveToken(data);
       localStorage.setItem("storeToken", data);
       localStorage.setItem("storeEmail", accountDetails!.email);
-      navigate(`/petRegister/${accountDetails?.email}`);
+      navigate(`/petRegister/${accountDetails?.email}`, { replace: true });
     }
 
     if (isError) {

@@ -68,9 +68,6 @@ export default function PetInfo() {
     },
   });
 
-  console.log(selectedPet);
-  console.log(orgId);
-
   useEffect(() => {
     refetch();
 
@@ -96,7 +93,16 @@ export default function PetInfo() {
       setPetInfo(firstPet);
       setOrgId(orgIdWithoutQuotes!);
     }
+
+    if (selectImage === undefined && petInfo) {
+      setSelectImage(
+        `http://localhost:3333/files/${petInfo?.petImage[0].path}`
+      );
+      console.log("au");
+    }
   }, [selectedPet, selectImage, orgId]);
+
+  console.log(selectImage);
 
   useEffect(() => {
     if (orgInfo !== undefined) {
