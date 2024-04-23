@@ -235,3 +235,13 @@ export const WhatsAppRedirectButton = styled.button`
   border-radius: 20px;
   background: #3cdc8c;
 `;
+
+export const SkeletonBigPetImageContainer = styled.div`
+  display: block;
+  height: 26rem;
+  border: none;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 44rem;
+`;

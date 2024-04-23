@@ -72,6 +72,10 @@ export default function RegisterOrg() {
       );
     }
 
+    if (orgDetailsForRegister.state.length > 2) {
+      return setErrorFound("O stado pode conter no máximo 2 dígitos.");
+    }
+
     if (orgDetailsForRegister.password.length <= 5) {
       return setErrorFound("A senha precisa ter mais de 5 dígitos.");
     }

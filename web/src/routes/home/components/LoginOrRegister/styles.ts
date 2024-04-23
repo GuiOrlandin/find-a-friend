@@ -20,17 +20,9 @@ export const LoginButton = styled.button`
   font-weight: 800;
 `;
 
-export const RegisterButton = styled.button`
-  background: #f4d35e;
+export const RegisterButton = styled(LoginButton)`
   width: 7rem;
-  padding: 0.75rem;
-
-  font-weight: 800;
-  color: #0d3b66;
-
-  border-radius: 20px;
-  border: none;
-
-  font-size: 1rem;
-  font-weight: 800;
+`;
+export const LogoutButton = styled(LoginButton)`
+  margin-left: 7rem;
 `;

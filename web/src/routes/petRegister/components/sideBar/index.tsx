@@ -14,6 +14,7 @@ export default function SideBar({ redirectSite }: Props) {
 
   function handleNavigate(redirectSite: string) {
     navigate(`/${redirectSite}`, { replace: true });
+    window.location.reload();
   }
 
   return (

@@ -10,6 +10,7 @@ import Login from "./src/routes/login";
 import RegisterOrg from "./src/routes/registerOrg";
 import PetRegister from "./src/routes/petRegister";
 import PetInfo from "./src/routes/petInfo";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export function App() {
   const router = createBrowserRouter([

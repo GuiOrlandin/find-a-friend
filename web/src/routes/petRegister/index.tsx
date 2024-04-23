@@ -90,7 +90,7 @@ export default function PetRegister() {
   const [credential, setCredential] = useState<string>();
   const [orgInfo, setOrgInfo] = useState<OrgResponse>();
   const [responseOfPetRegister, setResponseOfPetRegister] = useState<string>();
-  const { mutate } = usePetRegisterMutate();
+  const { mutate, isSuccess } = usePetRegisterMutate();
   const { mutate: upload } = useUploadImageMutate();
   const { email } = useParams();
 
@@ -173,7 +173,6 @@ export default function PetRegister() {
     ) {
       mutate(petRegisterDetails);
       upload(images);
-      setResponseOfPetRegister("Pet Cadastrado!");
     } else {
       setResponseOfPetRegister("Por favor, preencha todos os campos.");
     }
@@ -229,7 +228,11 @@ export default function PetRegister() {
       localStorage.removeItem("storedEmail");
       navigate("/login");
     }
-  }, [email, credential, token, storeToken, error]);
+
+    if (isSuccess) {
+      navigate("/");
+    }
+  }, [email, credential, token, storeToken, error, isSuccess]);
 
   useEffect(() => {
     if (orgInfo !== undefined) {
