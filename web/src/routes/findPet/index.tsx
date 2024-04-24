@@ -20,8 +20,10 @@ import {
   PetListAndNumberOfPetsFoundContainer,
   PetListContainer,
   SelectStateCityAndSearchButtonContainer,
+  SkeletonImage,
 } from "../../styles/pages/findPet/styles";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 export interface Characteristics {
   animalSize: string;
@@ -186,16 +188,30 @@ export default function FindPet() {
                   key={pet.id}
                   onClick={() => handleNavigate(pet.id)}
                 >
-                  <PetCardPetImageContainer>
-                    <img
-                      src={`http://localhost:3333/files/${pet.petImage[0].path}`}
-                      alt=""
-                    />
-                  </PetCardPetImageContainer>
+                  {`http://localhost:3333/files/${pet.petImage[0].path}` ===
+                  undefined ? (
+                    <div>
+                      <SkeletonImage
+                        width={17.125 * 16}
+                        height={8.4375 * 16}
+                        variant="rectangular"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <PetCardPetImageContainer>
+                        <img
+                          src={`http://localhost:3333/files/${pet.petImage[0].path}`}
+                          alt=""
+                        />
+                      </PetCardPetImageContainer>
+
+                      <p>{pet.name}</p>
+                    </>
+                  )}
                   <BackgroundLogo variant={pet.animalType}>
                     <img src={littleLogoFace} alt="" />
                   </BackgroundLogo>
-                  <p>{pet.name}</p>
                 </PetCardContainer>
               );
             })

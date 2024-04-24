@@ -1,3 +1,4 @@
+import { Skeleton } from "@mui/material";
 import styled from "styled-components";
 
 interface SelectAnimalType {
@@ -88,7 +89,7 @@ export const PetCardPetImageContainer = styled.div`
 export const BackgroundLogo = styled.div<SelectAnimalType>`
   position: absolute;
 
-  left: 120px;
+  left: 115px;
   bottom: 25px;
 
   background: ${({ variant }) => (variant === "Gato" ? "#f4d35e" : "#F15156")};
@@ -141,4 +142,9 @@ export const NumberOfPetsFoundAndCatOrDogFilterContainer = styled.div`
     border: none;
     padding-left: 1.125rem;
   }
+`;
+
+export const SkeletonImage = styled(Skeleton)`
+  border-radius: 20px;
+  margin-top: 0.18rem;
 `;
