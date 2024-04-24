@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   BackgroundLogo,
   BigPetImageContainer,
@@ -18,19 +17,17 @@ import {
   PetRequirementsContent,
   PhoneNumberContainer,
   SizePetInfo,
-  SkeletonBigPetImageContainer,
   WhatsAppRedirectButton,
 } from "../../styles/pages/petInfo/styles";
 import SideBar from "../petRegister/components/sideBar";
 
 import axios from "axios";
 
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-
 import littleLogoFace from "../../assets/littleLogoFace.svg";
 
 import { OrgResponse } from "../petRegister";
+
+import { Skeleton } from "@mui/material";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -40,24 +37,18 @@ import { IoEllipse } from "react-icons/io5";
 import { IoLogoWhatsapp } from "react-icons/io";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
-import { Pet, findPetStore } from "../../store/findPetStore";
+import { Pet } from "../../store/findPetStore";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function PetInfo() {
-  const pet = findPetStore((state) => state.pet);
   const [petInfo, setPetInfo] = useState<Pet>();
   const [selectImage, setSelectImage] = useState<string>();
   const [orgId, setOrgId] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   let { petId } = useParams();
   const storagePet = localStorage.getItem("storagePet");
   const storageOrgId = localStorage.getItem("storageOrgId");
-
-  const selectedPet = pet.filter((petSelected) => {
-    return petSelected.id === petId;
-  });
 
   function handleSelectImage(imageName: string) {
     setSelectImage(`http://localhost:3333/files/${imageName}`);
@@ -74,25 +65,33 @@ export default function PetInfo() {
       }
     },
   });
+  const { data: petSelected, refetch: refetchPetSelected } = useQuery<Pet>({
+    queryKey: ["pet-selected"],
+
+    queryFn: async () => {
+      if (orgId) {
+        return axios
+          .get(`http://localhost:3333/pets/available?id=${petId}`)
+          .then((response) => response.data);
+      }
+    },
+  });
 
   useEffect(() => {
-    refetch();
-
-    if (selectedPet.length >= 1) {
-      setPetInfo(selectedPet[0]);
-      setOrgId(selectedPet[0].org_id);
-      localStorage.setItem("storagePet", JSON.stringify(selectedPet));
-      localStorage.setItem(
-        "storageOrgId",
-        JSON.stringify(selectedPet[0].org_id)
-      );
+    if (!petSelected) {
+      refetchPetSelected();
     }
 
-    if (
-      petInfo === undefined &&
-      storagePet!?.length > 0 &&
-      selectedPet.length === 0
-    ) {
+    if (petSelected) {
+      setPetInfo(petSelected);
+      setOrgId(petSelected.org_id);
+      localStorage.setItem("storagePet", JSON.stringify(petSelected));
+      localStorage.setItem("storageOrgId", JSON.stringify(petSelected.org_id));
+
+      refetch();
+    }
+
+    if (petInfo === undefined && storagePet!?.length > 0) {
       const parsedStoragePet = JSON.parse(storagePet!);
       const firstPet: Pet = parsedStoragePet[0];
       let orgIdWithoutQuotes = storageOrgId!.replace(/"/g, "");
@@ -106,35 +105,24 @@ export default function PetInfo() {
         `http://localhost:3333/files/${petInfo?.petImage[0].path}`
       );
     }
-  }, [selectedPet, selectImage, orgId]);
-
-  console.log(selectImage);
-
-  useEffect(() => {
-    if (orgInfo !== undefined && selectImage !== undefined) {
-      setIsLoading(false);
-    }
-  }, [orgInfo]);
+  }, [selectImage, orgId, orgInfo, petSelected]);
 
   return (
     <>
       <PetInfoContainer>
         <SideBar redirectSite="findPet" />
         <PetInfoContent>
-          {isLoading ? (
-            <Skeleton width={44 * 16} height={26 * 16} />
-          ) : (
-            <BigPetImageContainer>
-              <img
-                src={
-                  selectImage
-                    ? selectImage
-                    : `http://localhost:3333/files/${petInfo?.petImage[0].path}`
-                }
-                alt=""
-              />
-            </BigPetImageContainer>
-          )}
+          <BigPetImageContainer>
+            <img
+              src={
+                selectImage
+                  ? selectImage
+                  : `http://localhost:3333/files/${petInfo?.petImage[0].path}`
+              }
+              alt=""
+            />
+          </BigPetImageContainer>
+
           <LittlePetImageContainer>
             {petInfo?.petImage.map((image) => (
               <LittlePetImage

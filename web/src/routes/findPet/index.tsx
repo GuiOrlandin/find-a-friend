@@ -55,6 +55,9 @@ export default function FindPet() {
     }
     setPetList(filteredPets);
   }
+  function handleNavigate(petId: string) {
+    navigate(`/petInfo/${petId}`);
+  }
 
   function handleCharacteristicSelect(characteristic: string, value: string) {
     setCharacteristicsForSearch({
@@ -181,7 +184,7 @@ export default function FindPet() {
               return (
                 <PetCardContainer
                   key={pet.id}
-                  onClick={() => navigate(`/petInfo/${pet.id}`)}
+                  onClick={() => handleNavigate(pet.id)}
                 >
                   <PetCardPetImageContainer>
                     <img

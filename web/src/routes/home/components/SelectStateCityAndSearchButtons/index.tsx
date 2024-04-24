@@ -63,7 +63,7 @@ export default function SelectStateCityAndSearchButton({
     queryFn: async () => {
       const url =
         variant === "home"
-          ? `http://localhost:3333/pets/available/city?city=${citySelected}&page=1`
+          ? `http://localhost:3333/pets/available?city=${citySelected}&page=1`
           : `http://localhost:3333/pets/available/characteristics?animalSize=${characteristicsForSearch?.animalSize}&energyLevel=${characteristicsForSearch?.energyLevel}&city=${citySelected}&age=${characteristicsForSearch?.age}&levelOfIndependence=${characteristicsForSearch?.levelOfIndependence}&page=1`;
       const response = await axios.get(url);
       return response.data;

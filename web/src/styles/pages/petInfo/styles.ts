@@ -245,3 +245,20 @@ export const SkeletonBigPetImageContainer = styled.div`
   border-top-right-radius: 20px;
   width: 44rem;
 `;
+
+export const SkeletonPetDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-left: 5rem;
+  margin-bottom: 1rem;
+`;
+export const SkeletonPetInformation = styled.div`
+  display: flex;
+  gap: 2rem;
+  margin: 0 4.5rem 2.5rem 4.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 2.5rem;
+
+  border-bottom: 1px solid #d3e2e5;
+`;

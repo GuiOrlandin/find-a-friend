@@ -38,7 +38,6 @@ export class PetRegisterUseCase {
   async execute(
     data: PetRegisterUseCaseRequest
   ): Promise<PetRegisterUseCaseResponse> {
-    console.log(data);
     const org = await this.orgsRepository.findById(data.org_id);
 
     if (!org) {

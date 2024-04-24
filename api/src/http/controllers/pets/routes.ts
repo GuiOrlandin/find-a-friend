@@ -17,5 +17,5 @@ export async function petsRoutes(app: FastifyInstance) {
     }
   );
   app.get("/pets/available/characteristics", findPetByCharacteristics);
-  app.get("/pets/available/city", findPetByCity);
+  app.get("/pets/available", findPetByCity);
 }

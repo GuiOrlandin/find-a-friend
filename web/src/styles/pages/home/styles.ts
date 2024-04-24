@@ -11,7 +11,7 @@ export const HomeContainer = styled.div`
 
 export const LeftSideOfHome = styled.div`
   img {
-    margin-top: 7.75rem;
+    margin-top: 12rem;
   }
 
   h1 {

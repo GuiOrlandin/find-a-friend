@@ -25,6 +25,18 @@ export class PrismaPetsRepository implements PetsRepository {
     return pets;
   }
 
+  async findById(id: string) {
+    const pet = await prisma.pet.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        petImage: true,
+      },
+    });
+    return pet;
+  }
+
   async findByCharacteristics(
     age: Age,
     energyLevel: string,

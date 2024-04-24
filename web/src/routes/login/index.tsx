@@ -14,6 +14,7 @@ import {
 } from "../../styles/pages/login/styles";
 import FindAFriendPanel from "./components/findAFriendPanel";
 import { tokenStore } from "../../store/tokenStore";
+import { emailStore } from "../../store/emailStore";
 
 export interface AccountDetails {
   password: string;
@@ -25,6 +26,7 @@ export default function Login() {
   const [authenticateError, setAuthenticateError] = useState(false);
   const { mutate, isSuccess, data, isError } = useAuthenticateMutate();
   const saveToken = tokenStore((state) => state.setToken);
+  const saveEmail = emailStore((state) => state.setEmail);
   const storeToken = localStorage.getItem("storeToken");
   const storeEmail = localStorage.getItem("storeEmail");
 
@@ -47,6 +49,7 @@ export default function Login() {
   useEffect(() => {
     if (data) {
       saveToken(data);
+      saveEmail(accountDetails!.email);
       localStorage.setItem("storeToken", data);
       localStorage.setItem("storeEmail", accountDetails!.email);
       navigate(`/petRegister/${accountDetails?.email}`, { replace: true });

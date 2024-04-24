@@ -1,13 +1,16 @@
 import { Pet } from "@prisma/client";
 import { PetsRepository } from "@/repositories/pet-repository";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
-interface findPetByCityUseCaseRequest {
-  city: string;
-  page: number;
+interface findPetByCityOrIdUseCaseRequest {
+  city?: string;
+  id?: string;
+  page?: number;
 }
 
 interface findPetByCityUseCaseResponse {
-  pets: Pet[];
+  pets?: Pet[] | Pet | null;
+  pet?: Pet | null;
 }
 
 export class findPetByCityUseCase {
@@ -16,11 +19,24 @@ export class findPetByCityUseCase {
   async execute({
     city,
     page,
-  }: findPetByCityUseCaseRequest): Promise<findPetByCityUseCaseResponse> {
-    const pets = await this.petRepository.findByCity(city, page);
+    id,
+  }: findPetByCityOrIdUseCaseRequest): Promise<findPetByCityUseCaseResponse> {
+    if (id) {
+      const pet = await this.petRepository.findById(id);
 
-    return {
-      pets,
-    };
+      return {
+        pet,
+      };
+    }
+
+    if (city && page) {
+      const pets = await this.petRepository.findByCity(city, page);
+
+      return {
+        pets,
+      };
+    }
+
+    throw new InvalidCredentialsError();
   }
 }

@@ -20,9 +20,15 @@ export const LoginButton = styled.button`
   font-weight: 800;
 `;
 
-export const RegisterButton = styled(LoginButton)`
+export const RegisterPetButton = styled(LoginButton)`
+  width: 8rem;
+`;
+
+export const RegisterOrgButton = styled(LoginButton)`
   width: 7rem;
+  margin-right: 1rem;
 `;
 export const LogoutButton = styled(LoginButton)`
-  margin-left: 7rem;
+  width: 5rem;
+  margin-right: 1rem;
 `;

@@ -10,6 +10,7 @@ export interface PetsRepository {
     page: number
   ): Promise<Pet[]>;
 
+  findById(id: string): Promise<Pet | null>;
   findByCity(city: string, page: number): Promise<Pet[]>;
   register(data: Prisma.PetUncheckedCreateInput): Promise<Pet>;
 }

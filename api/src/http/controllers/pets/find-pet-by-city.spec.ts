@@ -15,7 +15,7 @@ describe("Find a pet by city (e2e)", () => {
   it("should be able to find a pet by city", async () => {
     const { token } = await createAndAuthenticateOrganization(app);
 
-    await request(app.server)
+    const pet = await request(app.server)
       .post(`/pets`)
       .set("Authorization", `Bearer ${token}`)
       .send({
@@ -35,7 +35,7 @@ describe("Find a pet by city (e2e)", () => {
       });
 
     const response = await request(app.server)
-      .get("/pets/available/city")
+      .get("/pets/available")
       .query({
         city: "Americo",
         page: "1",

@@ -13,6 +13,16 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet;
   }
 
+  async findById(id: string) {
+    const pet = this.items.find((item) => item.id === id);
+
+    if (pet) {
+      return pet;
+    } else {
+      return null;
+    }
+  }
+
   async findByCharacteristics(
     age: Age,
     energyLevel: string,

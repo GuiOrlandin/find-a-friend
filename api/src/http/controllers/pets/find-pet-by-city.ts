@@ -7,20 +7,33 @@ export async function findPetByCity(
   reply: FastifyReply
 ) {
   const findPetBodySchema = z.object({
-    city: z.string(),
-    page: z.coerce.number(),
+    city: z.string().optional(),
+    id: z.string().optional(),
+    page: z.coerce.number().optional(),
   });
 
-  const { city, page } = findPetBodySchema.parse(request.query);
+  const { city, page, id } = findPetBodySchema.parse(request.query);
 
   const findPetUseCase = makeFindPetByCityUseCase();
 
-  const { pets } = await findPetUseCase.execute({
-    city,
-    page,
-  });
+  if (city) {
+    const { pets } = await findPetUseCase.execute({
+      city,
+      page,
+    });
 
-  return reply.status(200).send({
-    pets,
-  });
+    return reply.status(200).send({
+      pets,
+    });
+  }
+
+  if (id) {
+    const { pets } = await findPetUseCase.execute({
+      id,
+    });
+
+    return reply.status(200).send({
+      pets,
+    });
+  }
 }
