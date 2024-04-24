@@ -10,7 +10,6 @@ interface findPetByCityOrIdUseCaseRequest {
 
 interface findPetByCityUseCaseResponse {
   pets?: Pet[] | Pet | null;
-  pet?: Pet | null;
 }
 
 export class findPetByCityUseCase {
@@ -22,10 +21,10 @@ export class findPetByCityUseCase {
     id,
   }: findPetByCityOrIdUseCaseRequest): Promise<findPetByCityUseCaseResponse> {
     if (id) {
-      const pet = await this.petRepository.findById(id);
+      const pets = await this.petRepository.findById(id);
 
       return {
-        pet,
+        pets,
       };
     }
 

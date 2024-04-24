@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Skeleton from "@mui/material/Skeleton";
 
 interface petInfoProps {
   variant?: string;
@@ -31,6 +32,17 @@ export const BigPetImageContainer = styled.div`
     width: 44rem;
   }
 `;
+export const BigPetImageContainerSkeleton = styled.div`
+  margin: 0;
+  height: 26rem;
+
+  img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 44rem;
+  }
+`;
+
 export const LittlePetImageContainer = styled.div`
   display: flex;
   gap: 1rem;
@@ -237,22 +249,15 @@ export const WhatsAppRedirectButton = styled.button`
 `;
 
 export const SkeletonBigPetImageContainer = styled.div`
-  display: block;
   height: 26rem;
   border: none;
+  margin: 0;
 
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   width: 44rem;
 `;
 
-export const SkeletonPetDescription = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-left: 5rem;
-  margin-bottom: 1rem;
-`;
 export const SkeletonPetInformation = styled.div`
   display: flex;
   gap: 2rem;
@@ -261,4 +266,48 @@ export const SkeletonPetInformation = styled.div`
   padding-bottom: 2.5rem;
 
   border-bottom: 1px solid #d3e2e5;
+`;
+
+export const SkeletonBigPetImage = styled(Skeleton)`
+  height: 26rem;
+  width: 44rem;
+
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
+export const SkeletonLittlePetImage = styled(Skeleton)`
+  height: 5rem;
+  width: 5rem;
+  padding-top: 5rem;
+
+  border-radius: 10px;
+`;
+
+export const SkeletonPetName = styled(Skeleton)`
+  padding-top: 5rem;
+
+  border-radius: 10px;
+`;
+export const SkeletonPetDescription = styled(Skeleton)`
+  padding-top: 3rem;
+
+  border-radius: 10px;
+`;
+export const SkeletonPetInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 4.5rem 2.5rem 4.5rem;
+  border-bottom: 1px solid #d3e2e5;
+  padding-bottom: 2.5rem;
+`;
+export const SkeletonCharacteristicsOfPetInfo = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+export const SkeletonCharacteristics = styled(Skeleton)`
+  padding-top: 7rem;
+
+  border-radius: 10px;
 `;

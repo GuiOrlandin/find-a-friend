@@ -26,7 +26,7 @@ export class PrismaPetsRepository implements PetsRepository {
   }
 
   async findById(id: string) {
-    const pet = await prisma.pet.findFirst({
+    const pet = await prisma.pet.findUnique({
       where: {
         id,
       },
